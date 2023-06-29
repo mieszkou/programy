@@ -30,6 +30,8 @@ winget install foxitpdfreader --accept-package-agreements
 winget install 7zip.7zip --accept-package-agreements
 
 # sql
+# AdminSQL
+
 winget install heidisql.heidisql --accept-package-agreements
 
 # przegladarki
