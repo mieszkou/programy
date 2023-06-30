@@ -9,6 +9,8 @@ $latestWingetMsixBundle = $latestWingetMsixBundleUri.Split("/")[-1]
 Write-Information "Downloading winget to artifacts directory..."
 Invoke-WebRequest -Uri $latestWingetMsixBundleUri -OutFile "./$latestWingetMsixBundle"
 Invoke-WebRequest -Uri https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx -OutFile Microsoft.VCLibs.x64.14.00.Desktop.appx
+Invoke-WebRequest -Uri ""https://raw.githubusercontent.com/mieszkou/programy/master/WinGet/Microsoft.UI.Xaml.2.7.appx" -OutFile Microsoft.UI.Xaml.2.7.appx
+Add-AppxPackage Microsoft.UI.Xaml.2.7.appx
 Add-AppxPackage Microsoft.VCLibs.x64.14.00.Desktop.appx
 Add-AppxPackage $latestWingetMsixBundle
 ```
@@ -31,14 +33,15 @@ $shortcut.Save()
 
 # system
 ## BgInfo
-winget install -e --id Microsoft.Sysinternals.BGInfo --accept-package-agreements
 New-Item -Path "C:\Programy\BgInfo\" -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri "https://live.sysinternals.com/Bginfo.exe" -OutFile "C:\Programy\BgInfo\Bginfo.exe"
 Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/BgInfo/bginfo.bgi" -OutFile "C:\Programy\BgInfo\bginfo.bgi"
 $WshShell = New-Object -ComObject WScript.Shell
-$shortcut = $WshShell.CreateShortcut("$HOME\Desktop\AdminSQL.lnk")
-$shortcut.Arguments = "c:\Programy\BgInfo\bginfo.bgi /timer:0 /nolicprompt
-$shortcut.TargetPath = "C:\Programy\AdminSQL\AdminSQL.exe"
+$shortcut = $WshShell.CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\BgInfo.lnk")
+$shortcut.Arguments = "c:\Programy\BgInfo\bginfo.bgi /timer:0 /nolicprompt"
+$shortcut.TargetPath = "C:\Programy\BgInfo\Bginfo.exe"
 $shortcut.Save()
+Invoke-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\BgInfo.lnk"
 
 # programy biurowe
 winget install -e --id  libreoffice --accept-package-agreements
@@ -55,8 +58,16 @@ $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\AdminSQL.lnk")
 $shortcut.TargetPath = "C:\Programy\AdminSQL\AdminSQL.exe"
 $shortcut.Save()
 
-winget install -e --id  heidisql.heidisql --accept-package-agreements
+winget install -e --id heidisql.heidisql --accept-package-agreements
 winget install -e --id Microsoft.SQLServerManagementStudio --accept-package-agreements
+
+# zdalny dostęp
+## Instalacja TeamViewer
+winget install -e --id TeamViewer.TeamViewer.Host --accept-package-agreements
+winget install -e --id TeamViewer.TeamViewer --accept-package-agreements
+
+## Skroty na pulpicie
+
 
 # przegladarki
 winget install -e --id brave.brave --accept-package-agreements
