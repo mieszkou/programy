@@ -239,7 +239,7 @@
       <WheelScrollLines>3</WheelScrollLines>
     </Mouse>
     <AutoFillColumns>True</AutoFillColumns>
-    <AutoSizeColumn>0</AutoSizeColumn>
+    <AutoSizeColumn>1</AutoSizeColumn>
     <CustomColumnsChangeAllColumns>False</CustomColumnsChangeAllColumns>
     <BriefViewFileExtAligned>False</BriefViewFileExtAligned>
     <DateTimeFormat>yyyy.MM.dd hh:nn:ss</DateTimeFormat>
@@ -276,7 +276,7 @@
   </Tools>
   <Fonts>
     <Main>
-      <Name>Consolas</Name>
+      <Name>Segoe UI</Name>
       <Size>10</Size>
       <Style>0</Style>
       <Quality>1</Quality>
@@ -345,7 +345,7 @@
     <Background2>-2147483643</Background2>
     <Cursor>-2147483635</Cursor>
     <CursorText>-2147483634</CursorText>
-    <Mark>-2147483619</Mark>
+    <Mark>15780518</Mark>
     <InactiveCursor>-2147483645</InactiveCursor>
     <InactiveMark>8421504</InactiveMark>
     <UseInvertedSelection>True</UseInvertedSelection>
@@ -775,7 +775,7 @@
         <Column>
           <Title>Nazwa</Title>
           <FuncString>[DC().GETFILENAMENOEXT{}]</FuncString>
-          <Width>490</Width>
+          <Width>188</Width>
           <Align>0</Align>
           <Font>
             <Name>Consolas</Name>
@@ -798,7 +798,7 @@
         <Column>
           <Title>Roz.</Title>
           <FuncString>[DC().GETFILEEXT{}]</FuncString>
-          <Width>69</Width>
+          <Width>38</Width>
           <Align>0</Align>
           <Font>
             <Name>Consolas</Name>
@@ -821,7 +821,7 @@
         <Column>
           <Title>Wielkość</Title>
           <FuncString>[DC().GETFILESIZE{}]</FuncString>
-          <Width>105</Width>
+          <Width>98</Width>
           <Align>1</Align>
           <Font>
             <Name>Consolas</Name>
@@ -844,7 +844,7 @@
         <Column>
           <Title>Data</Title>
           <FuncString>[DC().GETFILETIME{}]</FuncString>
-          <Width>184</Width>
+          <Width>128</Width>
           <Align>1</Align>
           <Font>
             <Name>Consolas</Name>
@@ -867,7 +867,7 @@
         <Column>
           <Title>Atryb.</Title>
           <FuncString>[DC().GETFILEATTR{}]</FuncString>
-          <Width>100</Width>
+          <Width>25</Width>
           <Align>1</Align>
           <Font>
             <Name>Consolas</Name>
