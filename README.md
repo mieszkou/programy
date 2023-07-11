@@ -27,6 +27,8 @@ Add-AppxPackage $latestWingetMsixBundle
 Polecenia wykonaj w oknie PowerShell uruchomionym z uprawnieniami administratora.
 
 ```powershell
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
 winget install -e --id Rizonesoft.Notepad3 --accept-package-agreements
 
 winget install -e --id alexx2000.DoubleCommander --accept-package-agreements
