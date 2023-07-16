@@ -151,14 +151,26 @@ winget install -e --id  KDE.Krita --accept-package-agreements
 
 
 # NPS
-
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 New-Item -Path "C:\Programy\Posnet-NPS\" -ItemType Directory -Force | Out-Null
 Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-NPS/NPS.ZIP" -OutFile "C:\Programy\NPS.zip"
-
+Expand-Archive 'C:\Programy\NPS.zip' -DestinationPath C:\Programy
 $WshShell = New-Object -ComObject WScript.Shell
-$shortcut = $WshShell.CreateShortcut("$HOME\Desktop\AdminSQL.lnk")
-$shortcut.TargetPath = "C:\Programy\AdminSQL\AdminSQL.exe"
+$shortcut = $WshShell.CreateShortcut("$HOME\Desktop\PosnetNPS.lnk")
+$shortcut.TargetPath = "C:\Programy\NPS\NPS.exe"
 $shortcut.Save()
+
+# OPS
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+New-Item -Path "C:\Programy\Posnet-OPS\" -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-OPS/posnet-ops-setup-11.30.80.zip" -OutFile "C:\Programy\posnet-ops-setup-11.30.80.zip"
+Expand-Archive 'C:\Programy\posnet-ops-setup-11.30.80.zip' -DestinationPath C:\Programy\Posnet-OPS
+$WshShell = New-Object -ComObject WScript.Shell
+$shortcut = $WshShell.CreateShortcut("$HOME\Desktop\PosnetOPS.lnk")
+$shortcut.TargetPath = "C:\Programy\Posnet-OPS\Posnet OPS.exe"
+$shortcut.Save()
+
+
 
 
 $acl = Get-Acl "C:\Programy\NPS_"
