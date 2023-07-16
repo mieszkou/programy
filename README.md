@@ -97,6 +97,30 @@ winget install -e --id TeamViewer.TeamViewer --accept-package-agreements
 ## Skroty na pulpicie
 
 
+
+# Prezentacje
+## ZoomIt
+New-Item -Path "C:\Programy\Sysinternals\" -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri "https://live.sysinternals.com/ZoomIt.exe" -OutFile "C:\Programy\Sysinternals\ZoomIt.exe"
+$WshShell = New-Object -ComObject WScript.Shell
+$shortcut = $WshShell.CreateShortcut("$HOME\Desktop\ZoomIt.lnk")
+$shortcut.TargetPath = "C:\Programy\Sysinternals\ZoomIt.exe"
+$shortcut.Save()
+
+## Key-n-Stroke
+New-Item -Path "C:\Programy\Key-n-Stroke\" -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Key-n-Stroke/Key-n-Stroke.exe" -OutFile "C:\Programy\Key-n-Stroke\Key-n-Stroke.exe"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:LOCALAPPDATA)\Key-n-Stroke\settings.xml"
+$WshShell = New-Object -ComObject WScript.Shell
+$shortcut = $WshShell.CreateShortcut("$HOME\Desktop\Key-n-Stroke.lnk")
+$shortcut.TargetPath = "C:\Programy\Sysinternals\Key-n-Stroke.exe"
+$shortcut.Save()
+
+
+
+
+
+
 # przegladarki
 winget install -e --id brave.brave --accept-package-agreements
 winget install -e --id Mozilla.Firefox --accept-package-agreements
