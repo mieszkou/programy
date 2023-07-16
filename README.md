@@ -5,12 +5,16 @@
 
 # PowerShell 
 
-Poniższe polecenia wymagają PowerShell w wersji 3 lub wyższej (polecenie `Invoke-WebRequest` i `Invoke-RestMethod`)
+Spradzenie wersji PowerShell: `Get-Host`
+
+Poniższe polecenia wymagają PowerShell w wersji 3 lub wyższej (polecenie `Invoke-WebRequest` i `Invoke-RestMethod`). 
+Dla windows poniżej 10 mogą wymagać doinstalowania PowerShell5.
 http://www.pajcomp.pl/pub/?dir=Windows/PowerShell51
+
 Instalacja PowerShell 5.1 (wymaga .Net 4.5 lub wyższej)
 http://www.pajcomp.pl/pub/?dir=Windows/dotNet48
 
-# Double Commander
+# Instalacja programów
 
 Polecenia wykonaj w oknie PowerShell uruchomionym z uprawnieniami administratora.
 
@@ -150,6 +154,7 @@ winget install -e --id  Inkscape.Inkscape --accept-package-agreements
 winget install -e --id  KDE.Krita --accept-package-agreements
 
 
+# Posnet
 # NPS
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 New-Item -Path "C:\Programy\Posnet-NPS\" -ItemType Directory -Force | Out-Null
@@ -161,27 +166,48 @@ $shortcut.TargetPath = "C:\Programy\NPS\NPS.exe"
 $shortcut.Save()
 
 # OPS
+New-Item -Path "C:\Programy\Posnet-OPS\" -ItemType Directory -Force | Out-Null
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $ProgressPreference = 'SilentlyContinue'
 Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-OPS/posnet-ops-setup-11.30.80.exe" -OutFile "C:\Programy\posnet-ops-setup-11.30.80.exe" 
 $ProgressPreference = 'Continue'
-Start-Process -Wait -FilePath "C:\Programy\posnet-ops-setup-11.30.80.exe" -ArgumentList "/SILENT /D='c:\Programy\Posnet-OPS'"
+Start-Process -Wait -FilePath "C:\Programy\posnet-ops-setup-11.30.80.exe" -ArgumentList "/D=c:\Programy\Posnet-OPS"
 
+# Elzab
+# Program serwisowy Eureka (dla systemu Windows XP/2000/VISTA/7/8/8.1/10)
+# Program przeznaczony jest do obsługi K10/Sigma/kas ONLINE:
+# .net 4
 
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+New-Item -Path "C:\Programy\Elzab-Eureka\" -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/eureka.zip" -OutFile "C:\Programy\eureka.zip"
+Expand-Archive 'C:\Programy\eureka.zip' -DestinationPath 'C:\Programy\Elzab-Eureka'
+$WshShell = New-Object -ComObject WScript.Shell
+$shortcut = $WshShell.CreateShortcut("$HOME\Desktop\ELZAB Eureka.lnk")
+$shortcut.TargetPath = "C:\Programy\Elzab-Eureka\bez instalatora\Eureka!.exe"
+$shortcut.Save()
 
+# Program serwisowy Stampa dla Windows XP/2000/VISTA/7/8/8.1/10
+# Program przeznaczony jest do obsługi drukarek fiskalnych Zeta,D10,MERA, nowszych w tym ONLINE
+# .net 4.5
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+New-Item -Path "C:\Programy\Elzab-Stampa\" -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/stampa.zip" -OutFile "C:\Programy\stampa.zip"
+Expand-Archive 'C:\Programy\stampa.zip' -DestinationPath 'C:\Programy\Elzab-Stampa'
+$WshShell = New-Object -ComObject WScript.Shell
+$shortcut = $WshShell.CreateShortcut("$HOME\Desktop\ELZAB Stampa.lnk")
+$shortcut.TargetPath = "C:\Programy\Elzab-Stampa\bez instalatora\Stampa.exe"
+$shortcut.Save()
 
+# Funkcje komunikacyjne
+# Do komunikacji z kasą (lub systemem kas) służy zestaw funkcji komunikacyjnych. 
+# Funkcje komunikacyjne opisane są w instrukcji programisty. 
+# Funkcje komunikacyjne przyjmują i zwracają dane w formie #plików tekstowych, 
+# przez co nie ma konieczności obsługi kas przez program magazynowy (lub inną aplikację) na poziomie sekwencji sterujących.
 
-$acl = Get-Acl "C:\Programy\NPS_"
-New-Object System.Security.AccessControl.FileSystemAccessRule("everyone","FullControl","Allow")
-$acl.SetAccessRule($accessRule)
-Get-ChildItem -Path "C:\Programy\NPS_" -Force | Set-Acl -AclObject $acl 
-
-
-# Get the security descriptor for the file using Get-ACL
-$newACL = Get-ACL D:\exported_ua.cer
-# Use the Get-ChildItem to recusively to apply security descriptor using set-acl
-Get-ChildItem -Path "D:\Certificates" -Recurse -Include "*.cer" -Force | Set-Acl -AclObject $newAcl
-
+New-Item -Path "C:\Programy\Elzab-winexe\" -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/winexe.zip" -OutFile "C:\Programy\winexe.zip"
+Expand-Archive 'C:\Programy\winexe.zip' -DestinationPath 'C:\Programy\Elzab-winexe'
 
 ```
 
