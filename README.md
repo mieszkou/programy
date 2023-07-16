@@ -3,7 +3,10 @@
 - [ ] Dodać Autoruns
 - [ ] Dodać TaskSchedulerView 
 
+# PowerShell 
 
+Poniższe polecenia wymagają PowerShell w wersji 3 lub wyższej (polecenie `Invoke-WebRequest` i `Invoke-RestMethod`)
+Instalacja PowerShell 5.1 (wymaga .Net 4.5 lub wyższej)
 
 # Winget
 
@@ -118,7 +121,8 @@ $shortcut.TargetPath = "C:\Programy\Key-n-Stroke\Key-n-Stroke.exe"
 $shortcut.Save()
 
 
-
+# Pobieranie z githuba plików :)
+# Invoke-WebRequest -uri  https://api.github.com/repos/rizonesoft/Notepad3/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("x64_Setup.exe")} |  |  Select-Object -ExpandProperty browser_download_url
 
 
 
