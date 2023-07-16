@@ -109,11 +109,12 @@ $shortcut.Save()
 
 ## Key-n-Stroke
 New-Item -Path "C:\Programy\Key-n-Stroke\" -ItemType Directory -Force | Out-Null
+New-Item -Path "$($env:LOCALAPPDATA)\Key-n-Stroke" -ItemType Directory -Force | Out-Null
 Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Key-n-Stroke/Key-n-Stroke.exe" -OutFile "C:\Programy\Key-n-Stroke\Key-n-Stroke.exe"
-Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:LOCALAPPDATA)\Key-n-Stroke\settings.xml"
+Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/Key-n-Stroke/settings.json" -OutFile "$($env:LOCALAPPDATA)\Key-n-Stroke\settings.json"
 $WshShell = New-Object -ComObject WScript.Shell
 $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\Key-n-Stroke.lnk")
-$shortcut.TargetPath = "C:\Programy\Sysinternals\Key-n-Stroke.exe"
+$shortcut.TargetPath = "C:\Programy\Key-n-Stroke\Key-n-Stroke.exe"
 $shortcut.Save()
 
 
