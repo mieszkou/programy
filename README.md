@@ -139,6 +139,20 @@ $shortcut.Save()
 
 
 # przegladarki
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$uri = Invoke-RestMethod -uri  https://api.github.com/repos/brave/brave-browser/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name -eq "BraveBrowserStandaloneSetup.exe" } | Select-Object -ExpandProperty browser_download_url
+$ProgressPreference = 'SilentlyContinue'
+Invoke-WebRequest -Uri $uri -OutFile "$($env:TEMP)\BraveBrowserStandaloneSetup.exe"
+$ProgressPreference = 'Continue'
+Start-Process -Wait -FilePath "$($env:TEMP)\BraveBrowserStandaloneSetup.exe"
+
+
+
+
+
+
+
+
 winget install -e --id brave.brave --accept-package-agreements
 winget install -e --id Mozilla.Firefox --accept-package-agreements
 winget install -e --id Opera.opera --accept-package-agreements
@@ -157,12 +171,13 @@ winget install -e --id  KDE.Krita --accept-package-agreements
 # Posnet
 # NPS
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-New-Item -Path "C:\Programy\Posnet-NPS\" -ItemType Directory -Force | Out-Null
+New-Item -Path "C:\Programy" -ItemType Directory -Force | Out-Null
 Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-NPS/NPS.ZIP" -OutFile "C:\Programy\NPS.zip"
 Expand-Archive 'C:\Programy\NPS.zip' -DestinationPath 'C:\Programy'
+Rename-Item 'C:\Programy\NPS' 'Posnet-NPS'
 $WshShell = New-Object -ComObject WScript.Shell
 $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\PosnetNPS.lnk")
-$shortcut.TargetPath = "C:\Programy\NPS\NPS.exe"
+$shortcut.TargetPath = "C:\Programy\Posnet-NPS\NPS.exe"
 $shortcut.Save()
 
 # OPS
