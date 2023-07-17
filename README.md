@@ -7,6 +7,8 @@
 
 Spradzenie wersji PowerShell: `Get-Host`
 
+![](img/gethost.gif)
+
 Poniższe polecenia wymagają PowerShell w wersji 3 lub wyższej (polecenie `Invoke-WebRequest` i `Invoke-RestMethod`). 
 Dla windows poniżej 10 mogą wymagać doinstalowania PowerShell5.
 http://www.pajcomp.pl/pub/?dir=Windows/PowerShell51
