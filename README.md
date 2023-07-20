@@ -48,9 +48,6 @@ Invoke-WebRequest $uri -OutFile $installerPath
 Start-Process -FilePath $installerPath -Args "/S" -Verb RunAs -Wait
 Remove-Item $installerPath
 
-
-
-
 # system
 # PowerShell
 # =======================================================
