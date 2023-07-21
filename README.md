@@ -81,8 +81,6 @@ Start-Process -Wait -FilePath "$($env:TEMP)\ps7.msi" -ArgumentList "/qb-! REBOOT
 Dodaje do autostartu + mój konfig.
 
 ```powershell
-## BgInfo
-# =======================================================
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 New-Item -Path "C:\Programy\Sysinternals\" -ItemType Directory -Force | Out-Null
 Invoke-WebRequest -Uri "https://live.sysinternals.com/Bginfo.exe" -OutFile "C:\Programy\Sysinternals\Bginfo.exe"
