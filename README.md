@@ -85,6 +85,7 @@ Dodaje do autostartu + mój konfig.
 New-Item -Path "C:\Programy\Sysinternals\" -ItemType Directory -Force | Out-Null
 Invoke-WebRequest -Uri "https://live.sysinternals.com/Bginfo.exe" -OutFile "C:\Programy\Sysinternals\Bginfo.exe"
 Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/BgInfo/bginfo.bgi" -OutFile "C:\Programy\Sysinternals\bginfo.bgi"
+Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/BgInfo/bginfo.txt" -OutFile "C:\Programy\Sysinternals\bginfo.txt"
 $WshShell = New-Object -ComObject WScript.Shell
 $shortcut = $WshShell.CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\BgInfo.lnk")
 $shortcut.Arguments = "c:\Programy\Sysinternals\bginfo.bgi /timer:0 /nolicprompt"
