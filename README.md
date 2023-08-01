@@ -106,8 +106,10 @@ $WshShell = New-Object -ComObject WScript.Shell
 $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\Procmon.lnk")
 $shortcut.TargetPath = "C:\Programy\Sysinternals\Procmon.exe"
 $shortcut.Save()
-
+```
 ## Process Explorer
+
+```powershell
 # =======================================================
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 New-Item -Path "C:\Programy\Sysinternals\" -ItemType Directory -Force | Out-Null
@@ -115,6 +117,31 @@ Invoke-WebRequest -Uri "https://live.sysinternals.com/procexp.exe" -OutFile "C:\
 $WshShell = New-Object -ComObject WScript.Shell
 $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\Procexp.lnk")
 $shortcut.TargetPath = "C:\Programy\Sysinternals\procexp.exe"
+$shortcut.Save()
+```
+
+## Autologon
+
+```powershell
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+New-Item -Path "C:\Programy\Sysinternals\" -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri "https://live.sysinternals.com/Autologon.exe" -OutFile "C:\Programy\Sysinternals\Autologon.exe"
+$WshShell = New-Object -ComObject WScript.Shell
+$shortcut = $WshShell.CreateShortcut("$HOME\Desktop\Autologon.lnk")
+$shortcut.TargetPath = "C:\Programy\Sysinternals\Autologon.exe"
+$shortcut.Save()
+```
+
+
+## Autoruns
+
+```powershell
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+New-Item -Path "C:\Programy\Sysinternals\" -ItemType Directory -Force | Out-Null
+Invoke-WebRequest -Uri "https://live.sysinternals.com/autoruns.exe" -OutFile "C:\Programy\Sysinternals\autoruns.exe"
+$WshShell = New-Object -ComObject WScript.Shell
+$shortcut = $WshShell.CreateShortcut("$HOME\Desktop\Autoruns.lnk")
+$shortcut.TargetPath = "C:\Programy\Sysinternals\autoruns.exe"
 $shortcut.Save()
 ```
 
@@ -363,6 +390,20 @@ Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql11.SQ
 New-NetFirewallRule -DisplayName "SQL$($sqlver)" -Profile Any -Direction Inbound -Action Allow -Protocol TCP -LocalPort "5$($sqlver)"
 ```
 
+# Insoft 
+
+```powershell
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$ProgressPreference = 'SilentlyContinue'
+$uri = "https://pobierz.insoft.com.pl/PC-Market7/Wersja_aktualna/InstallPCM_x64.exe"
+$installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+Invoke-WebRequest -Uri $uri -OutFile $installerPath
+Start-Process -FilePath $installerPath -Verb RunAs -Wait
+Remove-Item $installerPath
+```
+
+
+
 # TODO
 
 - [ ] Dodać Autoruns
@@ -370,6 +411,22 @@ New-NetFirewallRule -DisplayName "SQL$($sqlver)" -Profile Any -Direction Inbound
 - [ ] Dodać TaskSchedulerView 
 
 # Zestaw poleceń `winget`
+
+## Winget
+
+```powershell
+# https://github.com/microsoft/winget-cli/discussions/2890
+Import-Module Appx -UseWindowsPowerShell
+Invoke-WebRequest -Uri https://www.nuget.org/api/v2/package/Microsoft.UI.Xaml/2.7.3 -OutFile .\microsoft.ui.xaml.2.7.3.zip                                                                                                          
+Expand-Archive .\microsoft.ui.xaml.2.7.3.zip                                                                         
+Add-AppxPackage .\microsoft.ui.xaml.2.7.3\tools\AppX\x64\Release\Microsoft.UI.Xaml.2.7.appx
+Add-AppxPackage -Path "https://aka.ms/Microsoft.VCLibs.x64.14.00.Desktop.appx"
+Add-AppxPackage -Path "https://github.com/microsoft/winget-cli/releases/latest/download/Microsoft.DesktopAppInstaller_8wekyb3d8bbwe.msixbundle"
+Remove-Item .\microsoft.ui.xaml.2.7.3\ -r
+Remove-Item .\microsoft.ui.xaml.2.7.3.zip
+```
+
+
 
 ```powershell
 # =======================================================
@@ -413,5 +470,6 @@ winget install -e --id TeamViewer.TeamViewer --accept-package-agreements
 
 - https://learn.microsoft.com/en-us/sql/database-engine/install-windows/install-sql-server-from-the-command-prompt?view=sql-server-ver16
 - https://dba.stackexchange.com/questions/242337/unattended-install-to-listen-on-specified-interface
+- https://winaero.com/install-a-winget-app-with-custom-arguments-and-command-line-switches/#How_to_run_interactive_setup_of_winget_app
 - https://winaero.com/open-port-windows-firewall-windows-10/
 
