@@ -14,7 +14,7 @@ http://www.pajcomp.pl/pub/?dir=Windows/dotNet48
 ```powershell
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $ProgressPreference = 'SilentlyContinue'
-New-Item -Path "C:\Sewis" -ItemType Directory -Force | Out-Null
+New-Item -Path "C:\Serwis" -ItemType Directory -Force | Out-Null
 
 # notepad3
 # =======================================================
