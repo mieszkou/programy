@@ -2,14 +2,6 @@
 
 Polecenia wykonaj w oknie PowerShell uruchomionym z uprawnieniami administratora.
 
-![](img/logo.excalidraw.svg)
-
-![](img/logo3.excalidraw.png)
-
-![](img/logo4.excalidraw.png)
-
-![](img/logo.drawio.png)
-
 Poniższe polecenia wymagają PowerShell w wersji 3 lub wyższej (polecenie `Invoke-WebRequest` i `Invoke-RestMethod`). 
 Dla windows poniżej 10 mogą wymagać doinstalowania PowerShell5.
 http://www.pajcomp.pl/pub/?dir=Windows/PowerShell51
