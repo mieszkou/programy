@@ -431,35 +431,35 @@ Remove-Item .\microsoft.ui.xaml.2.7.3.zip
 ```powershell
 # =======================================================
 
-winget install -e --id brave.brave --accept-package-agreements
-winget install -e --id Mozilla.Firefox --accept-package-agreements
-winget install -e --id Opera.opera --accept-package-agreements
-winget install -e --id Google.Chrome --accept-package-agreements
-winget install -e --id vivalditechnologies.vivaldi --accept-package-agreements
+winget install -e --id brave.brave --accept-package-agreements  --scope machine
+winget install -e --id Mozilla.Firefox --accept-package-agreements --scope machine
+winget install -e --id Opera.opera --accept-package-agreements --scope machine
+winget install -e --id Google.Chrome --accept-package-agreements --scope machine
+winget install -e --id vivalditechnologies.vivaldi --accept-package-agreements --scope machine
 
-winget install -e --id  Mozilla.Thunderbird --accept-package-agreements
+winget install -e --id  Mozilla.Thunderbird --accept-package-agreements --scope machine
 
 # programy graficzne
-winget install -e --id  Icons8.Lunacy --accept-package-agreements
-winget install -e --id  Inkscape.Inkscape --accept-package-agreements
-winget install -e --id  KDE.Krita --accept-package-agreements
+winget install -e --id  Icons8.Lunacy --accept-package-agreements --scope machine
+winget install -e --id  Inkscape.Inkscape --accept-package-agreements --scope machine
+winget install -e --id  KDE.Krita --accept-package-agreements --scope machine
 
 # SQL Tools
 # =======================================================
-winget install -e --id heidisql.heidisql --accept-package-agreements
-winget install -e --id Microsoft.SQLServerManagementStudio --accept-package-agreements
+winget install -e --id heidisql.heidisql --accept-package-agreements --scope machine
+winget install -e --id Microsoft.SQLServerManagementStudio --accept-package-agreements --scope machine
 
 # programy biurowe
 # =======================================================
-winget install -e --id  TheDocumentFoundation.LibreOffice --accept-package-agreements
-winget install -e --id  TrackerSoftware.PDF-XChangeEditor --accept-package-agreements
-winget install -e --id  Foxit.FoxitReader --accept-package-agreements
-winget install -e --id  7zip.7zip --accept-package-agreements
+winget install -e --id  TheDocumentFoundation.LibreOffice --accept-package-agreements --scope machine
+winget install -e --id  TrackerSoftware.PDF-XChangeEditor --accept-package-agreements --scope machine
+winget install -e --id  Foxit.FoxitReader --accept-package-agreements --scope machine
+winget install -e --id  7zip.7zip --accept-package-agreements --scope machine
 
 # zdalny dostęp
 ## Instalacja TeamViewer
-winget install -e --id TeamViewer.TeamViewer.Host --accept-package-agreements
-winget install -e --id TeamViewer.TeamViewer --accept-package-agreements
+winget install -e --id TeamViewer.TeamViewer.Host --accept-package-agreements --scope machine
+winget install -e --id TeamViewer.TeamViewer --accept-package-agreements --scope machine
 
 ## Skroty na pulpicie
 
