@@ -49,24 +49,21 @@ $jsonContent = @"
 
 # Funkcja do wyświetlania aktualnego polecenia w polu TextBox
 function ShowCurrentCommand {
-    $currentCommand = $textbox.Tag
-    $textbox.Text = $json[$currentCommand].polecenia[$json[$currentCommand].currentIndex]
+    # $currentCommand = $textbox.Tag
+    $textbox.Text = $command
 }
 
 # Funkcja do obsługi przycisku "Wykonaj"
+f# Funkcja do obsługi przycisku "Wykonaj"
 function ExecuteSelectedCommands {
     # Pętla po wszystkich checkboxach, aby wykonać zaznaczone polecenia
     foreach ($checkbox in $checkboxes) {
         if ($checkbox.Checked) {
             $index = $checkbox.Tag
             $commands = $json[$index].polecenia
-            $json[$index].currentIndex = 0 # Zerowanie indeksu aktualnego polecenia
             foreach ($command in $commands) {
-                # Ustawienie tekstu i indeksu aktualnego polecenia w polu TextBox
-                $textbox.Tag = $index
-                ShowCurrentCommand
                 Invoke-Expression $command
-                $json[$index].currentIndex++ # Inkrementacja indeksu aktualnego polecenia
+                ShowCurrentCommand
             }
         }
     }
