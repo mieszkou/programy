@@ -61,6 +61,7 @@ function ExecuteSelectedCommands {
         if ($checkbox.Checked) {
             $index = $checkbox.Tag
             $commands = $json[$index].polecenia
+            $textbox.Text = $json[$index].nazwa
             foreach ($command in $commands) {
                 Invoke-Expression $command
                 ShowCurrentCommand
