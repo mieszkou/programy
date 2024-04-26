@@ -33,17 +33,25 @@ $jsonContent = @"
     },
 
     {
-        "nazwa": "Zestaw 2",
+        "nazwa": "7-zip",
         "polecenia": [
-            "$sdfgsdfg",
-            "iwr https://jakisserwer.pl/jakisplik",
-            "Inne-Polecenie"
+            "`$uri = 'https://7-zip.org/' + (Invoke-WebRequest -UseBasicParsing -Uri 'https://7-zip.org/' | Select-Object -ExpandProperty Links | Where-Object {(`$_.outerHTML -match 'Download')-and (`$_.href -like 'a/*') -and (`$_.href -like '*-x64.exe')} | Select-Object -First 1 | Select-Object -ExpandProperty href)",
+            '`$installerPath = Join-Path `$env:TEMP (Split-Path `$uri -Leaf)',
+            'Invoke-WebRequest `$uri -OutFile `$installerPath',
+            'Start-Process -FilePath `$installerPath -Args "/S" -Verb RunAs -Wait',
+            'Remove-Item `$installerPath'
         ]
     }
 ]
 "@
 
 
+
+# Funkcja do wyświetlania aktualnego polecenia w polu TextBox
+function ShowCurrentCommand {
+    $currentCommand = $textbox.Tag
+    $textbox.Text = $json[$currentCommand].polecenia[$json[$currentCommand].currentIndex]
+}
 
 # Funkcja do obsługi przycisku "Wykonaj"
 function ExecuteSelectedCommands {
@@ -52,8 +60,13 @@ function ExecuteSelectedCommands {
         if ($checkbox.Checked) {
             $index = $checkbox.Tag
             $commands = $json[$index].polecenia
+            $json[$index].currentIndex = 0 # Zerowanie indeksu aktualnego polecenia
             foreach ($command in $commands) {
+                # Ustawienie tekstu i indeksu aktualnego polecenia w polu TextBox
+                $textbox.Tag = $index
+                ShowCurrentCommand
                 Invoke-Expression $command
+                $json[$index].currentIndex++ # Inkrementacja indeksu aktualnego polecenia
             }
         }
     }
@@ -65,12 +78,19 @@ $json = ConvertFrom-Json $jsonContent
 # Utworzenie formularza
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "Wybierz zestawy poleceń do wykonania"
-$form.Size = New-Object System.Drawing.Size(400,300)
+$form.Size = New-Object System.Drawing.Size(600,400)
 $form.StartPosition = "CenterScreen"
+
+# Pole TextBox do wyświetlania aktualnie wykonywanego polecenia
+$textbox = New-Object System.Windows.Forms.TextBox
+$textbox.Location = New-Object System.Drawing.Point(10, 10)
+$textbox.Size = New-Object System.Drawing.Size(580, 50)
+$textbox.Multiline = $true
+$form.Controls.Add($textbox)
 
 # Przycisk "Wykonaj"
 $executeButton = New-Object System.Windows.Forms.Button
-$executeButton.Location = New-Object System.Drawing.Point(10, 250)
+$executeButton.Location = New-Object System.Drawing.Point(10, 70)
 $executeButton.Size = New-Object System.Drawing.Size(100, 30)
 $executeButton.Text = "Wykonaj"
 $executeButton.Add_Click({ ExecuteSelectedCommands })
@@ -80,7 +100,7 @@ $form.Controls.Add($executeButton)
 $checkboxes = @()
 for ($i=0; $i -lt $json.Count; $i++) {
     $checkbox = New-Object System.Windows.Forms.CheckBox
-    $checkbox.Location = New-Object System.Drawing.Point(10, (10 + $i*30))
+    $checkbox.Location = New-Object System.Drawing.Point(10, (110 + $i*30))
     $checkbox.Size = New-Object System.Drawing.Size(300,20)
     $checkbox.Text = $json[$i].nazwa
     $checkbox.Tag = $i
