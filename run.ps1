@@ -102,10 +102,9 @@ function InstallKeyNStroke {
 
 
 function InstallPosnetNps {
-    New-Item -Path "$installPath" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-NPS/NPS.ZIP" -OutFile "$installPath\NPS.zip"
-    Expand-Archive '$installPath\NPS.zip' -DestinationPath '$installPath'
-    Rename-Item '$installPath\NPS' 'Posnet-NPS'
+    Expand-Archive "$installPath\NPS.zip" -DestinationPath "$installPath"
+    Rename-Item "$installPath\NPS" "Posnet-NPS"
     $WshShell = New-Object -ComObject WScript.Shell
     $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\PosnetNPS.lnk")
     $shortcut.TargetPath = "$installPath\Posnet-NPS\NPS.exe"
@@ -123,7 +122,7 @@ function InstallPosnetOps {
 function InstallElzabEureka {
     New-Item -Path "$installPath\Elzab-Eureka\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/eureka.zip" -OutFile "$installPath\eureka.zip"
-    Expand-Archive '$installPath\eureka.zip' -DestinationPath '$installPath\Elzab-Eureka'
+    Expand-Archive "$installPath\eureka.zip" -DestinationPath "$installPath\Elzab-Eureka"
     $WshShell = New-Object -ComObject WScript.Shell
     $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\ELZAB Eureka.lnk")
     $shortcut.TargetPath = "$installPath\Elzab-Eureka\bez instalatora\Eureka!.exe"
@@ -136,7 +135,7 @@ function InstallElzabEureka {
 function InstallElzabStampa {
     New-Item -Path "$installPath\Elzab-Stampa\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/stampa.zip" -OutFile "$installPath\stampa.zip"
-    Expand-Archive '$installPath\stampa.zip' -DestinationPath '$installPath\Elzab-Stampa'
+    Expand-Archive "$installPath\stampa.zip" -DestinationPath "$installPath\Elzab-Stampa"
     $WshShell = New-Object -ComObject WScript.Shell
     $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\ELZAB Stampa.lnk")
     $shortcut.TargetPath = "$installPath\Elzab-Stampa\bez instalatora\Stampa.exe"
@@ -150,7 +149,7 @@ function InstallElzabStampa {
 function InstallElzabWinexe {
     New-Item -Path "$installPath\Elzab-winexe\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/winexe.zip" -OutFile "$installPath\winexe.zip"
-    Expand-Archive '$installPath\winexe.zip' -DestinationPath '$installPath\Elzab-winexe'
+    Expand-Archive "$installPath\winexe.zip" -DestinationPath "$installPath\Elzab-winexe"
 }
 
 function InstallAdminSql {
