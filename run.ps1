@@ -34,7 +34,7 @@ function CreateDesktopShortcut {
         [string]$File
     )
     $WshShell = New-Object -ComObject WScript.Shell
-    $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\$ShortcutName.lnk")
+    $shortcut = $WshShell.CreateShortcut("$([Environment]::GetFolderPath('CommonDesktopDirectory'))\$ShortcutName.lnk")
     $shortcut.TargetPath = $File
     $shortcut.Save()
     
