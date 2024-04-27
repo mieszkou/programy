@@ -170,9 +170,9 @@ function InstallHeidiSql {
 }
 
 function InstallSSMS {
-    # TODO: do poprawy 
-    # https://aka.ms/ssmsfullsetup
-    # 
+    $uri = "https://aka.ms/ssmsfullsetup"
+    Invoke-WebRequest -Uri $uri -OutFile "$($env:TEMP)\ssmsfullsetup.exe"
+    Start-Process -FilePath "$($env:TEMP)\ssmsfullsetup.exe" -Args "/passive" -Verb RunAs -Wait
 }
 
 # Pobieranie i instalacja SQL Server Express z włączonym TCP, logowaniem SQL, hasło sa to `Wapro3000`.
