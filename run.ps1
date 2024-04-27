@@ -56,7 +56,7 @@ function InstallDoubleCmd {
     New-Item -Path "$($env:APPDATA)\doublecmd" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "C:\Program Files\Double Commander\doublecmd.xml"
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:APPDATA)\doublecmd\doublecmd.xml"
-    CreateDesktopShortcut("Double Commander", "C:\Program Files\Double Commander\doublecmd.exe")
+    CreateDesktopShortcut -ShortcutName "Double Commander" -File "C:\Program Files\Double Commander\doublecmd.exe"
 }
 
 function Install7Zip {
