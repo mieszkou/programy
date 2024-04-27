@@ -31,7 +31,7 @@ $jsonContent = @"
 function InstallNotepad3 {
     $uri = Invoke-RestMethod -uri  https://api.github.com/repos/rizonesoft/Notepad3/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("x64_Setup.exe")} | Select-Object -ExpandProperty browser_download_url
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Invoke-WebRequest -Uri $uri -OutFile $installerPath
+    Invoke-WebRequest -Uri $uri -OutFile $installerPath 
     Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/SILENT /SP-"
     Remove-Item $installerPath
 }
@@ -165,7 +165,7 @@ function InstallHeidiSql {
     $uri = "https://www.heidisql.com" + (Invoke-WebRequest -UseBasicParsing -Uri 'https://www.heidisql.com/download.php' | Select-Object -ExpandProperty Links | Where-Object {($_.href -like "/installers/*") -and ($_.href -like "*_Setup.exe")} | Select-Object -First 1 | Select-Object -ExpandProperty href)
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     Invoke-WebRequest $uri -OutFile $installerPath
-    Start-Process -FilePath $installerPath -Args "/S" -Verb RunAs -Wait
+    Start-Process -FilePath $installerPath -Args "/ALLUSERS /silent" -Verb RunAs -Wait
     Remove-Item $installerPath
 }
 
