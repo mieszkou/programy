@@ -248,18 +248,21 @@ function ExecuteSelectedCommands {
 $json = ConvertFrom-Json $jsonContent
 
 Add-Type -AssemblyName System.Windows.Forms
+[System.Windows.Forms.Application]::EnableVisualStyles()
 
 # Utworzenie formularza
 $form = New-Object System.Windows.Forms.Form
 $form.Text = "Wybierz zestawy poleceń do wykonania"
 $form.Size = New-Object System.Drawing.Size(600,400)
 $form.StartPosition = "CenterScreen"
+$form.icon                       = "img\favicon.ico"
 
 # Pole TextBox do wyświetlania aktualnie wykonywanego polecenia
 $textbox = New-Object System.Windows.Forms.TextBox
 $textbox.Location = New-Object System.Drawing.Point(10, 10)
-$textbox.Size = New-Object System.Drawing.Size(580, 100) # Zmieniony rozmiar pola TextBox
+$textbox.Size = New-Object System.Drawing.Size(560, 100) # Zmieniony rozmiar pola TextBox
 $textbox.Multiline = $true
+$textbox.Anchor = 'top,right,left'
 $textbox.ScrollBars = "Vertical" # Dodane paski przewijania
 $textbox.AutoScrollOffset = 1
 $form.Controls.Add($textbox)
@@ -267,7 +270,8 @@ $form.Controls.Add($textbox)
 # Przycisk "Wykonaj"
 $executeButton = New-Object System.Windows.Forms.Button
 $executeButton.Location = New-Object System.Drawing.Point(10, 120)
-$executeButton.Size = New-Object System.Drawing.Size(100, 30)
+$executeButton.Size = New-Object System.Drawing.Size(560, 30)
+$executeButton.Anchor = 'top,right,left'
 $executeButton.Text = "Wykonaj"
 $executeButton.Add_Click({ ExecuteSelectedCommands })
 $form.Controls.Add($executeButton)

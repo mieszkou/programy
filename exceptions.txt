@@ -1,0 +1,1 @@
+20240427 15:21:33: ForEach-Object:  Line |  46 | $Xml.Attributes | ForEach-Object {  | ~~~~~~~~~~~~~~~~  | Exception setting "Size": "Cannot convert value "987; 724" to type "System.Drawing.Size". Error: "987; 724 is not a valid value for Int32. (Parameter 'value')""
