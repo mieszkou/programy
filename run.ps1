@@ -255,7 +255,7 @@ $form = New-Object System.Windows.Forms.Form
 $form.Text = "Wybierz zestawy poleceń do wykonania"
 $form.Size = New-Object System.Drawing.Size(600,400)
 $form.StartPosition = "CenterScreen"
-$form.icon                       = "img\favicon.ico"
+$form.icon = "https://raw.githubusercontent.com/mieszkou/programy/master/img/favicon.ico"
 
 # Pole TextBox do wyświetlania aktualnie wykonywanego polecenia
 $textbox = New-Object System.Windows.Forms.TextBox
