@@ -1,3 +1,13 @@
+﻿using namespace System.Drawing
+using namespace System.Windows.Forms
+
+Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Windows.Forms
+
+[System.Windows.Forms.Application]::EnableVisualStyles()
+[System.Windows.Forms.Application]::SetCompatibleTextRenderingDefault($false)
+
+
 $installPath = "C:\Serwis"
 
 $jsonContent = @"
@@ -265,11 +275,6 @@ function ExecuteSelectedCommands {
 # Konwersja treści JSON na obiekt PowerShell
 $json = ConvertFrom-Json $jsonContent
 
-Add-Type -AssemblyName System.Drawing
-Add-Type -AssemblyName System.Windows.Forms
-
-[System.Windows.Forms.Application]::EnableVisualStyles()
-[System.Windows.Forms.Application]::SetCompatibleTextRenderingDefault($false)
 
 # Utworzenie formularza
 $form = New-Object System.Windows.Forms.Form
