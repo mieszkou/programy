@@ -314,9 +314,6 @@ $checkboxes = @()
 $numberOfRows = [math]::Ceiling($json.Count / 3)
 $numberOfColumns = 3
 
-Write-Host "Wierszy: $numberOfRows, kolumn: $numberOfColumns"
-
-
 for ($row = 0; $row -lt $numberOfRows; $row++) {
     for ($col = 0; $col -lt $numberOfColumns; $col++) {
         $index = $row + $col * $numberOfRows
