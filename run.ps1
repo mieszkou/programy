@@ -38,6 +38,18 @@ $jsonContent = @"
 ]
 "@
 
+function CreateDesktopShortcut {
+    param (
+        [string]$ShortcutName,
+        [string]$File
+    )
+    $WshShell = New-Object -ComObject WScript.Shell
+    $shortcut = $WshShell.CreateShortcut("$([Environment]::GetFolderPath('CommonDesktopDirectory'))\$ShortcutName.lnk")
+    $shortcut.TargetPath = $File
+    $shortcut.Save()
+    
+}
+
 function InstallNotepad3 {
     $uri = Invoke-RestMethod -uri  https://api.github.com/repos/rizonesoft/Notepad3/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("x64_Setup.exe")} | Select-Object -ExpandProperty browser_download_url
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
@@ -54,10 +66,7 @@ function InstallDoubleCmd {
     New-Item -Path "$($env:APPDATA)\doublecmd" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "C:\Program Files\Double Commander\doublecmd.xml"
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:APPDATA)\doublecmd\doublecmd.xml"
-    $WshShell = New-Object -ComObject WScript.Shell
-    $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\Double Commander.lnk")
-    $shortcut.TargetPath = "C:\Program Files\Double Commander\doublecmd.exe"
-    $shortcut.Save()
+    CreateDesktopShortcut -ShortcutName "Double Commander" -File "C:\Program Files\Double Commander\doublecmd.exe"
 }
 
 function Install7Zip {
