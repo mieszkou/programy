@@ -31,11 +31,13 @@ $jsonContent = @"
 function CreateDesktopShortcut {
     param (
         [string]$ShortcutName,
-        [string]$File
+        [string]$File, 
+        [string]$Arguments
     )
     $WshShell = New-Object -ComObject WScript.Shell
     $shortcut = $WshShell.CreateShortcut("$([Environment]::GetFolderPath('CommonDesktopDirectory'))\$ShortcutName.lnk")
     $shortcut.TargetPath = $File
+    $shortcut.Arguments = $Arguments
     $shortcut.Save()
     
 }
@@ -56,6 +58,7 @@ function InstallDoubleCmd {
     New-Item -Path "$($env:APPDATA)\doublecmd" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "C:\Program Files\Double Commander\doublecmd.xml"
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:APPDATA)\doublecmd\doublecmd.xml"
+    
     CreateDesktopShortcut -ShortcutName "Double Commander" -File "C:\Program Files\Double Commander\doublecmd.exe"
 }
 
@@ -80,10 +83,8 @@ function InstallSysInternals {
     )
     New-Item -Path "$installPath\Sysinternals\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://live.sysinternals.com/$fileName.exe" -OutFile "$installPath\Sysinternals\$fileName.exe"
-    $WshShell = New-Object -ComObject WScript.Shell
-    $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\$fileName.lnk")
-    $shortcut.TargetPath = "$installPath\Sysinternals\$fileName.exe"
-    $shortcut.Save()
+    
+    CreateDesktopShortcut -ShortcutName $fileName -File "$installPath\Sysinternals\$fileName.exe"
 }
 
 function InstallBginfo {
