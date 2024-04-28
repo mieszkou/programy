@@ -1,5 +1,4 @@
 $installPath = "C:\Serwis"
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 $jsonContent = @"
 [   
@@ -260,6 +259,7 @@ function ExecuteSelectedCommands {
             $textbox.Text += "-----------------------------------------" + "`r`n"
         }
     }
+    $textbox.Text += "ZAKOŃCZONO`r`n-----------------------------------------" + "`r`n"
 }
 
 # Konwersja treści JSON na obiekt PowerShell
