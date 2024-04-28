@@ -1,4 +1,5 @@
 $installPath = "C:\Serwis"
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 $jsonContent = @"
 [   
@@ -321,7 +322,7 @@ for ($row = 0; $row -lt $numberOfRows; $row++) {
             if($json[$index].polecenia) {
                 $checkbox = New-Object System.Windows.Forms.CheckBox
                 $checkbox.Location = New-Object System.Drawing.Point((20 + $col * 200), (180 + $row * 30))
-                $checkbox.Size = New-Object System.Drawing.Size(180, 20)
+                $checkbox.Size = New-Object System.Drawing.Size(180, 30)
                 $checkbox.Text = $json[$index].nazwa
                 $checkbox.Tag = $index
                 $checkbox.Checked = $false
@@ -339,7 +340,7 @@ for ($row = 0; $row -lt $numberOfRows; $row++) {
                 $label.AutoSize = $true
                 $label.Font = New-Object System.Drawing.Font("Arial", 12, [System.Drawing.FontStyle]::Bold) # Pogrubiona czcionka
                 $label.Location = New-Object System.Drawing.Point((15 + $col * 200), (180 + $row * 30))
-                $label.Size = New-Object System.Drawing.Size(180, 20)
+                $label.Size = New-Object System.Drawing.Size(180, 30)
                 $form.Controls.Add($label)
             }
         }
