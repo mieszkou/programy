@@ -262,12 +262,10 @@ function ExecuteSelectedCommands {
     $textbox.Text += "ZAKOŃCZONO`r`n-----------------------------------------" + "`r`n"
 }
 
-# Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName PresentationFramework
+Add-Type -AssemblyName System.Windows.Forms
 
 # Konwersja treści JSON na obiekt PowerShell
 $json = ConvertFrom-Json $jsonContent
-
 
 # Utworzenie formularza
 $form = New-Object System.Windows.Forms.Form
@@ -348,7 +346,6 @@ for ($row = 0; $row -lt $numberOfRows; $row++) {
     }
 }
 
-[System.Windows.Forms.Application]::SetCompatibleTextRenderingDefault($false)
-[System.Windows.Forms.Application]::EnableVisualStyles()
+# [System.Windows.Forms.Application]::EnableVisualStyles()
 # Uruchomienie formularza
 $form.ShowDialog() | Out-Null
