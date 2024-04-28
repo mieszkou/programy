@@ -269,7 +269,7 @@ Add-Type -AssemblyName System.Windows.Forms
 
 # Utworzenie formularza
 $form = New-Object System.Windows.Forms.Form
-$form.Text = "PAJ-COMP"
+$form.Text = "PAJ-COMP - Instalator przydatnych aplikacji"
 $form.Size = New-Object System.Drawing.Size(660,600)
 $form.StartPosition = "CenterScreen"
 
