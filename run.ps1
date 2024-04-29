@@ -290,6 +290,7 @@ function ExecuteSelectedCommands {
 
 Add-Type -AssemblyName System.Windows.Forms
 
+
 # Konwersja treści JSON na obiekt PowerShell
 $json = ConvertFrom-Json $jsonContent
 
