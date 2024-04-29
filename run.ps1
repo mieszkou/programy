@@ -1,4 +1,4 @@
-[Environment]::SetEnvironmentVariable("LC_ALL", "C.UTF-8", "User")
+﻿[Environment]::SetEnvironmentVariable("LC_ALL", "C.UTF-8", "User")
 
 $installPath = "C:\Serwis"
 
