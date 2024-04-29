@@ -44,11 +44,13 @@ $jsonContent = @"
 function CreateDesktopShortcut {
     param (
         [string]$ShortcutName,
-        [string]$File
+        [string]$File, 
+        [string]$Arguments
     )
     $WshShell = New-Object -ComObject WScript.Shell
     $shortcut = $WshShell.CreateShortcut("$([Environment]::GetFolderPath('CommonDesktopDirectory'))\$ShortcutName.lnk")
     $shortcut.TargetPath = $File
+    $shortcut.Arguments = $Arguments
     $shortcut.Save()
     
 }
@@ -69,6 +71,7 @@ function InstallDoubleCmd {
     New-Item -Path "$($env:APPDATA)\doublecmd" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "C:\Program Files\Double Commander\doublecmd.xml"
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:APPDATA)\doublecmd\doublecmd.xml"
+    
     CreateDesktopShortcut -ShortcutName "Double Commander" -File "C:\Program Files\Double Commander\doublecmd.exe"
 }
 
@@ -118,17 +121,18 @@ function InstallSysInternals {
     )
     New-Item -Path "$installPath\Sysinternals\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://live.sysinternals.com/$fileName.exe" -OutFile "$installPath\Sysinternals\$fileName.exe"
-    $WshShell = New-Object -ComObject WScript.Shell
-    $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\$fileName.lnk")
-    $shortcut.TargetPath = "$installPath\Sysinternals\$fileName.exe"
-    $shortcut.Save()
+    
+    CreateDesktopShortcut -ShortcutName $fileName -File "$installPath\Sysinternals\$fileName.exe"
 }
 
 function InstallBginfo {
     InstallSysInternals -fileName "Bginfo" 
+    CreateDesktopShortcut -ShortcutName $fileName -File "$installPath\Sysinternals\Bginfo.exe" -Arguments  "$installPath\Sysinternals\bginfo.bgi /timer:0 /nolicprompt"
+
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/BgInfo/bginfo.bgi" -OutFile "$installPath\Sysinternals\bginfo.bgi"
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/BgInfo/bginfo.txt" -OutFile "$installPath\Sysinternals\bginfo.txt"
     $WshShell = New-Object -ComObject WScript.Shell
+    
     $shortcut = $WshShell.CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\BgInfo.lnk")
     $shortcut.Arguments = "$installPath\Sysinternals\bginfo.bgi /timer:0 /nolicprompt"
     $shortcut.TargetPath = "$installPath\Sysinternals\Bginfo.exe"
@@ -141,10 +145,8 @@ function InstallKeyNStroke {
     New-Item -Path "$($env:LOCALAPPDATA)\Key-n-Stroke" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Key-n-Stroke/Key-n-Stroke.exe" -OutFile "$installPath\Key-n-Stroke\Key-n-Stroke.exe"
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/Key-n-Stroke/settings.json" -OutFile "$($env:LOCALAPPDATA)\Key-n-Stroke\settings.json"
-    $WshShell = New-Object -ComObject WScript.Shell
-    $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\Key-n-Stroke.lnk")
-    $shortcut.TargetPath = "$installPath\Key-n-Stroke\Key-n-Stroke.exe"
-    $shortcut.Save()    
+    
+    CreateDesktopShortcut -ShortcutName "Key-n-Stroke" -File "$installPath\Key-n-Stroke\Key-n-Stroke.exe"
 }
 
 
@@ -152,10 +154,8 @@ function InstallPosnetNps {
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-NPS/NPS.ZIP" -OutFile "$installPath\NPS.zip"
     Expand-Archive "$installPath\NPS.zip" -DestinationPath "$installPath"
     Rename-Item "$installPath\NPS" "Posnet-NPS"
-    $WshShell = New-Object -ComObject WScript.Shell
-    $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\PosnetNPS.lnk")
-    $shortcut.TargetPath = "$installPath\Posnet-NPS\NPS.exe"
-    $shortcut.Save()
+
+    CreateDesktopShortcut -ShortcutName "PosnetNPS" -File "$installPath\Posnet-NPS\NPS.exe"
 }
 
 function InstallPosnetOps {
@@ -170,10 +170,8 @@ function InstallElzabEureka {
     New-Item -Path "$installPath\Elzab-Eureka\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/eureka.zip" -OutFile "$installPath\eureka.zip"
     Expand-Archive "$installPath\eureka.zip" -DestinationPath "$installPath\Elzab-Eureka"
-    $WshShell = New-Object -ComObject WScript.Shell
-    $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\ELZAB Eureka.lnk")
-    $shortcut.TargetPath = "$installPath\Elzab-Eureka\bez instalatora\Eureka!.exe"
-    $shortcut.Save()
+
+    CreateDesktopShortcut -ShortcutName "ELZAB Eureka" -File "$installPath\Elzab-Eureka\bez instalatora\Eureka!.exe"
 }
 
 # dla Windows XP/2000/VISTA/7/8/8.1/10
@@ -183,10 +181,8 @@ function InstallElzabStampa {
     New-Item -Path "$installPath\Elzab-Stampa\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/stampa.zip" -OutFile "$installPath\stampa.zip"
     Expand-Archive "$installPath\stampa.zip" -DestinationPath "$installPath\Elzab-Stampa"
-    $WshShell = New-Object -ComObject WScript.Shell
-    $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\ELZAB Stampa.lnk")
-    $shortcut.TargetPath = "$installPath\Elzab-Stampa\bez instalatora\Stampa.exe"
-    $shortcut.Save()
+
+    CreateDesktopShortcut -ShortcutName "ELZAB Stampa" -File "$installPath\Elzab-Stampa\bez instalatora\Stampa.exe"
 }
 
 # Do komunikacji z kasą (lub systemem kas) służy zestaw funkcji komunikacyjnych. 
@@ -202,10 +198,8 @@ function InstallElzabWinexe {
 function InstallAdminSql {
     New-Item -Path "$installPath\AdminSQL\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/AdminSQL/AdminSQL.exe" -OutFile "$installPath\AdminSQL\AdminSQL.exe"
-    $WshShell = New-Object -ComObject WScript.Shell
-    $shortcut = $WshShell.CreateShortcut("$HOME\Desktop\AdminSQL.lnk")
-    $shortcut.TargetPath = "$installPath\AdminSQL\AdminSQL.exe"
-    $shortcut.Save()
+    
+    CreateDesktopShortcut -ShortcutName "AdminSQL" -File "$installPath\AdminSQL\AdminSQL.exe"
 }
 
 function InstallHeidiSql {
@@ -374,6 +368,6 @@ for ($row = 0; $row -lt $numberOfRows; $row++) {
     }
 }
 
-# [System.Windows.Forms.Application]::EnableVisualStyles()
+[System.Windows.Forms.Application]::EnableVisualStyles()
 # Uruchomienie formularza
 $form.ShowDialog() | Out-Null
