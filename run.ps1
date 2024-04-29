@@ -6,6 +6,9 @@ $jsonContent = @"
     { "nazwa": "Notepad 3",                         "polecenia": [ "InstallNotepad3" ] },
     { "nazwa": "Double Commander",                  "polecenia": [ "InstallDoubleCmd" ] },
     { "nazwa": "7-zip",                             "polecenia": [ "Install7Zip" ] },
+    { "nazwa": "Zdalna pomoc" },
+    { "nazwa": "TeamViewer QS (paj24.pl)",          "polecenia": [ "InstallTeamViewerQS" ] },
+    { "nazwa": "TeamViewer Host (paj24.pl)",        "polecenia": [ "InstallTeamViewerHost" ] },
     { "nazwa": "Narzędzia SQL" },
     { "nazwa": "AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
     { "nazwa": "HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
@@ -68,6 +71,31 @@ function InstallDoubleCmd {
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:APPDATA)\doublecmd\doublecmd.xml"
     CreateDesktopShortcut -ShortcutName "Double Commander" -File "C:\Program Files\Double Commander\doublecmd.exe"
 }
+
+function InstallTeamViewerQS {
+    $uri = "https://www.pajcomp.pl/pub/TeamViewer/TeamViewerQS_paj24.exe"
+    
+    try {
+        Invoke-WebRequest $uri -OutFile "$([Environment]::GetFolderPath('CommonDesktopDirectory'))\TeamViewerQS.exe"
+    } Catch {
+        Invoke-WebRequest $uri -OutFile "$([Environment]::GetFolderPath('DesktopDirectory'))\TeamViewerQS.exe"
+    }
+}
+
+
+function InstallTeamViewerHost {
+    $uri = "https://www.pajcomp.pl/pub/TeamViewer/TeamViewer_Host_x64.msi"
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+
+    Invoke-WebRequest $uri -OutFile $installerPath
+    #-Wait -FilePath "$($env:TEMP)\ps7.msi" -ArgumentList "/qb-! REBOOT=ReallySuppress"
+    Start-Process -Wait -FilePath $installerPath  -ArgumentList "/passive CUSTOMCONFIGID=639wciv"
+
+}
+
+
+# msiexec.exe /i TeamViewer_Host_x64.msi /passive CUSTOMCONFIGID=639wciv
+
 
 function Install7Zip {
     $uri = 'https://7-zip.org/' + (Invoke-WebRequest -UseBasicParsing -Uri 'https://7-zip.org/' | Select-Object -ExpandProperty Links | Where-Object {($_.outerHTML -match 'Download')-and ($_.href -like 'a/*') -and ($_.href -like '*-x64.exe')} | Select-Object -First 1 | Select-Object -ExpandProperty href)
