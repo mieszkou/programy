@@ -1,3 +1,5 @@
+[Environment]::SetEnvironmentVariable("LC_ALL", "C.UTF-8", "User")
+
 $installPath = "C:\Serwis"
 
 $jsonContent = @"
@@ -88,12 +90,16 @@ function InstallTeamViewerQS {
 
 function InstallTeamViewerHost {
     $uri = "https://www.pajcomp.pl/pub/TeamViewer/TeamViewer_Host_x64.msi"
+    $uri_conf = "https://www.pajcomp.pl/pub/TeamViewer/.tv_paj.tvopt"
+    
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    $confPath = Join-Path $env:TEMP (Split-Path $uri_conf -Leaf)
 
     Invoke-WebRequest $uri -OutFile $installerPath
-    #-Wait -FilePath "$($env:TEMP)\ps7.msi" -ArgumentList "/qb-! REBOOT=ReallySuppress"
-    Start-Process -Wait -FilePath $installerPath  -ArgumentList "/passive CUSTOMCONFIGID=639wciv"
+    Invoke-WebRequest $uri_conf -OutFile $confPath
 
+    #-Wait -FilePath "$($env:TEMP)\ps7.msi" -ArgumentList "/qb-! REBOOT=ReallySuppress"
+    Start-Process -Wait -FilePath $installerPath  -ArgumentList "/passive CUSTOMCONFIGID=639wciv SETTINGSFILE=$confPath"
 }
 
 
