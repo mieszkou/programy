@@ -365,7 +365,7 @@ for ($row = 0; $row -lt $numberOfRows; $row++) {
                 $label = New-Object System.Windows.Forms.Label
                 $label.Text = $json[$index].nazwa
                 $label.AutoSize = $true
-                $label.Font = New-Object System.Drawing.Font("Arial", 12, [System.Drawing.FontStyle]::Bold) # Pogrubiona czcionka
+                $label.Font = New-Object System.Drawing.Font("Arial Unicode MS", 12, [System.Drawing.FontStyle]::Bold) # Pogrubiona czcionka
                 $label.Location = New-Object System.Drawing.Point((15 + $col * 200), (180 + $row * 30))
                 $label.Size = New-Object System.Drawing.Size(180, 30)
                 $form.Controls.Add($label)
