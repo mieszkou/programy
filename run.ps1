@@ -347,8 +347,9 @@ for ($row = 0; $row -lt $numberOfRows; $row++) {
         if ($index -lt $json.Count) {
             if($json[$index].polecenia) {
                 $checkbox = New-Object System.Windows.Forms.CheckBox
-                $checkbox.Location = New-Object System.Drawing.Point((20 + $col * 200), (180 + $row * 30))
-                $checkbox.Size = New-Object System.Drawing.Size(180, 30)
+                $checkbox.Location = New-Object System.Drawing.Point((20 + $col * 200), (180 + $row * 25))
+                $checkbox.Size = New-Object System.Drawing.Size(180, 25)
+                $checkbox.Font = New-Object System.Drawing.Font("Segoe UI", 8)
                 $checkbox.Text = $json[$index].nazwa
                 $checkbox.Tag = $index
                 $checkbox.Checked = $false
@@ -364,9 +365,9 @@ for ($row = 0; $row -lt $numberOfRows; $row++) {
                 $label = New-Object System.Windows.Forms.Label
                 $label.Text = $json[$index].nazwa
                 $label.AutoSize = $true
-                $label.Font = New-Object System.Drawing.Font("Arial Unicode MS", 12, [System.Drawing.FontStyle]::Bold) # Pogrubiona czcionka
-                $label.Location = New-Object System.Drawing.Point((15 + $col * 200), (180 + $row * 30))
-                $label.Size = New-Object System.Drawing.Size(180, 30)
+                $label.Font = New-Object System.Drawing.Font("Segoe UI", 9, [System.Drawing.FontStyle]::Bold) # Pogrubiona czcionka
+                $label.Location = New-Object System.Drawing.Point((18 + $col * 200), (180 + $row * 25))
+                $label.Size = New-Object System.Drawing.Size(172, 25)
                 $form.Controls.Add($label)
             }
         }
