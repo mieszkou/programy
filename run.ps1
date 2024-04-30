@@ -1,3 +1,5 @@
+[System.Text.Encoding]::Default | Out-GridView
+
 $installPath = "C:\Serwis"
 
 $jsonContent = @"
@@ -9,7 +11,7 @@ $jsonContent = @"
     { "nazwa": "Zdalna pomoc" },
     { "nazwa": "TeamViewer QS (paj24.pl)",          "polecenia": [ "InstallTeamViewerQS" ] },
     { "nazwa": "TeamViewer Host (paj24.pl)",        "polecenia": [ "InstallTeamViewerHost" ] },
-    { "nazwa": "Narzêdzia SQL" },
+    { "nazwa": "NarzÄ™dzia SQL" },
     { "nazwa": "AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
     { "nazwa": "HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
     { "nazwa": "SQL Server Management Studio",      "polecenia": [ "InstallSSMS" ] },
@@ -22,7 +24,7 @@ $jsonContent = @"
     { "nazwa": "Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
     { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
     { "nazwa": "Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] },
-    { "nazwa": "Do urz¹dzeñ fiskalnych" },
+    { "nazwa": "Do urzÄ…dzeÅ„ fiskalnych" },
     { "nazwa": "Posnet NPS",                        "polecenia": [ "InstallPosnetNps" ] },
     { "nazwa": "Posnet OPS",                        "polecenia": [ "InstallPosnetOps" ] },
     { "nazwa": "Elzab Eureka",                      "polecenia": [ "InstallElzabEureka" ] },
@@ -30,10 +32,10 @@ $jsonContent = @"
     { "nazwa": "Elzab - programy  komunikacyjne",   "polecenia": [ "InstallElzabWinexe" ] },
         { "nazwa": "Silnik bazy danych SQL" },
     { "nazwa": "MS SQL 2022 Express",               "polecenia": [ "InstallSql2022" ], 
-    "opis": "Pobieranie i instalacja SQL Server Express z w³¹czonym TCP, logowaniem SQL, has³o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koñcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
+    "opis": "Pobieranie i instalacja SQL Server Express z wÅ‚Ä…czonym TCP, logowaniem SQL, hasÅ‚o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koÅ„cÃ³wka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
     
     { "nazwa": "MS SQL 2019 Express",               "polecenia": [ "InstallSql2019" ], 
-    "opis": "Pobieranie i instalacja SQL Server Express z w³¹czonym TCP, logowaniem SQL, has³o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koñcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
+    "opis": "Pobieranie i instalacja SQL Server Express z wÅ‚Ä…czonym TCP, logowaniem SQL, hasÅ‚o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koÅ„cÃ³wka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
 
     { "nazwa": "Programy" },
     { "nazwa": "Insoft PCM",                        "polecenia": [ "InstallPcm" ] },
@@ -189,7 +191,7 @@ function InstallPosnetOps {
 }
 
 # (dla systemu Windows XP/2000/VISTA/7/8/8.1/10)
-# Program przeznaczony jest do obs³ugi K10/Sigma/kas ONLINE: .net 4
+# Program przeznaczony jest do obsÅ‚ugi K10/Sigma/kas ONLINE: .net 4
 function InstallElzabEureka {
     New-Item -Path "$installPath\Elzab-Eureka\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/eureka.zip" -OutFile "$installPath\eureka.zip"
@@ -199,7 +201,7 @@ function InstallElzabEureka {
 }
 
 # dla Windows XP/2000/VISTA/7/8/8.1/10
-# Program przeznaczony jest do obs³ugi drukarek fiskalnych Zeta,D10,MERA, nowszych w tym ONLINE
+# Program przeznaczony jest do obsÅ‚ugi drukarek fiskalnych Zeta,D10,MERA, nowszych w tym ONLINE
 # .net 4.5
 function InstallElzabStampa {
     New-Item -Path "$installPath\Elzab-Stampa\" -ItemType Directory -Force | Out-Null
@@ -209,10 +211,10 @@ function InstallElzabStampa {
     CreateDesktopShortcut -ShortcutName "ELZAB Stampa" -File "$installPath\Elzab-Stampa\bez instalatora\Stampa.exe"
 }
 
-# Do komunikacji z kas¹ (lub systemem kas) s³u¿y zestaw funkcji komunikacyjnych. 
-# Funkcje komunikacyjne opisane s¹ w instrukcji programisty. 
-# Funkcje komunikacyjne przyjmuj¹ i zwracaj¹ dane w formie #plików tekstowych, 
-# przez co nie ma koniecznoœci obs³ugi kas przez program magazynowy (lub inn¹ aplikacjê) na poziomie sekwencji steruj¹cych.
+# Do komunikacji z kasÄ… (lub systemem kas) sÅ‚uÅ¼y zestaw funkcji komunikacyjnych. 
+# Funkcje komunikacyjne opisane sÄ… w instrukcji programisty. 
+# Funkcje komunikacyjne przyjmujÄ… i zwracajÄ… dane w formie #plikÃ³w tekstowych, 
+# przez co nie ma koniecznoÅ›ci obsÅ‚ugi kas przez program magazynowy (lub innÄ… aplikacjÄ™) na poziomie sekwencji sterujÄ…cych.
 function InstallElzabWinexe {
     New-Item -Path "$installPath\Elzab-winexe\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/winexe.zip" -OutFile "$installPath\winexe.zip"
@@ -281,7 +283,7 @@ function InstallPcPos {
 
 
 
-# Funkcja do obs³ugi przycisku "Wykonaj"
+# Funkcja do obsÅ‚ugi przycisku "Wykonaj"
 function ExecuteSelectedCommands {
     
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -289,7 +291,7 @@ function ExecuteSelectedCommands {
     
     New-Item -Path $installPath -ItemType Directory -Force | Out-Null
 
-    # Pêtla po wszystkich checkboxach, aby wykonaæ zaznaczone polecenia
+    # PÄ™tla po wszystkich checkboxach, aby wykonaÄ‡ zaznaczone polecenia
     foreach ($checkbox in $checkboxes) {
         if ($checkbox.IsChecked) {
             $index = $checkbox.Tag
@@ -305,10 +307,10 @@ function ExecuteSelectedCommands {
             $textbox.Text += "-----------------------------------------" + "`r`n"
         }
     }
-    $textbox.Text += "ZAKOÑCZONO`r`n-----------------------------------------" + "`r`n"
+    $textbox.Text += "ZAKOÅƒCZONO`r`n-----------------------------------------" + "`r`n"
 }
 
-# Konwersja treœci JSON na obiekt PowerShell
+# Konwersja treÅ›ci JSON na obiekt PowerShell
 $json = ConvertFrom-Json $jsonContent
 
 [void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
@@ -332,10 +334,10 @@ $Window=[Windows.Markup.XamlReader]::Load( $reader )
 
 $checkboxGrid = $window.FindName("checkboxGrid")
 
-# Generowanie checkboxów dla ka¿dego zestawu poleceñ
+# Generowanie checkboxÃ³w dla kaÅ¼dego zestawu poleceÅ„
 $checkboxes = @()
 
-# Oblicz liczbê wierszy i kolumn na podstawie liczby checkboxów
+# Oblicz liczbÄ™ wierszy i kolumn na podstawie liczby checkboxÃ³w
 $numberOfRows = [math]::Ceiling($json.Count / 3)
 $numberOfColumns = 3
 
@@ -373,7 +375,7 @@ for ($row = 0; $row -lt $numberOfRows; $row++) {
                 $checkbox.SetValue([System.Windows.Controls.Grid]::RowProperty, $row)
                 $checkboxGrid.Children.Add($checkbox) | Out-Null
             } else {
-                # Utwórz nag³ówek
+                # UtwÃ³rz nagÅ‚Ã³wek
                 $label = New-Object System.Windows.Controls.Label
                 $label.Content = $json[$index].nazwa
                 $label.FontSize = 14
@@ -388,7 +390,7 @@ for ($row = 0; $row -lt $numberOfRows; $row++) {
 }
 
 
-# Pobierz referencje do elementów interfejsu u¿ytkownika
+# Pobierz referencje do elementÃ³w interfejsu uÅ¼ytkownika
 $textbox = $Window.FindName("textbox")
 $executeButton = $Window.FindName("executeButton")
 
