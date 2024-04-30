@@ -1,5 +1,4 @@
 $installPath = "C:\Serwis"
-$logFile = $installPath + "\setup.log"
 
 $jsonContent = @"
 [   
@@ -24,11 +23,11 @@ $jsonContent = @"
     { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
     { "nazwa": "Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] },
     { "nazwa": "Nirsoft" },
-    { "nazwa": "WirelessKeyView",                   "polecenia": [ "InstallWirelessKeyView" ] },
-    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
-    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
-    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
-    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
+    { "nazwa": "WirelessKeyView (AV!)",             "polecenia": [ "InstallWirelessKeyView" ] },
+    { "nazwa": "WirelessNetworkWatcher (Netscan)",  "polecenia": [ "InstallWirelessNetworkWatcher" ] },
+    { "nazwa": "WirelessNetView",                   "polecenia": [ "InstallWirelessNetView" ] },
+    { "nazwa": "Mail PassView (AV!)",               "polecenia": [ "InstallMailPassView" ] },
+    { "nazwa": "Network Password Recovery (AV!)",   "polecenia": [ "InstallNetworkPasswordRecovery" ] },
     { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
     { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
     
@@ -208,14 +207,75 @@ function InstallKeyNStroke {
     CreateDesktopShortcut -ShortcutName "Key-n-Stroke" -File "$installPath\Key-n-Stroke\Key-n-Stroke.exe"
 }
 function InstallWirelessKeyView {
-    Install-Module -Name 7Zip4Powershell
-    $uri = "https://www.nirsoft.net/toolsdownload/wirelesskeyview-x64.zip"
+    $uri = "https://www.nirsoft.net/toolsdownload/wirelesskeyview.zip"
+    $uri7zip = "https://www.pajcomp.pl/pub/%21Misc/7z.exe"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/wireless_key.html"}
+
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Invoke-WebRequest $uri -OutFile $installerPath
-    Expand-7Zip -ArchiveFileName $installerPath -TargetPath "$installPath\Nirsoft" -SecurePassword "WKey4567#"
+    $7zipPath = Join-Path $env:TEMP (Split-Path $uri7zip -Leaf)
+    
+    Invoke-WebRequest $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    Invoke-WebRequest $uri7zip -OutFile $7zipPath
+    
+    Start-Process -Wait -FilePath $7zipPath -ArgumentList "e $installerPath -o$installPath\Nirsoft\ * -p`"WKey4567#`" -y" -NoNewWindow
     CreateDesktopShortcut -ShortcutName "WirelessKeyView" -File "$installPath\Nirsoft\WirelessKeyView.exe"
     Remove-Item $installerPath
 }
+
+function InstallWirelessNetworkWatcher {
+    $uri = "https://www.nirsoft.net/utils/wnetwatcher-x64.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/wireless_network_watcher.html"}
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Invoke-WebRequest $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "Wireless Network Watcher" -File "$installPath\Nirsoft\WNetWatcher.exe"
+    Remove-Item $installerPath
+}
+
+function InstallWirelessNetView {
+    $uri = "https://www.nirsoft.net/utils/wirelessnetview.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/wireless_network_view.html"}
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Invoke-WebRequest $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "WirelessNetView" -File "$installPath\Nirsoft\WirelessNetView.exe"
+    Remove-Item $installerPath
+}
+
+
+function InstallMailPassView {
+    $uri = "https://www.nirsoft.net/toolsdownload/mailpv.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/mailpv.html"}
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Invoke-WebRequest $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "MailPassView" -File "$installPath\Nirsoft\mailpv.exe"
+    Remove-Item $installerPath
+}
+
+function InstallNetworkPasswordRecovery {
+    $uri = "https://www.nirsoft.net/toolsdownload/netpass-x64.zip"
+    $uri7zip = "https://www.pajcomp.pl/pub/%21Misc/7z.exe"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/network_password_recovery.html"}
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    $7zipPath = Join-Path $env:TEMP (Split-Path $uri7zip -Leaf)
+    
+    Invoke-WebRequest $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    Invoke-WebRequest $uri7zip -OutFile $7zipPath
+    
+    Start-Process -Wait -FilePath $7zipPath -ArgumentList "e $installerPath -o$installPath\Nirsoft\ * -p`"ntps5291#`" -y" -NoNewWindow
+    CreateDesktopShortcut -ShortcutName "Network Password Recovery" -File "$installPath\Nirsoft\netpass.exe"
+    Remove-Item $installerPath
+}
+
+
 
 function InstallPosnetNps {
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-NPS/NPS.ZIP" -OutFile "$installPath\NPS.zip"
@@ -329,6 +389,9 @@ function ExecuteSelectedCommands {
     
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $ProgressPreference = 'SilentlyContinue'
+
+    $installPath = $installPathTextBox.Text
+    $logFile = $installPath + "\setup.log"
     
     New-Item -Path $installPath -ItemType Directory -Force | Out-Null
 
@@ -337,7 +400,8 @@ function ExecuteSelectedCommands {
     foreach ($checkbox in $checkboxes) {
         if ($checkbox.IsChecked) {
             $checkbox.IsChecked = $false
-            $checkbox.IsEnabled = $false
+            # $checkbox.IsEnabled = $false
+            $checkbox.Background = "#cccccc"
             $index = $checkbox.Tag
             $commands = $json[$index].polecenia
             Write-Log $json[$index].nazwa + " : start"
@@ -366,8 +430,17 @@ $json = ConvertFrom-Json $jsonContent
         <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
 
         <TextBox Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="100" MinHeight="100" MaxHeight="100" FontFamily="Consolas" FontSize="14" Focusable="False" IsTabStop="False" Padding="5,5,5,5"  AcceptsReturn="True" />
-        <Button Name="executeButton" Content="Zainstaluj wybrane programy/wykonaj wybrane akcje" Margin="10,10,10,10" Height="30"/>
+        <Grid Height="50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="8*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="installPathTextBox" TextWrapping="Wrap" Text="$installPath" Margin="10,24,0,6"/>
+            <Button Name="executeButton" Content="Zainstaluj wybrane programy/wykonaj wybrane akcje" Margin="10,10,10,10" Height="30" Grid.Column="1"/>
+            <Label Content="Katalog do rozpakowania plików:" HorizontalAlignment="Left" Margin="10,-1,0,0" VerticalAlignment="Top" Width="240"/>
+        </Grid>
         <Grid Name="checkboxGrid" Margin="10,10,10,10" />
+
     </StackPanel>
 </Window>
 "@
@@ -435,6 +508,7 @@ for ($row = 0; $row -lt $numberOfRows; $row++) {
 
 # Pobierz referencje do elementów interfejsu użytkownika
 $textbox = $Window.FindName("textbox")
+$installPathTextBox = $Window.FindName("installPathTextBox")
 $executeButton = $Window.FindName("executeButton")
 
 $executeButton.Add_Click({ ExecuteSelectedCommands })
