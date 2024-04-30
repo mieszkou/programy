@@ -8,8 +8,8 @@ $jsonContent = @"
     { "nazwa": "Double Commander",                  "polecenia": [ "InstallDoubleCmd" ] },
     { "nazwa": "7-zip",                             "polecenia": [ "Install7Zip" ] },
     { "nazwa": "Zdalna pomoc" },
-    { "nazwa": "TeamViewer QS (paj24.pl)",          "polecenia": [ "InstallTeamViewerQS" ] },
-    { "nazwa": "TeamViewer Host (paj24.pl)",        "polecenia": [ "InstallTeamViewerHost" ] },
+    { "nazwa": "TeamViewerQS (kopiuj na pulpit)",          "polecenia": [ "InstallTeamViewerQS" ] },
+    { "nazwa": "TeamViewer Host (instaluj)",        "polecenia": [ "InstallTeamViewerHost" ] },
     { "nazwa": "Narzędzia SQL" },
     { "nazwa": "AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
     { "nazwa": "HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
@@ -23,6 +23,16 @@ $jsonContent = @"
     { "nazwa": "Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
     { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
     { "nazwa": "Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] },
+    { "nazwa": "Nirsoft" },
+    { "nazwa": "WirelessKeyView",                   "polecenia": [ "InstallWirelessKeyView" ] },
+    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
+    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
+    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
+    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
+    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
+    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
+    
+
     { "nazwa": "Do urządzeń fiskalnych" },
     { "nazwa": "Posnet NPS",                        "polecenia": [ "InstallPosnetNps" ] },
     { "nazwa": "Posnet OPS",                        "polecenia": [ "InstallPosnetOps" ] },
@@ -197,7 +207,15 @@ function InstallKeyNStroke {
     
     CreateDesktopShortcut -ShortcutName "Key-n-Stroke" -File "$installPath\Key-n-Stroke\Key-n-Stroke.exe"
 }
-
+function InstallWirelessKeyView {
+    Install-Module -Name 7Zip4Powershell
+    $uri = "https://www.nirsoft.net/toolsdownload/wirelesskeyview-x64.zip"
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest $uri -OutFile $installerPath
+    Expand-7Zip -ArchiveFileName $installerPath -TargetPath "$installPath\Nirsoft" -SecurePassword "WKey4567#"
+    CreateDesktopShortcut -ShortcutName "WirelessKeyView" -File "$installPath\Nirsoft\WirelessKeyView.exe"
+    Remove-Item $installerPath
+}
 
 function InstallPosnetNps {
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-NPS/NPS.ZIP" -OutFile "$installPath\NPS.zip"
