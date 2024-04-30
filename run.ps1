@@ -386,7 +386,7 @@ function InstallPcPos {
 
 # Funkcja do obsługi przycisku "Wykonaj"
 function ExecuteSelectedCommands {
-    
+
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
     $ProgressPreference = 'SilentlyContinue'
 
