@@ -1,4 +1,5 @@
 $installPath = "C:\Serwis"
+$logFile = $installPath + "\setup.log"
 
 $jsonContent = @"
 [   
@@ -40,6 +41,30 @@ $jsonContent = @"
     { "nazwa": "Insoft PC-POS",                     "polecenia": [ "InstallPcPos" ] }
 ]
 "@
+
+# Funkcja do zapisu komunikatu do pliku logu
+function Write-Log { 
+    Param ([string]$LogString)
+    $Stamp = (Get-Date).toString("yyyy-MM-dd HH:mm:ss")
+    $LogMessage = "$Stamp $LogString"
+    Add-content $logFile -value $LogMessage
+
+    $textbox.Text += $LogMessage + "`r`n"
+    $textbox.ScrollToEnd()
+
+    Write-Host $LogString
+}
+
+# Funkcja wyświetla w konsoli informację dla użytkownika i zapisuje ją do pliku logu z sygnatura czasową
+function Write-HostAndLog { 
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$LogString
+    )
+
+    Write-Log -LogString $LogString
+    Write-Host $LogString
+}
 
 function CreateDesktopShortcut {
     param (
@@ -289,23 +314,25 @@ function ExecuteSelectedCommands {
     
     New-Item -Path $installPath -ItemType Directory -Force | Out-Null
 
+    Write-Log "-----------------------------------------"
     # Pętla po wszystkich checkboxach, aby wykonać zaznaczone polecenia
     foreach ($checkbox in $checkboxes) {
         if ($checkbox.IsChecked) {
+            $checkbox.IsChecked = $false
+            $checkbox.IsEnabled = $false
             $index = $checkbox.Tag
             $commands = $json[$index].polecenia
-            $textbox.Text += $json[$index].nazwa + ": "
+            Write-Log $json[$index].nazwa + " : start"
             
             foreach ($command in $commands) {
                 Invoke-Expression $command
-                $textbox.Text += $command + "`r`n"
-                $textbox.SelectionStart = $textbox.Text.Length
-                $textbox.ScrollToEnd()
+                Write-Log "- $command"
             }
-            $textbox.Text += "-----------------------------------------" + "`r`n"
         }
     }
-    $textbox.Text += "ZAKOŃCZONO`r`n-----------------------------------------" + "`r`n"
+    Write-Log "-----------------------------------------"
+    Write-Log "ZAKOŃCZONO"
+    Write-Log "-----------------------------------------"
 }
 
 # Konwersja treści JSON na obiekt PowerShell
@@ -320,7 +347,7 @@ $json = ConvertFrom-Json $jsonContent
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
         <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
 
-        <TextBox Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="100" MinHeight="100" MaxHeight="100" FontFamily="Consolas" FontSize="14" Text="Instalator aplikacji ęóąśłżźćńĘÓĄŚŁŻŹĆŃ" Focusable="False" IsTabStop="False" Padding="5,5,5,5" />
+        <TextBox Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="100" MinHeight="100" MaxHeight="100" FontFamily="Consolas" FontSize="14" Focusable="False" IsTabStop="False" Padding="5,5,5,5"  AcceptsReturn="True" />
         <Button Name="executeButton" Content="Zainstaluj wybrane programy/wykonaj wybrane akcje" Margin="10,10,10,10" Height="30"/>
         <Grid Name="checkboxGrid" Margin="10,10,10,10" />
     </StackPanel>
@@ -396,3 +423,4 @@ $executeButton.Add_Click({ ExecuteSelectedCommands })
 
 # Uruchomienie formularza
 $Window.ShowDialog() | Out-Null
+
