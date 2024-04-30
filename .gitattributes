@@ -1,1 +1,1 @@
-run.ps1 encoding=cp1250
+*.ps1 working-tree-encoding=cp1250 git-encoding=cp1250 encoding=cp1250
