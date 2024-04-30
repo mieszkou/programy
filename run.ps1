@@ -320,7 +320,7 @@ $json = ConvertFrom-Json $jsonContent
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
         <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
 
-        <TextBox Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="100" MinHeight="100" MaxHeight="100" FontFamily="Consolas" FontSize="14" Text="Instalator aplikacji" Focusable="False" IsTabStop="False" Padding="5,5,5,5" />
+        <TextBox Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="100" MinHeight="100" MaxHeight="100" FontFamily="Consolas" FontSize="14" Text="Instalator aplikacji ęóąśłżźćńĘÓĄŚŁŻŹĆŃ" Focusable="False" IsTabStop="False" Padding="5,5,5,5" />
         <Button Name="executeButton" Content="Zainstaluj wybrane programy/wykonaj wybrane akcje" Margin="10,10,10,10" Height="30"/>
         <Grid Name="checkboxGrid" Margin="10,10,10,10" />
     </StackPanel>
