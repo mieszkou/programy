@@ -24,7 +24,7 @@ $jsonContent = @"
     { "nazwa": "Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
     { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
     { "nazwa": "Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] },
-    { "nazwa": "Do urz¹dzeñ fiskalnych" },
+    { "nazwa": "Do urz±dzeñ fiskalnych" },
     { "nazwa": "Posnet NPS",                        "polecenia": [ "InstallPosnetNps" ] },
     { "nazwa": "Posnet OPS",                        "polecenia": [ "InstallPosnetOps" ] },
     { "nazwa": "Elzab Eureka",                      "polecenia": [ "InstallElzabEureka" ] },
@@ -32,10 +32,10 @@ $jsonContent = @"
     { "nazwa": "Elzab - programy  komunikacyjne",   "polecenia": [ "InstallElzabWinexe" ] },
         { "nazwa": "Silnik bazy danych SQL" },
     { "nazwa": "MS SQL 2022 Express",               "polecenia": [ "InstallSql2022" ], 
-    "opis": "Pobieranie i instalacja SQL Server Express z w³¹czonym TCP, logowaniem SQL, has³o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koñcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
+    "opis": "Pobieranie i instalacja SQL Server Express z w³±czonym TCP, logowaniem SQL, has³o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koñcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
     
     { "nazwa": "MS SQL 2019 Express",               "polecenia": [ "InstallSql2019" ], 
-    "opis": "Pobieranie i instalacja SQL Server Express z w³¹czonym TCP, logowaniem SQL, has³o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koñcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
+    "opis": "Pobieranie i instalacja SQL Server Express z w³±czonym TCP, logowaniem SQL, has³o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koñcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
 
     { "nazwa": "Programy" },
     { "nazwa": "Insoft PCM",                        "polecenia": [ "InstallPcm" ] },
@@ -80,8 +80,19 @@ function InstallDoubleCmd {
     Invoke-WebRequest -Uri $uri -OutFile "$($env:TEMP)\doublecmd.exe"
     Start-Process -Wait -FilePath "$($env:TEMP)\doublecmd.exe" -ArgumentList "/SILENT /SP-"
     New-Item -Path "$($env:APPDATA)\doublecmd" -ItemType Directory -Force | Out-Null
+    try {
     Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "C:\Program Files\Double Commander\doublecmd.xml"
-    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:APPDATA)\doublecmd\doublecmd.xml"
+    }
+    catch {
+
+    }
+    try {
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:APPDATA)\doublecmd\doublecmd.xml"
+    }
+    catch {
+        
+    }
+    
     
     CreateDesktopShortcut -ShortcutName "Double Commander" -File "C:\Program Files\Double Commander\doublecmd.exe"
 }
@@ -200,10 +211,10 @@ function InstallElzabStampa {
     CreateDesktopShortcut -ShortcutName "ELZAB Stampa" -File "$installPath\Elzab-Stampa\bez instalatora\Stampa.exe"
 }
 
-# Do komunikacji z kas¹ (lub systemem kas) s³u¿y zestaw funkcji komunikacyjnych. 
-# Funkcje komunikacyjne opisane s¹ w instrukcji programisty. 
-# Funkcje komunikacyjne przyjmuj¹ i zwracaj¹ dane w formie #plików tekstowych, 
-# przez co nie ma koniecznoœci obs³ugi kas przez program magazynowy (lub inn¹ aplikacjê) na poziomie sekwencji steruj¹cych.
+# Do komunikacji z kas± (lub systemem kas) s³u¿y zestaw funkcji komunikacyjnych. 
+# Funkcje komunikacyjne opisane s± w instrukcji programisty. 
+# Funkcje komunikacyjne przyjmuj± i zwracaj± dane w formie #plików tekstowych, 
+# przez co nie ma konieczno¶ci obs³ugi kas przez program magazynowy (lub inn± aplikacjê) na poziomie sekwencji steruj±cych.
 function InstallElzabWinexe {
     New-Item -Path "$installPath\Elzab-winexe\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/winexe.zip" -OutFile "$installPath\winexe.zip"
@@ -299,7 +310,7 @@ function ExecuteSelectedCommands {
     $textbox.Text += "ZAKOÑCZONO`r`n-----------------------------------------" + "`r`n"
 }
 
-# Konwersja treœci JSON na obiekt PowerShell
+# Konwersja tre¶ci JSON na obiekt PowerShell
 $json = ConvertFrom-Json $jsonContent
 
 [void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
