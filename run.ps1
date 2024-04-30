@@ -1,5 +1,3 @@
-[System.Text.Encoding]::Default | Out-GridView
-
 $installPath = "C:\Serwis"
 
 $jsonContent = @"
