@@ -1,3 +1,5 @@
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 $installPath = "C:\Serwis"
 
 $jsonContent = @"
@@ -9,7 +11,7 @@ $jsonContent = @"
     { "nazwa": "Zdalna pomoc" },
     { "nazwa": "TeamViewer QS (paj24.pl)",          "polecenia": [ "InstallTeamViewerQS" ] },
     { "nazwa": "TeamViewer Host (paj24.pl)",        "polecenia": [ "InstallTeamViewerHost" ] },
-    { "nazwa": "NarzÄ™dzia SQL" },
+    { "nazwa": "Narzêdzia SQL" },
     { "nazwa": "AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
     { "nazwa": "HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
     { "nazwa": "SQL Server Management Studio",      "polecenia": [ "InstallSSMS" ] },
@@ -22,7 +24,7 @@ $jsonContent = @"
     { "nazwa": "Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
     { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
     { "nazwa": "Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] },
-    { "nazwa": "Do urzÄ…dzeÅ„ fiskalnych" },
+    { "nazwa": "Do urz¹dzeñ fiskalnych" },
     { "nazwa": "Posnet NPS",                        "polecenia": [ "InstallPosnetNps" ] },
     { "nazwa": "Posnet OPS",                        "polecenia": [ "InstallPosnetOps" ] },
     { "nazwa": "Elzab Eureka",                      "polecenia": [ "InstallElzabEureka" ] },
@@ -30,10 +32,10 @@ $jsonContent = @"
     { "nazwa": "Elzab - programy  komunikacyjne",   "polecenia": [ "InstallElzabWinexe" ] },
         { "nazwa": "Silnik bazy danych SQL" },
     { "nazwa": "MS SQL 2022 Express",               "polecenia": [ "InstallSql2022" ], 
-    "opis": "Pobieranie i instalacja SQL Server Express z wÅ‚Ä…czonym TCP, logowaniem SQL, hasÅ‚o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koÅ„cÃ³wka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
+    "opis": "Pobieranie i instalacja SQL Server Express z w³¹czonym TCP, logowaniem SQL, has³o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koñcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
     
     { "nazwa": "MS SQL 2019 Express",               "polecenia": [ "InstallSql2019" ], 
-    "opis": "Pobieranie i instalacja SQL Server Express z wÅ‚Ä…czonym TCP, logowaniem SQL, hasÅ‚o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koÅ„cÃ³wka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
+    "opis": "Pobieranie i instalacja SQL Server Express z w³¹czonym TCP, logowaniem SQL, has³o sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to koñcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
 
     { "nazwa": "Programy" },
     { "nazwa": "Insoft PCM",                        "polecenia": [ "InstallPcm" ] },
@@ -48,10 +50,19 @@ function CreateDesktopShortcut {
         [string]$Arguments
     )
     $WshShell = New-Object -ComObject WScript.Shell
-    $shortcut = $WshShell.CreateShortcut("$([Environment]::GetFolderPath('CommonDesktopDirectory'))\$ShortcutName.lnk")
-    $shortcut.TargetPath = $File
-    $shortcut.Arguments = $Arguments
-    $shortcut.Save()
+    try {
+        $shortcut = $WshShell.CreateShortcut("$([Environment]::GetFolderPath('CommonDesktopDirectory'))\$ShortcutName.lnk")
+        $shortcut.TargetPath = $File
+        $shortcut.Arguments = $Arguments
+        $shortcut.Save()
+    
+    } Catch {
+        $shortcut = $WshShell.CreateShortcut("$([Environment]::GetFolderPath('DesktopDirectory'))\$ShortcutName.lnk")
+        $shortcut.TargetPath = $File
+        $shortcut.Arguments = $Arguments
+        $shortcut.Save()
+    
+    }   
     
 }
 
@@ -169,7 +180,7 @@ function InstallPosnetOps {
 }
 
 # (dla systemu Windows XP/2000/VISTA/7/8/8.1/10)
-# Program przeznaczony jest do obsÅ‚ugi K10/Sigma/kas ONLINE: .net 4
+# Program przeznaczony jest do obs³ugi K10/Sigma/kas ONLINE: .net 4
 function InstallElzabEureka {
     New-Item -Path "$installPath\Elzab-Eureka\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/eureka.zip" -OutFile "$installPath\eureka.zip"
@@ -179,7 +190,7 @@ function InstallElzabEureka {
 }
 
 # dla Windows XP/2000/VISTA/7/8/8.1/10
-# Program przeznaczony jest do obsÅ‚ugi drukarek fiskalnych Zeta,D10,MERA, nowszych w tym ONLINE
+# Program przeznaczony jest do obs³ugi drukarek fiskalnych Zeta,D10,MERA, nowszych w tym ONLINE
 # .net 4.5
 function InstallElzabStampa {
     New-Item -Path "$installPath\Elzab-Stampa\" -ItemType Directory -Force | Out-Null
@@ -189,10 +200,10 @@ function InstallElzabStampa {
     CreateDesktopShortcut -ShortcutName "ELZAB Stampa" -File "$installPath\Elzab-Stampa\bez instalatora\Stampa.exe"
 }
 
-# Do komunikacji z kasÄ… (lub systemem kas) sÅ‚uÅ¼y zestaw funkcji komunikacyjnych. 
-# Funkcje komunikacyjne opisane sÄ… w instrukcji programisty. 
-# Funkcje komunikacyjne przyjmujÄ… i zwracajÄ… dane w formie #plikÃ³w tekstowych, 
-# przez co nie ma koniecznoÅ›ci obsÅ‚ugi kas przez program magazynowy (lub innÄ… aplikacjÄ™) na poziomie sekwencji sterujÄ…cych.
+# Do komunikacji z kas¹ (lub systemem kas) s³u¿y zestaw funkcji komunikacyjnych. 
+# Funkcje komunikacyjne opisane s¹ w instrukcji programisty. 
+# Funkcje komunikacyjne przyjmuj¹ i zwracaj¹ dane w formie #plików tekstowych, 
+# przez co nie ma koniecznoœci obs³ugi kas przez program magazynowy (lub inn¹ aplikacjê) na poziomie sekwencji steruj¹cych.
 function InstallElzabWinexe {
     New-Item -Path "$installPath\Elzab-winexe\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/winexe.zip" -OutFile "$installPath\winexe.zip"
@@ -261,7 +272,7 @@ function InstallPcPos {
 
 
 
-# Funkcja do obsÅ‚ugi przycisku "Wykonaj"
+# Funkcja do obs³ugi przycisku "Wykonaj"
 function ExecuteSelectedCommands {
     
     [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
@@ -269,9 +280,9 @@ function ExecuteSelectedCommands {
     
     New-Item -Path $installPath -ItemType Directory -Force | Out-Null
 
-    # PÄ™tla po wszystkich checkboxach, aby wykonaÄ‡ zaznaczone polecenia
+    # Pêtla po wszystkich checkboxach, aby wykonaæ zaznaczone polecenia
     foreach ($checkbox in $checkboxes) {
-        if ($checkbox.Checked) {
+        if ($checkbox.IsChecked) {
             $index = $checkbox.Tag
             $commands = $json[$index].polecenia
             $textbox.Text += $json[$index].nazwa + ": "
@@ -280,100 +291,99 @@ function ExecuteSelectedCommands {
                 Invoke-Expression $command
                 $textbox.Text += $command + "`r`n"
                 $textbox.SelectionStart = $textbox.Text.Length
-                $textbox.ScrollToCaret()
+                $textbox.ScrollToEnd()
             }
             $textbox.Text += "-----------------------------------------" + "`r`n"
         }
     }
-    $textbox.Text += "ZAKOÅƒCZONO`r`n-----------------------------------------" + "`r`n"
+    $textbox.Text += "ZAKOÑCZONO`r`n-----------------------------------------" + "`r`n"
 }
 
-Add-Type -AssemblyName System.Windows.Forms
-
-
-# Konwersja treÅ›ci JSON na obiekt PowerShell
+# Konwersja treœci JSON na obiekt PowerShell
 $json = ConvertFrom-Json $jsonContent
 
-# Utworzenie formularza
-$form = New-Object System.Windows.Forms.Form
-$form.Text = "PAJ-COMP - Instalator przydatnych aplikacji"
-$form.Size = New-Object System.Drawing.Size(660,600)
-$form.StartPosition = "CenterScreen"
+[void][System.Reflection.Assembly]::LoadWithPartialName('presentationframework')
+[xml]$XAML = @"
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="runApp"
+        Title="PAJ-COMP - Instalator aplikacji" Height="650" Width="650"
+        MinWidth="640" MinHeight="660" MaxWidth="900" MaxHeight="750" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip">
+    <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
+        <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
 
-# This base64 string holds the bytes that make up the orange 'G' icon (just an example for a 32x32 pixel image)
-$iconBase64      = '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'
-$iconBytes       = [Convert]::FromBase64String($iconBase64)
-# initialize a Memory stream holding the bytes
-$stream          = [System.IO.MemoryStream]::new($iconBytes, 0, $iconBytes.Length)
-$form.Icon       = [System.Drawing.Icon]::FromHandle(([System.Drawing.Bitmap]::new($stream).GetHIcon()))
+        <TextBox Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="100" MinHeight="100" MaxHeight="100" FontFamily="Consolas" FontSize="14" Text="Instalator aplikacji" Focusable="False" IsTabStop="False" Padding="5,5,5,5" />
+        <Button Name="executeButton" Content="Zainstaluj wybrane programy/wykonaj wybrane akcje" Margin="10,10,10,10" Height="30"/>
+        <Grid Name="checkboxGrid" Margin="10,10,10,10" />
+    </StackPanel>
+</Window>
+"@
 
-# PowerShell versions older than 5.0 use this:
-# $stream        = New-Object IO.MemoryStream($iconBytes, 0, $iconBytes.Length)
-# $Form.Icon     = [System.Drawing.Icon]::FromHandle((New-Object System.Drawing.Bitmap -Argument $stream).GetHIcon())
+$reader=(New-Object System.Xml.XmlNodeReader $XAML)
+$Window=[Windows.Markup.XamlReader]::Load( $reader )
 
-# $form.icon = "img/favicon.ico"
+$checkboxGrid = $window.FindName("checkboxGrid")
 
-# Pole TextBox do wyÅ›wietlania aktualnie wykonywanego polecenia
-$textbox = New-Object System.Windows.Forms.TextBox
-$textbox.Location = New-Object System.Drawing.Point(10, 10)
-$textbox.Size = New-Object System.Drawing.Size(620, 100) # Zmieniony rozmiar pola TextBox
-$textbox.Multiline = $true
-$textbox.Anchor = 'top,right,left'
-$textbox.ScrollBars = "Vertical" # Dodane paski przewijania
-$textbox.AutoScrollOffset = 1
-$textbox.BorderStyle = [System.Windows.Forms.BorderStyle]::FixedSingle # Pozioma linia
-
-$form.Controls.Add($textbox)
-
-# Przycisk "Wykonaj"
-$executeButton = New-Object System.Windows.Forms.Button
-$executeButton.Location = New-Object System.Drawing.Point(10, 120)
-$executeButton.Size = New-Object System.Drawing.Size(620, 30)
-$executeButton.Anchor = 'top,right,left'
-$executeButton.Text = "Zainstaluj wybrane programy/wykonaj wybrane akcje"
-$executeButton.Add_Click({ ExecuteSelectedCommands })
-$form.Controls.Add($executeButton)
-
-# Generowanie checkboxÃ³w dla kaÅ¼dego zestawu poleceÅ„
+# Generowanie checkboxów dla ka¿dego zestawu poleceñ
 $checkboxes = @()
 
-# Oblicz liczbÄ™ wierszy i kolumn na podstawie liczby checkboxÃ³w
+# Oblicz liczbê wierszy i kolumn na podstawie liczby checkboxów
 $numberOfRows = [math]::Ceiling($json.Count / 3)
 $numberOfColumns = 3
+
+# Dodajemy kolumny do siatki
+for ($i = 0; $i -lt $numberOfColumns; $i++) {
+    $columnDefinition = New-Object System.Windows.Controls.ColumnDefinition
+    $columnDefinition.MinWidth = 200
+    $checkboxGrid.ColumnDefinitions.Add($columnDefinition)
+}
+
+# Dodajemy wiersze do siatki
+for ($i = 0; $i -lt $numberOfRows; $i++) {
+    $rowDefinition = New-Object System.Windows.Controls.RowDefinition
+    $rowDefinition.Height = 25
+    $checkboxGrid.RowDefinitions.Add($rowDefinition)
+}
 
 for ($row = 0; $row -lt $numberOfRows; $row++) {
     for ($col = 0; $col -lt $numberOfColumns; $col++) {
         $index = $row + $col * $numberOfRows
         if ($index -lt $json.Count) {
             if($json[$index].polecenia) {
-                $checkbox = New-Object System.Windows.Forms.CheckBox
-                $checkbox.Location = New-Object System.Drawing.Point((20 + $col * 200), (180 + $row * 25))
-                $checkbox.Size = New-Object System.Drawing.Size(180, 25)
-                $checkbox.Font = New-Object System.Drawing.Font("Segoe UI", 8)
-                $checkbox.Text = $json[$index].nazwa
+                 $checkbox = New-Object System.Windows.Controls.CheckBox
+                $checkbox.Content = $json[$index].nazwa
                 $checkbox.Tag = $index
-                $checkbox.Checked = $false
+                $checkbox.IsChecked = $false
 
                 if( $json[$index].opis ) {
-                    $tooltip = New-Object System.Windows.Forms.ToolTip
-                    $tooltip.SetToolTip($checkbox, $json[$index].opis)
+                    $tooltip = New-Object System.Windows.Controls.ToolTip
+                    $tooltip.Content = $json[$index].opis
+                    $checkbox.ToolTip = $tooltip
                 }
                 $checkboxes += $checkbox
-                $form.Controls.Add($checkbox)
+                $checkbox.SetValue([System.Windows.Controls.Grid]::ColumnProperty, $col)
+                $checkbox.SetValue([System.Windows.Controls.Grid]::RowProperty, $row)
+                $checkboxGrid.Children.Add($checkbox) | Out-Null
             } else {
-                # UtwÃ³rz nagÅ‚Ã³wek
-                $label = New-Object System.Windows.Forms.Label
-                $label.Text = $json[$index].nazwa
-                $label.AutoSize = $true
-                $label.Font = New-Object System.Drawing.Font("Segoe UI", 9, [System.Drawing.FontStyle]::Bold) # Pogrubiona czcionka
-                $label.Location = New-Object System.Drawing.Point((18 + $col * 200), (180 + $row * 25))
-                $label.Size = New-Object System.Drawing.Size(172, 25)
-                $form.Controls.Add($label)
+                # Utwórz nag³ówek
+                $label = New-Object System.Windows.Controls.Label
+                $label.Content = $json[$index].nazwa
+                $label.FontSize = 14
+                $label.FontWeight = "Bold"
+                $label.Margin = "-5,-6,0,0"
+                $label.SetValue([System.Windows.Controls.Grid]::ColumnProperty, $col)
+                $label.SetValue([System.Windows.Controls.Grid]::RowProperty, $row)
+                $checkboxGrid.Children.Add($label) | Out-Null
             }
         }
     }
 }
 
-[System.Windows.Forms.Application]::EnableVisualStyles()
+
+# Pobierz referencje do elementów interfejsu u¿ytkownika
+$textbox = $Window.FindName("textbox")
+$executeButton = $Window.FindName("executeButton")
+
+$executeButton.Add_Click({ ExecuteSelectedCommands })
+
 # Uruchomienie formularza
-$form.ShowDialog() | Out-Null
+$Window.ShowDialog() | Out-Null
