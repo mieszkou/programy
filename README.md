@@ -10,8 +10,7 @@ Działanie: https://streamable.com/eonbu4
 - [ ] Dodać tapety
 - [ ] Dodać winbox
 - [ ] Dodać prog. diagnostyczne
-
-
+- [x] Dodać TaskSchedulerView 
 
 # Wprowadzenie
 

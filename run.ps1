@@ -28,6 +28,8 @@ $jsonContent = @"
     { "nazwa": "📦 WirelessNetView",                   "polecenia": [ "InstallWirelessNetView" ] },
     { "nazwa": "📦☠️ Mail PassView (AV!)",               "polecenia": [ "InstallMailPassView" ] },
     { "nazwa": "📦☠️ Network Password Recovery (AV!)",   "polecenia": [ "InstallNetworkPasswordRecovery" ] },
+    { "nazwa": "📦 TaskSchedulerView ",                   "polecenia": [ "InstallTaskSchedulerView " ] },
+
 
     { "nazwa": "Do urządzeń fiskalnych" },
     { "nazwa": "📦 Posnet NPS",                        "polecenia": [ "InstallPosnetNps" ] },
@@ -299,7 +301,17 @@ function InstallNetworkPasswordRecovery {
     Remove-Item $installerPath
 }
 
-
+function InstallTaskSchedulerView {
+    $uri = "https://www.nirsoft.net/utils/taskschedulerview-x64.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/task_scheduler_view.html"}
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Invoke-WebRequest $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "TaskSchedulerView " -File "$installPath\Nirsoft\TaskSchedulerView.exe"
+    Remove-Item $installerPath
+}
 
 function InstallPosnetNps {
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-NPS/NPS.ZIP" -OutFile "$installPath\NPS.zip"
