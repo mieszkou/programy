@@ -3,51 +3,48 @@ $installPath = "C:\Serwis"
 $jsonContent = @"
 [   
     { "nazwa": "Podstawowe" },
-    { "nazwa": "Notepad 3",                         "polecenia": [ "InstallNotepad3" ] },
-    { "nazwa": "Double Commander",                  "polecenia": [ "InstallDoubleCmd" ] },
-    { "nazwa": "7-zip",                             "polecenia": [ "Install7Zip" ] },
+    { "nazwa": "💾 Notepad 3",                         "polecenia": [ "InstallNotepad3" ] },
+    { "nazwa": "💾 Double Commander",                  "polecenia": [ "InstallDoubleCmd" ] },
+    { "nazwa": "💾 7-zip",                             "polecenia": [ "Install7Zip" ] },
     { "nazwa": "Zdalna pomoc" },
-    { "nazwa": "TeamViewerQS (kopiuj na pulpit)",          "polecenia": [ "InstallTeamViewerQS" ] },
-    { "nazwa": "TeamViewer Host (instaluj)",        "polecenia": [ "InstallTeamViewerHost" ] },
+    { "nazwa": "🗜️ TeamViewerQS (kopiuj na pulpit)",          "polecenia": [ "InstallTeamViewerQS" ] },
+    { "nazwa": "💾 TeamViewer Host (instaluj)",        "polecenia": [ "InstallTeamViewerHost" ] },
     { "nazwa": "Narzędzia SQL" },
-    { "nazwa": "AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
-    { "nazwa": "HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
-    { "nazwa": "SQL Server Management Studio",      "polecenia": [ "InstallSSMS" ] },
+    { "nazwa": "🗜️ AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
+    { "nazwa": "💾 HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
+    { "nazwa": "💾 SQL Server Management Studio",      "polecenia": [ "InstallSSMS" ] },
     { "nazwa": "Systemowe" },
-    { "nazwa": "PowerShell 7",                      "polecenia": [ "InstallPowerShell7" ] },
-    { "nazwa": "Bginfo",                            "polecenia": [ "InstallBginfo" ] },
-    { "nazwa": "Process Monitor",                   "polecenia": [ "InstallSysInternals -fileName 'Procmon'" ] },
-    { "nazwa": "Process Explorer",                  "polecenia": [ "InstallSysInternals -fileName 'procexp'" ] },
-    { "nazwa": "Autologon",                         "polecenia": [ "InstallSysInternals -fileName 'Autologon'" ] },
-    { "nazwa": "Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
-    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
-    { "nazwa": "Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] },
+    { "nazwa": "💾 PowerShell 7",                      "polecenia": [ "InstallPowerShell7" ] },
+    { "nazwa": "🗜️ Bginfo",                            "polecenia": [ "InstallBginfo" ] },
+    { "nazwa": "🗜️ Process Monitor",                   "polecenia": [ "InstallSysInternals -fileName 'Procmon'" ] },
+    { "nazwa": "🗜️ Process Explorer",                  "polecenia": [ "InstallSysInternals -fileName 'procexp'" ] },
+    { "nazwa": "🗜️ Autologon",                         "polecenia": [ "InstallSysInternals -fileName 'Autologon'" ] },
+    { "nazwa": "🗜️ Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
+    { "nazwa": "🗜️ ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
+    { "nazwa": "🗜️ Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] },
     { "nazwa": "Nirsoft" },
-    { "nazwa": "WirelessKeyView (AV!)",             "polecenia": [ "InstallWirelessKeyView" ] },
-    { "nazwa": "WirelessNetworkWatcher (Netscan)",  "polecenia": [ "InstallWirelessNetworkWatcher" ] },
-    { "nazwa": "WirelessNetView",                   "polecenia": [ "InstallWirelessNetView" ] },
-    { "nazwa": "Mail PassView (AV!)",               "polecenia": [ "InstallMailPassView" ] },
-    { "nazwa": "Network Password Recovery (AV!)",   "polecenia": [ "InstallNetworkPasswordRecovery" ] },
-    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
-    { "nazwa": "ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
-    
+    { "nazwa": "🗜️☠️ WirelessKeyView",             "polecenia": [ "InstallWirelessKeyView" ] },
+    { "nazwa": "🗜️ WirelessNetworkWatcher (Netscan)",  "polecenia": [ "InstallWirelessNetworkWatcher" ] },
+    { "nazwa": "🗜️ WirelessNetView",                   "polecenia": [ "InstallWirelessNetView" ] },
+    { "nazwa": "🗜️☠️ Mail PassView (AV!)",               "polecenia": [ "InstallMailPassView" ] },
+    { "nazwa": "🗜️☠️ Network Password Recovery (AV!)",   "polecenia": [ "InstallNetworkPasswordRecovery" ] },
 
     { "nazwa": "Do urządzeń fiskalnych" },
-    { "nazwa": "Posnet NPS",                        "polecenia": [ "InstallPosnetNps" ] },
-    { "nazwa": "Posnet OPS",                        "polecenia": [ "InstallPosnetOps" ] },
-    { "nazwa": "Elzab Eureka",                      "polecenia": [ "InstallElzabEureka" ] },
-    { "nazwa": "Elzab Stampa",                      "polecenia": [ "InstallElzabStampa" ] },
-    { "nazwa": "Elzab - programy  komunikacyjne",   "polecenia": [ "InstallElzabWinexe" ] },
+    { "nazwa": "🗜️ Posnet NPS",                        "polecenia": [ "InstallPosnetNps" ] },
+    { "nazwa": "💾 Posnet OPS",                        "polecenia": [ "InstallPosnetOps" ] },
+    { "nazwa": "🗜️ Elzab Eureka",                      "polecenia": [ "InstallElzabEureka" ] },
+    { "nazwa": "🗜️ Elzab Stampa",                      "polecenia": [ "InstallElzabStampa" ] },
+    { "nazwa": "🗜️ Elzab - programy  komunikacyjne",   "polecenia": [ "InstallElzabWinexe" ] },
         { "nazwa": "Silnik bazy danych SQL" },
-    { "nazwa": "MS SQL 2022 Express",               "polecenia": [ "InstallSql2022" ], 
+    { "nazwa": "💾 MS SQL 2022 Express",               "polecenia": [ "InstallSql2022" ], 
     "opis": "Pobieranie i instalacja SQL Server Express z włączonym TCP, logowaniem SQL, hasło sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to końcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
     
-    { "nazwa": "MS SQL 2019 Express",               "polecenia": [ "InstallSql2019" ], 
+    { "nazwa": "💾 MS SQL 2019 Express",               "polecenia": [ "InstallSql2019" ], 
     "opis": "Pobieranie i instalacja SQL Server Express z włączonym TCP, logowaniem SQL, hasło sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to końcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
 
     { "nazwa": "Programy" },
-    { "nazwa": "Insoft PCM",                        "polecenia": [ "InstallPcm" ] },
-    { "nazwa": "Insoft PC-POS",                     "polecenia": [ "InstallPcPos" ] }
+    { "nazwa": "💾 Insoft PCM",                        "polecenia": [ "InstallPcm" ] },
+    { "nazwa": "💾 Insoft PC-POS",                     "polecenia": [ "InstallPcPos" ] }
 ]
 "@
 
@@ -424,8 +421,8 @@ $json = ConvertFrom-Json $jsonContent
 [xml]$XAML = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="runApp"
-        Title="PAJ-COMP - Instalator aplikacji" Height="650" Width="650"
-        MinWidth="640" MinHeight="660" MaxWidth="900" MaxHeight="750" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip">
+        Title="PAJ-COMP - Instalator aplikacji" Height="650" Width="750"
+        MinWidth="750" MinHeight="660" MaxWidth="900" MaxHeight="750" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip">
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
         <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
 
@@ -435,9 +432,9 @@ $json = ConvertFrom-Json $jsonContent
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="installPathTextBox" TextWrapping="Wrap" Text="$installPath" Margin="10,24,0,6"/>
-            <Button Name="executeButton" Content="Zainstaluj wybrane programy/wykonaj wybrane akcje" Margin="10,10,10,10" Height="30" Grid.Column="1"/>
-            <Label Content="Katalog do rozpakowania plików:" HorizontalAlignment="Left" Margin="10,-1,0,0" VerticalAlignment="Top" Width="240"/>
+            <TextBox x:Name="installPathTextBox" TextWrapping="Wrap" Text="$installPath" Margin="10,24,0,6" FontFamily="Consolas" Background="Yellow" FontWeight="Bold" FontSize="14" Padding="0,0,0,0"/>
+            <Button Name="executeButton" Content="Zainstaluj wybrane programy/wykonaj wybrane akcje" Margin="10,4,10,6" Grid.Column="1" FontWeight="Bold" UseLayoutRounding="False"/>
+            <Label Content="Katalog dla aplikacji z plików ZIP 🗜️:" HorizontalAlignment="Left" Margin="10,-1,0,0" VerticalAlignment="Top" Width="240"/>
         </Grid>
         <Grid Name="checkboxGrid" Margin="10,10,10,10" />
 
