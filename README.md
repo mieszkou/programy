@@ -1,4 +1,4 @@
-# Nowa werska z GUI
+# Nowa wersja z GUI
 
 Uruchomienie `iex(irm i.paj24.pl)`
 
