@@ -1,3 +1,9 @@
+# Nowa werska z GUI
+
+Uruchomienie `iex(irm i.paj24.pl)`
+
+Działanie: https://streamable.com/eonbu4
+
 # Wprowadzenie
 
 Polecenia wykonaj w oknie PowerShell uruchomionym z uprawnieniami administratora.
