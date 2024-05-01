@@ -182,7 +182,8 @@ function InstallSysInternals {
 }
 
 function InstallBginfo {
-    InstallSysInternals -fileName "Bginfo" 
+    $fileName = "Bginfo"
+    InstallSysInternals -fileName $fileName
     CreateDesktopShortcut -ShortcutName $fileName -File "$installPath\Sysinternals\Bginfo.exe" -Arguments  "$installPath\Sysinternals\bginfo.bgi /timer:0 /nolicprompt"
     CreateDesktopShortcut -ShortcutName "$fileName - edytuj info" -File "$installPath\Sysinternals\bginfo.txt"
 
@@ -199,25 +200,14 @@ function InstallBginfo {
     # Wczytaj plik binarny
     $file = "$installPath\Sysinternals\bginfo.bgi"
     $path = "$installPath\"
-    $bytes = [System.IO.File]::ReadAllBytes($file)
+    # Wczytaj zawartość pliku jako tekst
+    $content = Get-Content $file -Raw
 
-    # Konwertuj ścieżkę na bajty
-    $pathBytes = [System.Text.Encoding]::Unicode.GetBytes($path)
+    # Zastąp ciąg "C:\Programy" nową ścieżką
+    $newContent = $content -replace "C:\\Programy", $path
 
-    # Znajdź indeks, na którym zaczyna się ciąg "C:\Programy"
-    $index = [System.Array]::IndexOf($bytes, [System.Text.Encoding]::Unicode.GetBytes("C:\Programy\"))
-
-    # Sprawdź, czy ciąg został znaleziony
-    if ($index -ge 0) {
-        # Zastąp ciąg "C:\Programy" nową ścieżką
-        [System.Array]::Copy($pathBytes, 0, $bytes, $index, $pathBytes.Length)
-
-        # Zapisz zmieniony plik
-        [System.IO.File]::WriteAllBytes($file, $bytes)
-        Write-HostAndLog "Zmieniono ścieżkę w pliku na: $path"
-    } else {
-        Write-HostAndLog "Nie znaleziono ciągu do zastąpienia."
-    }
+    # Zapisz zmieniony tekst do pliku
+    Set-Content -Path $file -Value $newContent
 
     Invoke-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\BgInfo.lnk"
 }
