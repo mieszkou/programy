@@ -44,7 +44,8 @@ $jsonContent = @"
 
     { "nazwa": "Programy" },
     { "nazwa": "💾 Insoft PCM",                        "polecenia": [ "InstallPcm" ] },
-    { "nazwa": "💾 Insoft PC-POS",                     "polecenia": [ "InstallPcPos" ] }
+    { "nazwa": "💾 Insoft PC-POS",                     "polecenia": [ "InstallPcPos" ] },
+    { "nazwa": "💾 WAPRO (wszystkie, aktualizacja)",   "polecenia": [ "InstallWapro" ] }
 ]
 "@
 
@@ -364,21 +365,27 @@ function InstallSql2019 {
 
 function InstallPcm {
     $uri = "https://pobierz.insoft.com.pl/PC-Market7/Wersja_aktualna/InstallPCM_x64.exe"
-    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
     Invoke-WebRequest -Uri $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Verb RunAs -Wait
-    Remove-Item $installerPath    
+    # Remove-Item $installerPath    
 }
 
 function InstallPcPos {
     $uri = "https://pobierz.insoft.com.pl/PC-POS7/Wersja_aktualna/pcpos7_x64_install.exe"
-    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
     Invoke-WebRequest -Uri $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Verb RunAs -Wait
-    Remove-Item $installerPath    
+    # Remove-Item $installerPath    
 }
 
-
+function InstallWapro {
+    $uri = "https://storage.wapro.pl/storage/InstalatorWAPRO/InstalatorWAPRO.exe"
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
+    Invoke-WebRequest -Uri $uri -OutFile $installerPath
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait
+    # Remove-Item $installerPath    
+}
 
 
 # Funkcja do obsługi przycisku "Wykonaj"
