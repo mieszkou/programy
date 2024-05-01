@@ -210,7 +210,8 @@ function InstallBginfo {
         $endIndex = 0x0502
         $startIndex = 0x50C
         $newPathBytes = [System.Text.Encoding]::UTF8.GetBytes($newpath)
-        $newBytes = $bytes[0..($endIndex-1)] + $newPathBytes + $bytes[($startIndex-1)..($bytes.Length - 1)]
+        $bytes[0x04fd] = ("$installPath\Sysinternals\bginfo.txt").Length+2
+        $newBytes = $bytes[0..($endIndex-1)] + $newPathBytes + $bytes[($startIndex+1)..($bytes.Length - 1)]
         
     
         [System.IO.File]::WriteAllBytes($filenew, $newBytes)
@@ -455,6 +456,7 @@ $json = ConvertFrom-Json $jsonContent
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="runApp"
         Title="PAJ-COMP - Instalator aplikacji" Height="650" Width="750"
         MinWidth="750" MinHeight="660" MaxWidth="900" MaxHeight="750" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        Topmost="True"
         >
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
         <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>

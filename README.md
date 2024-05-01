@@ -4,6 +4,15 @@ Uruchomienie `iex(irm i.paj24.pl)`
 
 Działanie: https://streamable.com/eonbu4
 
+# TODO
+
+- [ ] Dodać LibreOffice
+- [ ] Dodać tapety
+- [ ] Dodać winbox
+- [ ] Dodać prog. diagnostyczne
+
+
+
 # Wprowadzenie
 
 Polecenia wykonaj w oknie PowerShell uruchomionym z uprawnieniami administratora.
