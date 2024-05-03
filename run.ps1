@@ -377,6 +377,7 @@ function InstallElzabWinexe {
 
 function InstallDrivers {
     $uri = "https://www.pajcomp.pl/pub/?zip=Sterowniki"
+    
     $installerPath = Join-Path $env:TEMP "Sterowniki.zip"
     $destinationPath = "$installPath\Sterowniki\"
 
@@ -395,7 +396,7 @@ function InstallDrivers {
         $nazwaKatalogu = $plik.BaseName
         Expand-Archive -Path $plik.FullName -DestinationPath "$($plik.DirectoryName)\$nazwaKatalogu" -Force
     } catch {
-        
+        Remove-Item -Path "$($plik.DirectoryName)\$nazwaKatalogu" -Force
     }
     
 
