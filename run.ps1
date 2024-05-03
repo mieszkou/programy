@@ -383,7 +383,7 @@ function InstallDrivers {
     Invoke-WebRequest $uri -OutFile $installerPath
     
     New-Item -Path $destinationPath -ItemType Directory -Force | Out-Null
-    Expand-Archive $installerPath -DestinationPath $destinationPath
+    Expand-Archive $installerPath -DestinationPath $destinationPath -Force
     Remove-Item $installerPath
 
     # Pobranie listy plików zip
@@ -514,7 +514,6 @@ $json = ConvertFrom-Json $jsonContent
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="runApp"
         Title="PAJ-COMP - Instalator aplikacji" Height="650" Width="750"
         MinWidth="750" MinHeight="660" MaxWidth="900" MaxHeight="750" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
-        Topmost="True"
         >
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
         <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
