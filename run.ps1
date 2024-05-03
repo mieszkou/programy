@@ -6,6 +6,7 @@ $jsonContent = @"
     { "nazwa": "💾 Notepad 3",                         "polecenia": [ "InstallNotepad3" ] },
     { "nazwa": "💾 Double Commander",                  "polecenia": [ "InstallDoubleCmd" ] },
     { "nazwa": "💾 7-zip",                             "polecenia": [ "Install7Zip" ] },
+    { "nazwa": "💾 LibreOffice.org",                   "polecenia": [ "InstallLibreOffice" ]},
     { "nazwa": "Zdalna pomoc" },
     { "nazwa": "📦 TeamViewerQS (kopiuj na pulpit)",          "polecenia": [ "InstallTeamViewerQS" ] },
     { "nazwa": "💾 TeamViewer Host (instaluj)",        "polecenia": [ "InstallTeamViewerHost" ] },
@@ -35,7 +36,9 @@ $jsonContent = @"
     { "nazwa": "📦 Elzab Eureka",                      "polecenia": [ "InstallElzabEureka" ] },
     { "nazwa": "📦 Elzab Stampa",                      "polecenia": [ "InstallElzabStampa" ] },
     { "nazwa": "📦 Elzab - programy  komunikacyjne",   "polecenia": [ "InstallElzabWinexe" ] },
-        { "nazwa": "Silnik bazy danych SQL" },
+    { "nazwa": "📦 Sterowniki do urządzeń",            "polecenia": [ "InstallDrivers" ], "opis": "Wszystkie sterowniki z https://pajcomp.pl/pub/?dir=Sterowniki" },
+
+    { "nazwa": "Silnik bazy danych SQL" },
     { "nazwa": "💾 MS SQL 2022 Express",               "polecenia": [ "InstallSql2022" ], 
     "opis": "Pobieranie i instalacja SQL Server Express z włączonym TCP, logowaniem SQL, hasło sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to końcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
     
@@ -126,6 +129,19 @@ function InstallDoubleCmd {
     
     CreateDesktopShortcut -ShortcutName "Double Commander" -File "C:\Program Files\Double Commander\doublecmd.exe"
 }
+
+function InstallLibreOffice {
+    $DownloadUri = "https://download.documentfoundation.org/libreoffice/stable/"
+    $r = Invoke-WebRequest -Uri "$DownloadUri/"
+    $versions = ($r.Links | Where-Object { $_.href -match "(\d{2}\.\d+\.\d+\/)" }).href -replace "/", ""
+    $Version = $versions | Sort-Object -Descending | Select-Object -First 1
+    $uri = $($DownloadUri + $Version + "/win/x86_64/") + (Invoke-WebRequest -UseBasicParsing -Uri $($DownloadUri + $Version + "/win/x86_64/") | Select-Object -ExpandProperty Links | Where-Object {($_.href -like '*_x86-64.msi')} | Select-Object -First 1 | Select-Object -ExpandProperty href)
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -Uri $uri -OutFile $installerPath 
+    Start-Process -Wait -FilePath $installerPath -ArgumentList "/passive ProductLanguage=1045"
+    Remove-Item $installerPath
+}
+
 
 function InstallTeamViewerQS {
     $uri = "https://www.pajcomp.pl/pub/TeamViewer/TeamViewerQS_paj24.exe"
@@ -319,6 +335,19 @@ function InstallElzabWinexe {
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/winexe.zip" -OutFile "$installPath\winexe.zip"
     Expand-Archive "$installPath\winexe.zip" -DestinationPath "$installPath\Elzab-winexe"
 }
+
+function InstallDrivers {
+    $uri = "https://www.pajcomp.pl/pub/?zip=Sterowniki"
+    $installerPath = Join-Path $env:TEMP "Sterowniki.zip"
+
+    Invoke-WebRequest $uri -OutFile $installerPath
+    
+    New-Item -Path "$installPath\Sterowniki\" -ItemType Directory -Force | Out-Null
+    Expand-Archive $installerPath -DestinationPath "$installPath\Sterowniki\"
+    Remove-Item $installerPath
+}
+
+
 
 function InstallAdminSql {
     New-Item -Path "$installPath\AdminSQL\" -ItemType Directory -Force | Out-Null
