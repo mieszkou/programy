@@ -356,6 +356,7 @@ function InstallElzabEureka {
 # dla Windows XP/2000/VISTA/7/8/8.1/10
 # Program przeznaczony jest do obsługi drukarek fiskalnych Zeta,D10,MERA, nowszych w tym ONLINE
 # .net 4.5
+
 function InstallElzabStampa {
     New-Item -Path "$installPath\Elzab-Stampa\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/stampa.zip" -OutFile "$installPath\stampa.zip"
@@ -377,12 +378,27 @@ function InstallElzabWinexe {
 function InstallDrivers {
     $uri = "https://www.pajcomp.pl/pub/?zip=Sterowniki"
     $installerPath = Join-Path $env:TEMP "Sterowniki.zip"
+    $destinationPath = "$installPath\Sterowniki\"
 
     Invoke-WebRequest $uri -OutFile $installerPath
     
-    New-Item -Path "$installPath\Sterowniki\" -ItemType Directory -Force | Out-Null
-    Expand-Archive $installerPath -DestinationPath "$installPath\Sterowniki\"
+    New-Item -Path $destinationPath -ItemType Directory -Force | Out-Null
+    Expand-Archive $installerPath -DestinationPath $destinationPath
     Remove-Item $installerPath
+
+    # Pobranie listy plików zip
+    $plikiZip = Get-ChildItem -Path $destinationPath -File -Recurse | Where-Object { ($_.Name -like "*.zip") -OR ( $_.Name -like "*.exe") }
+
+    # Dla każdego pliku zip
+    foreach ($plik in $plikiZip) {
+    try {
+        $nazwaKatalogu = $plik.BaseName
+        Expand-Archive -Path $plik.FullName -DestinationPath "$($plik.DirectoryName)\$nazwaKatalogu" -Force
+    } catch {
+        
+    }
+    
+
 }
 
 
