@@ -1,8 +1,16 @@
-# Nowa werska z GUI
+# Nowa wersja z GUI
 
 Uruchomienie `iex(irm i.paj24.pl)`
 
 Działanie: https://streamable.com/eonbu4
+
+# TODO
+
+- [ ] Dodać LibreOffice
+- [ ] Dodać tapety
+- [ ] Dodać winbox
+- [ ] Dodać prog. diagnostyczne
+- [x] Dodać TaskSchedulerView 
 
 # Wprowadzenie
 

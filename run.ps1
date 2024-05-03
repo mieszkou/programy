@@ -29,6 +29,8 @@ $jsonContent = @"
     { "nazwa": "📦 WirelessNetView",                   "polecenia": [ "InstallWirelessNetView" ] },
     { "nazwa": "📦☠️ Mail PassView (AV!)",               "polecenia": [ "InstallMailPassView" ] },
     { "nazwa": "📦☠️ Network Password Recovery (AV!)",   "polecenia": [ "InstallNetworkPasswordRecovery" ] },
+    { "nazwa": "📦 TaskSchedulerView ",                   "polecenia": [ "InstallTaskSchedulerView " ] },
+
 
     { "nazwa": "Do urządzeń fiskalnych" },
     { "nazwa": "📦 Posnet NPS",                        "polecenia": [ "InstallPosnetNps" ] },
@@ -198,17 +200,43 @@ function InstallSysInternals {
 }
 
 function InstallBginfo {
-    InstallSysInternals -fileName "Bginfo" 
+    $fileName = "Bginfo"
+    InstallSysInternals -fileName $fileName
     CreateDesktopShortcut -ShortcutName $fileName -File "$installPath\Sysinternals\Bginfo.exe" -Arguments  "$installPath\Sysinternals\bginfo.bgi /timer:0 /nolicprompt"
+    CreateDesktopShortcut -ShortcutName "$fileName - edytuj info" -File "$installPath\Sysinternals\bginfo.txt"
 
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/BgInfo/bginfo.bgi" -OutFile "$installPath\Sysinternals\bginfo.bgi"
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/BgInfo/bginfo.txt" -OutFile "$installPath\Sysinternals\bginfo.txt"
+    
     $WshShell = New-Object -ComObject WScript.Shell
     
     $shortcut = $WshShell.CreateShortcut("$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\BgInfo.lnk")
     $shortcut.Arguments = "$installPath\Sysinternals\bginfo.bgi /timer:0 /nolicprompt"
     $shortcut.TargetPath = "$installPath\Sysinternals\Bginfo.exe"
     $shortcut.Save()
+
+    # Wczytaj plik binarny
+    $file = "$installPath\Sysinternals\bginfo.bgi"
+    $filenew = $file
+    $newpath = $installPath
+
+
+    try {
+        # Wczytaj plik binarny jako bajty
+        $bytes = [System.IO.File]::ReadAllBytes($file)
+    
+        $endIndex = 0x0502
+        $startIndex = 0x50C
+        $newPathBytes = [System.Text.Encoding]::UTF8.GetBytes($newpath)
+        $bytes[0x04fd] = ("$installPath\Sysinternals\bginfo.txt").Length+2
+        $newBytes = $bytes[0..($endIndex-1)] + $newPathBytes + $bytes[($startIndex+1)..($bytes.Length - 1)]
+        
+    
+        [System.IO.File]::WriteAllBytes($filenew, $newBytes)
+    
+    } catch {
+        Write-Host "Wystąpił błąd: $_"
+    }
     Invoke-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\BgInfo.lnk"
 }
 
@@ -289,7 +317,17 @@ function InstallNetworkPasswordRecovery {
     Remove-Item $installerPath
 }
 
-
+function InstallTaskSchedulerView {
+    $uri = "https://www.nirsoft.net/utils/taskschedulerview-x64.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/task_scheduler_view.html"}
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Invoke-WebRequest $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "TaskSchedulerView " -File "$installPath\Nirsoft\TaskSchedulerView.exe"
+    Remove-Item $installerPath
+}
 
 function InstallPosnetNps {
     Invoke-WebRequest -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-NPS/NPS.ZIP" -OutFile "$installPath\NPS.zip"
@@ -458,7 +496,9 @@ $json = ConvertFrom-Json $jsonContent
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="runApp"
         Title="PAJ-COMP - Instalator aplikacji" Height="650" Width="750"
-        MinWidth="750" MinHeight="660" MaxWidth="900" MaxHeight="750" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip">
+        MinWidth="750" MinHeight="660" MaxWidth="900" MaxHeight="750" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        Topmost="True"
+        >
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
         <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
 
