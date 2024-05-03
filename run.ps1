@@ -4,25 +4,25 @@ $jsonContent = @"
 [   
     { "nazwa": "Podstawowe" },
     { "nazwa": "💾 Notepad 3",                         "polecenia": [ "InstallNotepad3" ] },
-    { "nazwa": "💾 Double Commander",                  "polecenia": [ "InstallDoubleCmd" ] },
+    { "nazwa": "💾😎 Double Commander",                  "polecenia": [ "InstallDoubleCmd" ] },
     { "nazwa": "💾 7-zip",                             "polecenia": [ "Install7Zip" ] },
     { "nazwa": "💾 LibreOffice.org",                   "polecenia": [ "InstallLibreOffice" ]},
     { "nazwa": "Zdalna pomoc" },
     { "nazwa": "📦 TeamViewerQS (kopiuj na pulpit)",          "polecenia": [ "InstallTeamViewerQS" ] },
-    { "nazwa": "💾 TeamViewer Host (instaluj)",        "polecenia": [ "InstallTeamViewerHost" ] },
+    { "nazwa": "💾😎 TeamViewer Host (instaluj)",        "polecenia": [ "InstallTeamViewerHost" ] },
     { "nazwa": "Narzędzia SQL" },
     { "nazwa": "📦 AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
     { "nazwa": "💾 HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
     { "nazwa": "💾 SQL Server Management Studio",      "polecenia": [ "InstallSSMS" ] },
     { "nazwa": "Systemowe" },
     { "nazwa": "💾 PowerShell 7",                      "polecenia": [ "InstallPowerShell7" ] },
-    { "nazwa": "📦 Bginfo",                            "polecenia": [ "InstallBginfo" ] },
+    { "nazwa": "📦😎 Bginfo",                            "polecenia": [ "InstallBginfo" ] },
     { "nazwa": "📦 Process Monitor",                   "polecenia": [ "InstallSysInternals -fileName 'Procmon'" ] },
     { "nazwa": "📦 Process Explorer",                  "polecenia": [ "InstallSysInternals -fileName 'procexp'" ] },
     { "nazwa": "📦 Autologon",                         "polecenia": [ "InstallSysInternals -fileName 'Autologon'" ] },
     { "nazwa": "📦 Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
     { "nazwa": "📦 ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
-    { "nazwa": "📦 Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] },
+    { "nazwa": "📦😎 Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] },
     { "nazwa": "Nirsoft" },
     { "nazwa": "📦☠️ WirelessKeyView",             "polecenia": [ "InstallWirelessKeyView" ] },
     { "nazwa": "📦 WirelessNetworkWatcher (Netscan)",  "polecenia": [ "InstallWirelessNetworkWatcher" ] },
@@ -41,12 +41,12 @@ $jsonContent = @"
     { "nazwa": "📦 Sterowniki do urządzeń",            "polecenia": [ "InstallDrivers" ], "opis": "Wszystkie sterowniki z https://pajcomp.pl/pub/?dir=Sterowniki" },
 
     { "nazwa": "Silnik bazy danych SQL" },
-    { "nazwa": "💾 MS SQL 2022 Express",               "polecenia": [ "InstallSql2022" ], 
-    "opis": "Pobieranie i instalacja SQL Server Express z włączonym TCP, logowaniem SQL, hasło sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to końcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
+    { "nazwa": "💾😎🛠️ MS SQL 2022 Express",               "polecenia": [ "InstallSql2022" ], 
+    "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2022\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52022`\n- Otwarcie tego portu w firewall-u windows (!!)." },
     
-    { "nazwa": "💾 MS SQL 2019 Express",               "polecenia": [ "InstallSql2019" ], 
-    "opis": "Pobieranie i instalacja SQL Server Express z włączonym TCP, logowaniem SQL, hasło sa to `Wapro3000`. \nPort TCP jest ustawiany na `520xx` gdzie xx to końcówka wersji SQL (np dla 2022 jest 52022)\nOstatnie polecenie otwiera odpowiedni port w firewall-u windows." },
-
+    { "nazwa": "💾😎🛠️ MS SQL 2019 Express",               "polecenia": [ "InstallSql2019" ], 
+    "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2019\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52022`\n- Otwarcie tego portu w firewall-u windows (!!)." },
+    
     { "nazwa": "Programy" },
     { "nazwa": "💾 Insoft PCM",                        "polecenia": [ "InstallPcm" ] },
     { "nazwa": "💾 Insoft PC-POS",                     "polecenia": [ "InstallPcPos" ] },
@@ -518,7 +518,7 @@ $json = ConvertFrom-Json $jsonContent
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
         <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
 
-        <TextBox Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Height="100" MinHeight="100" MaxHeight="100" FontFamily="Consolas" FontSize="14" Focusable="False" IsTabStop="False" Padding="5,5,5,5"  AcceptsReturn="True" />
+        <TextBox Text="💾 - Pobiera instalator najnowszej wersji i go uruchamia&#x0a;📦 - Pobiera plik zip i jedynie rozpakowuje go w wybranym folderze&#x0a;😎 - Dodatkowe ustawienia aplikacji (info w opisie)&#x0a;🛠️ - Zmienia ustawienia systemu (!!)&#x0a;☠️ - Wymaga wyłączenia antywirusa (!!)&#x0a;" Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto" Height="100" MinHeight="100" MaxHeight="100" FontFamily="Consolas" FontSize="14" Focusable="False" IsTabStop="False" Padding="5,5,5,5"  AcceptsReturn="True" />
         <Grid Height="50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
