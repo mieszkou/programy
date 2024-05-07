@@ -30,7 +30,10 @@ $jsonContent = @"
     { "nazwa": "📦☠️ Mail PassView (AV!)",               "polecenia": [ "InstallMailPassView" ] },
     { "nazwa": "📦☠️ Network Password Recovery (AV!)",   "polecenia": [ "InstallNetworkPasswordRecovery" ] },
     { "nazwa": "📦 TaskSchedulerView ",                   "polecenia": [ "InstallTaskSchedulerView " ] },
+    { "nazwa": "📦 ProcessTCPSummary ",                   "polecenia": [ "InstallProcessTCPSummary " ] },
 
+
+    
 
     { "nazwa": "Do urządzeń fiskalnych" },
     { "nazwa": "📦 Posnet NPS",                        "polecenia": [ "InstallPosnetNps" ] },
@@ -328,6 +331,19 @@ function InstallTaskSchedulerView {
     CreateDesktopShortcut -ShortcutName "TaskSchedulerView " -File "$installPath\Nirsoft\TaskSchedulerView.exe"
     Remove-Item $installerPath
 }
+
+function InstallProcessTCPSummary {
+    $uri = "https://www.nirsoft.net/utils/processtcpsummary-x64.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/process_tcp_summary.html"}
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "ProcessTCPSummary " -File "$installPath\Nirsoft\ProcessTCPSummary.exe"
+    Remove-Item $installerPath
+}
+
 
 function InstallPosnetNps {
     Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-NPS/NPS.ZIP" -OutFile "$installPath\NPS.zip"
