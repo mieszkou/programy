@@ -53,7 +53,9 @@ $jsonContent = @"
     { "nazwa": "Programy" },
     { "nazwa": "💾 Insoft PCM",                        "polecenia": [ "InstallPcm" ] },
     { "nazwa": "💾 Insoft PC-POS",                     "polecenia": [ "InstallPcPos" ] },
-    { "nazwa": "💾 WAPRO (wszystkie, aktualizacja)",   "polecenia": [ "InstallWapro" ] }
+    { "nazwa": "💾 WAPRO (wszystkie, aktualizacja)",   "polecenia": [ "InstallWapro" ] },
+    { "nazwa": "Narzędzia" },
+    { "nazwa": "Winbox",                                "polecenia": [ "InstallWinbox" ] }
 ]
 "@
 
@@ -490,6 +492,15 @@ function InstallWapro {
     Start-Process -FilePath $installerPath -Verb RunAs -Wait
     # Remove-Item $installerPath    
 }
+
+function InstallWinbox {
+    $uri = "https://mt.lv/winbox64"
+    $installerPath = "$(Join-Path $installPath (Split-Path $uri -Leaf)).exe"
+    Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
+    CreateDesktopShortcut -ShortcutName "Winbox" -File $installerPath
+}
+
+
 
 
 # Funkcja do obsługi przycisku "Wykonaj"
