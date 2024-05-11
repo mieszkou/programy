@@ -422,10 +422,13 @@ function InstallDrivers {
 
 
 function InstallAdminSql {
-    New-Item -Path "$installPath\AdminSQL\" -ItemType Directory -Force | Out-Null
-    Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mieszkou/programy/raw/master/AdminSQL/AdminSQL.exe" -OutFile "$installPath\AdminSQL\AdminSQL.exe"
-    
+    $uri = "https://pajcomp.pl/pub/SQL-tools/AdminSQL.zip"
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+       
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\AdminSQL"
     CreateDesktopShortcut -ShortcutName "AdminSQL" -File "$installPath\AdminSQL\AdminSQL.exe"
+    Remove-Item $installerPath 
 }
 
 function InstallHeidiSql {
