@@ -8,6 +8,7 @@ $jsonContent = @"
     { "nazwa": "💾 7-zip",                             "polecenia": [ "Install7Zip" ] },
     { "nazwa": "💾 LibreOffice.org",                   "polecenia": [ "InstallLibreOffice" ]},
     { "nazwa": "Zdalna pomoc" },
+    { "nazwa": "📦 AnyDesk (kopiuj na pulpit)",          "polecenia": [ "InstallAnyDesk" ] },
     { "nazwa": "📦 TeamViewerQS (kopiuj na pulpit)",          "polecenia": [ "InstallTeamViewerQS" ] },
     { "nazwa": "💾😎 TeamViewer Host (instaluj)",        "polecenia": [ "InstallTeamViewerHost" ] },
     { "nazwa": "Narzędzia SQL" },
@@ -16,13 +17,13 @@ $jsonContent = @"
     { "nazwa": "💾 SQL Server Management Studio",      "polecenia": [ "InstallSSMS" ] },
     { "nazwa": "Systemowe" },
     { "nazwa": "💾 PowerShell 7",                      "polecenia": [ "InstallPowerShell7" ] },
+    { "nazwa": "SysInternals" },
     { "nazwa": "📦😎 Bginfo",                            "polecenia": [ "InstallBginfo" ] },
     { "nazwa": "📦 Process Monitor",                   "polecenia": [ "InstallSysInternals -fileName 'Procmon'" ] },
     { "nazwa": "📦 Process Explorer",                  "polecenia": [ "InstallSysInternals -fileName 'procexp'" ] },
     { "nazwa": "📦 Autologon",                         "polecenia": [ "InstallSysInternals -fileName 'Autologon'" ] },
     { "nazwa": "📦 Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
     { "nazwa": "📦 ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
-    { "nazwa": "📦😎 Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] },
     { "nazwa": "Nirsoft" },
     { "nazwa": "📦☠️ WirelessKeyView",             "polecenia": [ "InstallWirelessKeyView" ] },
     { "nazwa": "📦 WirelessNetworkWatcher (Netscan)",  "polecenia": [ "InstallWirelessNetworkWatcher" ] },
@@ -55,9 +56,16 @@ $jsonContent = @"
     { "nazwa": "💾 Insoft PC-POS",                     "polecenia": [ "InstallPcPos" ] },
     { "nazwa": "💾 WAPRO (wszystkie, aktualizacja)",   "polecenia": [ "InstallWapro" ] },
     { "nazwa": "Narzędzia" },
-    { "nazwa": "Winbox",                                "polecenia": [ "InstallWinbox" ] }
-]
+    { "nazwa": "Winbox",                                "polecenia": [ "InstallWinbox" ] },
+    { "nazwa": "📦😎 Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] }
+    ]
 "@
+
+
+# CPU-Z
+# https://www.cpuid.com/softwares/cpu-z.html
+
+
 
 # Funkcja do zapisu komunikatu do pliku logu
 function Write-Log { 
@@ -147,6 +155,16 @@ function InstallLibreOffice {
     Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath 
     Start-Process -Wait -FilePath $installerPath -ArgumentList "/passive ProductLanguage=1045"
     Remove-Item $installerPath
+}
+
+function InstallAnyDesk {
+    $uri = "https://download.anydesk.com/AnyDesk.exe"
+    
+    try {
+        Invoke-WebRequest -UseBasicParsing $uri -OutFile "$([Environment]::GetFolderPath('CommonDesktopDirectory'))\AnyDesk.exe"
+    } Catch {
+        Invoke-WebRequest -UseBasicParsing $uri -OutFile "$([Environment]::GetFolderPath('DesktopDirectory'))\AnyDesk.exe"
+    }
 }
 
 
