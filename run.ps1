@@ -470,7 +470,7 @@ function InstallSQLBackupMaster {
     $uri = "https://www.sqlbackupmaster.com/Content/download/sbm-setup.exe"
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
-    Start-Process -FilePath $installerPath -Args "" -Verb RunAs -Wait
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait
 }
 
 
