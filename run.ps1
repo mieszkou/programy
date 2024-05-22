@@ -15,6 +15,7 @@ $jsonContent = @"
     { "nazwa": "📦 AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
     { "nazwa": "💾 HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
     { "nazwa": "💾 SQL Server Management Studio",      "polecenia": [ "InstallSSMS" ] },
+    { "nazwa": "💾 SQL Backup Master",                  "polecenia": [ "InstallSQLBackupMaster" ] },
     { "nazwa": "Systemowe" },
     { "nazwa": "💾 PowerShell 7",                      "polecenia": [ "InstallPowerShell7" ] },
     { "nazwa": "SysInternals" },
@@ -464,6 +465,16 @@ function InstallSSMS {
     Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile "$($env:TEMP)\ssmsfullsetup.exe"
     Start-Process -FilePath "$($env:TEMP)\ssmsfullsetup.exe" -Args "/passive" -Verb RunAs -Wait
 }
+
+function InstallSQLBackupMaster {
+    $uri = "https://www.sqlbackupmaster.com/Content/download/sbm-setup.exe"
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Start-Process -FilePath $installerPath -Args "" -Verb RunAs -Wait
+}
+
+
+
 
 
 function InstallSql2022 {
