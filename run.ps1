@@ -1,5 +1,23 @@
 $installPath = "C:\Serwis"
 
+# Disk2vhd
+# TODO: do zmiany link (pobiera 32bit wersję która nie działa na 64bit systemach
+# https://download.sysinternals.com/files/Disk2vhd.zip
+
+# Diagnostyka
+# =========================================
+# CPU-Z
+# https://www.cpuid.com/downloads/cpu-z/cpu-z_2.09-en.zip
+# 
+# HDSentinel
+# https://www.harddisksentinel.com/hdsentinel_pro_portable.zip
+#
+# OCCT
+# https://www.ocbase.com/download/edition:Personal -> occt.exe
+
+# MiniTool Partition Wizard
+# https://cdn2.minitool.com/?p=pw&e=pw-free
+
 $jsonContent = @"
 [   
     { "nazwa": "Podstawowe" },
@@ -52,7 +70,10 @@ $jsonContent = @"
     "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2022\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52022`\n- Otwarcie tego portu w firewall-u windows (!!)." },
     
     { "nazwa": "💾😎🛠️ MS SQL 2019 Express",               "polecenia": [ "InstallSql2019" ], 
-    "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2019\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52022`\n- Otwarcie tego portu w firewall-u windows (!!)." },
+    "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2019\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52019`\n- Otwarcie tego portu w firewall-u windows (!!)." },
+
+    { "nazwa": "💾😎🛠️ MS SQL 2017 Express",               "polecenia": [ "InstallSql2017" ], 
+    "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2017\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52017`\n- Otwarcie tego portu w firewall-u windows (!!)." },
     
     { "nazwa": "Programy" },
     { "nazwa": "💾 Insoft PCM",                        "polecenia": [ "InstallPcm" ] },
@@ -496,6 +517,16 @@ function InstallSql2019 {
     Start-Process -Wait -FilePath "$($env:TEMP)\sql$($sqlver)\SQLEXPR_x64_ENU.exe" -ArgumentList "/QS /IACCEPTSQLSERVERLICENSETERMS /ACTION=""install"" /FEATURES=SQL /INSTANCENAME=SQL$($sqlver) /SECURITYMODE=SQL /SAPWD=Wapro3000 /TCPENABLED=1"
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql15.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name TcpDynamicPorts -Value ''
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql15.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name tcpport -Value "5$($sqlver)"
+    New-NetFirewallRule -DisplayName "SQL$($sqlver)" -Profile Any -Direction Inbound -Action Allow -Protocol TCP -LocalPort "5$($sqlver)"
+}
+
+function InstallSql2017 {
+    $sqlver=2017
+    New-Item -Path "$($env:TEMP)\sql$($sqlver)" -ItemType Directory -Force | Out-Null
+    Invoke-WebRequest -UseBasicParsing -Uri "https://pajcomp.pl/pub/MSSQL/sql$($sqlver)/SQLEXPR_x64_ENU.exe" -OutFile "$($env:TEMP)\sql$($sqlver)\SQLEXPR_x64_ENU.exe"
+    Start-Process -Wait -FilePath "$($env:TEMP)\sql$($sqlver)\SQLEXPR_x64_ENU.exe" -ArgumentList "/QS /IACCEPTSQLSERVERLICENSETERMS /ACTION=""install"" /FEATURES=SQL /INSTANCENAME=SQL$($sqlver) /SECURITYMODE=SQL /SAPWD=Wapro3000 /TCPENABLED=1"
+    Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql14.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name TcpDynamicPorts -Value ''
+    Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql14.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name tcpport -Value "5$($sqlver)"
     New-NetFirewallRule -DisplayName "SQL$($sqlver)" -Profile Any -Direction Inbound -Action Allow -Protocol TCP -LocalPort "5$($sqlver)"
 }
 
