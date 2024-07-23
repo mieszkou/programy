@@ -4,22 +4,23 @@ $installPath = "C:\Serwis"
 # TODO: do zmiany link (pobiera 32bit wersję która nie działa na 64bit systemach
 # https://download.sysinternals.com/files/Disk2vhd.zip
 
-# Diagnostyka
-# =========================================
-# CPU-Z
-# https://www.cpuid.com/downloads/cpu-z/cpu-z_2.09-en.zip
-# 
-# HDSentinel
-# https://www.harddisksentinel.com/hdsentinel_pro_portable.zip
-#
-# OCCT
-# https://www.ocbase.com/download/edition:Personal -> occt.exe
-
-# MiniTool Partition Wizard
-# https://cdn2.minitool.com/?p=pw&e=pw-free
-
 $jsonContent = @"
-[   
+[  
+
+    { "nazwa": "Diagnostyczne" },
+    { "nazwa": "💾 CPU-Z 2.10", "polecenia": [ "InstallCpuZ" ] },
+    { "nazwa": "💾 Crystal DiskInfo 9.3.2", "polecenia": [ "InstallCrystalDiskInfo" ] },
+    { "nazwa": "💾 Crystal DiskMark", "polecenia": [ "InstallCrystalDiskMark" ] },
+    { "nazwa": "📦 Disk Genius", "polecenia": [ "InstallDiskGenius" ] },
+    { "nazwa": "💾 HD Sentinel", "polecenia": [ "InstallHDSentinel" ] },
+    { "nazwa": "💾 hwiNFO", "polecenia": [ "InstallHwinfo" ] },
+    { "nazwa": "💾 HWMonitor PRO", "polecenia": [ "InstallHwmonitor" ] },
+    { "nazwa": "📦 miniTool Partition Wizard", "polecenia": [ "InstallMiniTool" ] },
+    { "nazwa": "💾 OCCT", "polecenia": [ "InstallOcct" ] },
+    { "nazwa": "💾 SSD-Z", "polecenia": [ "InstallSsdZ" ] },
+    { "nazwa": "💾 Throttle Stop", "polecenia": [ "InstallThrottleStop" ] },
+
+
     { "nazwa": "Podstawowe" },
     { "nazwa": "💾 Notepad 3",                         "polecenia": [ "InstallNotepad3" ] },
     { "nazwa": "💾😎 Double Commander",                  "polecenia": [ "InstallDoubleCmd" ] },
@@ -40,7 +41,7 @@ $jsonContent = @"
     { "nazwa": "📦😎 Bginfo",                            "polecenia": [ "InstallBginfo" ] },
     { "nazwa": "📦 Autologon",                         "polecenia": [ "InstallSysInternals -fileName 'Autologon'" ] },
     { "nazwa": "📦 Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
-    { "nazwa": "📦 Disk2vhd",                          "polecenia": [ "InstallSysInternals -fileName 'disk2vhd'" ] },
+    { "nazwa": "📦 Disk2vhd",                          "polecenia": [ "InstallDisk2vhd" ] },
     { "nazwa": "📦 Process Explorer",                  "polecenia": [ "InstallSysInternals -fileName 'procexp'" ] },
     { "nazwa": "📦 Process Monitor",                   "polecenia": [ "InstallSysInternals -fileName 'Procmon'" ] },
     { "nazwa": "📦 Tcpview",                           "polecenia": [ "InstallSysInternals -fileName 'Tcpview'" ] },
@@ -80,15 +81,11 @@ $jsonContent = @"
     { "nazwa": "💾 Insoft PC-POS",                     "polecenia": [ "InstallPcPos" ] },
     { "nazwa": "💾 WAPRO (wszystkie, aktualizacja)",   "polecenia": [ "InstallWapro" ] },
     { "nazwa": "Narzędzia" },
-    { "nazwa": "Winbox",                                "polecenia": [ "InstallWinbox" ] },
+    { "nazwa": "💾 Putty",                                "polecenia": [ "InstallPutty" ] },
+    { "nazwa": "💾 Winbox",                                "polecenia": [ "InstallWinbox" ] },
     { "nazwa": "📦😎 Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] }
     ]
 "@
-
-
-# CPU-Z
-# https://www.cpuid.com/softwares/cpu-z.html
-
 
 
 # Funkcja do zapisu komunikatu do pliku logu
@@ -137,6 +134,121 @@ function CreateDesktopShortcut {
     }   
     
 }
+
+function InstallCpuZ {
+        $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/cpu-z_2.10-en.zip"
+
+        $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+        Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+        Expand-Archive $installerPath -DestinationPath "$installPath\Diag\CPU-Z\" -Force
+        CreateDesktopShortcut -ShortcutName "CPU-Z x64" -File "$installPath\Diag\CPU-Z\cpuz_x64.exe"
+        CreateDesktopShortcut -ShortcutName "CPU-Z x32" -File "$installPath\Diag\CPU-Z\cpuz_x32.exe"
+        Remove-Item $installerPath 
+}
+
+function InstallCrystalDiskInfo {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/crystalDiskInfo_9_3_2.zip"
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\Diag\DiskInfo\" -Force
+    CreateDesktopShortcut -ShortcutName "Crystal DiskInfo x64" -File "$installPath\Diag\DiskInfo\DiskInfo64.exe"
+    CreateDesktopShortcut -ShortcutName "Crystal DiskInfo x32" -File "$installPath\Diag\DiskInfo\DiskInfo32.exe"
+    Remove-Item $installerPath 
+}
+
+
+function InstallCrystalDiskMark {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/crystalDiskMark.zip"
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\Diag\DiskMark\" -Force
+    CreateDesktopShortcut -ShortcutName "Crystal DiskMark x64" -File "$installPath\Diag\DiskMark\DiskMark64.exe"
+    CreateDesktopShortcut -ShortcutName "Crystal DiskMark x32" -File "$installPath\Diag\DiskMark\DiskMark32.exe"
+    Remove-Item $installerPath 
+}
+
+
+function InstallDiskGenius {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/diskgenius_DGEngSetup5601565.exe"
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/SILENT"
+    Remove-Item $installerPath    
+}
+
+function InstallHDSentinel {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/hdsentinel_pro_portable.zip"
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\Diag\HDSentinel\" -Force
+    CreateDesktopShortcut -ShortcutName "HDSentinel" -File "$installPath\Diag\HDSentinel\HDSentinel.exe"
+    Remove-Item $installerPath 
+}
+
+function InstallHwinfo {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/hwiNFO_hwi_806.zip"
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\Diag\HWiNFO\" -Force
+    CreateDesktopShortcut -ShortcutName "HWiNFO x64" -File "$installPath\Diag\HWiNFO\HWiNFO64.exe"
+    CreateDesktopShortcut -ShortcutName "HWiNFO x32" -File "$installPath\Diag\HWiNFO\HWiNFO32.exe"
+    Remove-Item $installerPath 
+}
+
+function InstallHwmonitor {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/hwmonitor-pro_1.53.zip"
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\Diag\HWMonitorPro\" -Force
+    CreateDesktopShortcut -ShortcutName "HWMonitorPro x64" -File "$installPath\Diag\HWMonitorPro\HWMonitorPro_x64.exe"
+    CreateDesktopShortcut -ShortcutName "HWMonitorPro x32" -File "$installPath\Diag\HWMonitorPro\HWMonitorPro_x32.exe"
+    Remove-Item $installerPath 
+}
+
+function InstallMiniTool {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/miniTool_Partition_Wizard_pw-free-online.exe"
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/SILENT"
+    Remove-Item $installerPath    
+}
+
+function InstallOcct {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/occt.exe"
+
+    $installerPath = Join-Path "$installPath\Diag\OCCT\" (Split-Path $uri -Leaf)
+    New-Item -Path "$installPath\Diag\OCCT\" -ItemType Directory -Force | Out-Null
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    CreateDesktopShortcut -ShortcutName "OCCT" -File "$installPath\Diag\OCCT\occt.exe"
+}
+
+
+function InstallSsdZ {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/ssd-z_16.09.09wip.zip"
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\Diag\SSD-Z\" -Force
+    CreateDesktopShortcut -ShortcutName "SSD-Z" -File "$installPath\Diag\SSD-Z\SSD-Z.exe"
+    Remove-Item $installerPath 
+}
+
+function InstallThrottleStop {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/throttleStop_9.6.zip"
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\Diag\ThrottleStop\" -Force
+    CreateDesktopShortcut -ShortcutName "ThrottleStop" -File "$installPath\Diag\ThrottleStop\ThrottleStop.exe"
+    Remove-Item $installerPath 
+}
+
+
 
 function InstallNotepad3 {
     $uri = Invoke-RestMethod -uri  https://api.github.com/repos/rizonesoft/Notepad3/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("x64_Setup.exe")} | Select-Object -ExpandProperty browser_download_url
@@ -244,6 +356,17 @@ function InstallSysInternals {
     Invoke-WebRequest -UseBasicParsing -Uri "https://live.sysinternals.com/$fileName.exe" -OutFile "$installPath\Sysinternals\$fileName.exe"
     
     CreateDesktopShortcut -ShortcutName $fileName -File "$installPath\Sysinternals\$fileName.exe"
+}
+
+function InstallDisk2vhd {
+    $uri = "https://download.sysinternals.com/files/Disk2vhd.zip"
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\Sysinternals\Disk2vhd\" -Force
+    CreateDesktopShortcut -ShortcutName "Disk2vhd x64" -File "$installPath\Sysinternals\Disk2vhd\disk2vhd64.exe"
+    CreateDesktopShortcut -ShortcutName "Disk2vhd x32" -File "$installPath\Sysinternals\Disk2vhd\disk2vhd.exe"
+    Remove-Item $installerPath 
 }
 
 function InstallBginfo {
@@ -391,7 +514,7 @@ function InstallProcessTCPSummary {
 
 function InstallPosnetNps {
     Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-NPS/NPS.ZIP" -OutFile "$installPath\NPS.zip"
-    Expand-Archive "$installPath\NPS.zip" -DestinationPath "$installPath"
+    Expand-Archive "$installPath\NPS.zip" -DestinationPath "$installPath" -Force
     Rename-Item "$installPath\NPS" "Posnet-NPS"
 
     CreateDesktopShortcut -ShortcutName "PosnetNPS" -File "$installPath\Posnet-NPS\NPS.exe"
@@ -408,7 +531,7 @@ function InstallPosnetOps {
 function InstallElzabEureka {
     New-Item -Path "$installPath\Elzab-Eureka\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/eureka.zip" -OutFile "$installPath\eureka.zip"
-    Expand-Archive "$installPath\eureka.zip" -DestinationPath "$installPath\Elzab-Eureka"
+    Expand-Archive "$installPath\eureka.zip" -DestinationPath "$installPath\Elzab-Eureka" -Force
 
     CreateDesktopShortcut -ShortcutName "ELZAB Eureka" -File "$installPath\Elzab-Eureka\bez instalatora\Eureka!.exe"
 }
@@ -420,7 +543,7 @@ function InstallElzabEureka {
 function InstallElzabStampa {
     New-Item -Path "$installPath\Elzab-Stampa\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/stampa.zip" -OutFile "$installPath\stampa.zip"
-    Expand-Archive "$installPath\stampa.zip" -DestinationPath "$installPath\Elzab-Stampa"
+    Expand-Archive "$installPath\stampa.zip" -DestinationPath "$installPath\Elzab-Stampa" -Force
 
     CreateDesktopShortcut -ShortcutName "ELZAB Stampa" -File "$installPath\Elzab-Stampa\bez instalatora\Stampa.exe"
 }
@@ -432,7 +555,7 @@ function InstallElzabStampa {
 function InstallElzabWinexe {
     New-Item -Path "$installPath\Elzab-winexe\" -ItemType Directory -Force | Out-Null
     Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mieszkou/programy/raw/master/Elzab/winexe.zip" -OutFile "$installPath\winexe.zip"
-    Expand-Archive "$installPath\winexe.zip" -DestinationPath "$installPath\Elzab-winexe"
+    Expand-Archive "$installPath\winexe.zip" -DestinationPath "$installPath\Elzab-winexe" -Force
 }
 
 function InstallDrivers {
@@ -470,7 +593,7 @@ function InstallAdminSql {
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
        
     Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
-    Expand-Archive $installerPath -DestinationPath "$installPath\AdminSQL"
+    Expand-Archive $installerPath -DestinationPath "$installPath\AdminSQL" -Force
     CreateDesktopShortcut -ShortcutName "AdminSQL" -File "$installPath\AdminSQL\AdminSQL.exe"
     Remove-Item $installerPath 
 }
@@ -555,6 +678,17 @@ function InstallWapro {
     # Remove-Item $installerPath    
 }
 
+
+
+
+function InstallPutty {
+    $uri = "https://the.earth.li/~sgtatham/putty/latest/w64/putty.exe"
+    $installerPath = "$(Join-Path $installPath (Split-Path $uri -Leaf))"
+    Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
+    CreateDesktopShortcut -ShortcutName "Putty" -File $installerPath
+}
+
+
 function InstallWinbox {
     $uri = "https://mt.lv/winbox64"
     $installerPath = "$(Join-Path $installPath (Split-Path $uri -Leaf)).exe"
@@ -606,7 +740,7 @@ $json = ConvertFrom-Json $jsonContent
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="runApp"
         Title="PAJ-COMP - Instalator aplikacji" Height="650" Width="750"
-        MinWidth="750" MinHeight="660" MaxWidth="900" MaxHeight="750" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
+        MinWidth="750" MinHeight="660" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
         >
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
         <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
@@ -636,8 +770,8 @@ $checkboxGrid = $window.FindName("checkboxGrid")
 $checkboxes = @()
 
 # Oblicz liczbę wierszy i kolumn na podstawie liczby checkboxów
-$numberOfRows = [math]::Ceiling($json.Count / 3)
-$numberOfColumns = 3
+$numberOfRows = [math]::Ceiling($json.Count / 4)
+$numberOfColumns = 4
 
 # Dodajemy kolumny do siatki
 for ($i = 0; $i -lt $numberOfColumns; $i++) {
