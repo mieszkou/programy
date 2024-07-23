@@ -77,13 +77,15 @@ $jsonContent = @"
     "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2017\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52017`\n- Otwarcie tego portu w firewall-u windows (!!)." },
     
     { "nazwa": "Programy" },
-    { "nazwa": "💾 Insoft PCM",                        "polecenia": [ "InstallPcm" ] },
-    { "nazwa": "💾 Insoft PC-POS",                     "polecenia": [ "InstallPcPos" ] },
-    { "nazwa": "💾 WAPRO (wszystkie, aktualizacja)",   "polecenia": [ "InstallWapro" ] },
+    { "nazwa": "💾 Insoft PCM", "polecenia": [ "InstallPcm" ] },
+    { "nazwa": "💾 Insoft PC-POS", "polecenia": [ "InstallPcPos" ] },
+    { "nazwa": "💾 WAPRO (wszystkie, aktualizacja)", "polecenia": [ "InstallWapro" ] },
+
     { "nazwa": "Narzędzia" },
-    { "nazwa": "💾 Putty",                                "polecenia": [ "InstallPutty" ] },
-    { "nazwa": "💾 Winbox",                                "polecenia": [ "InstallWinbox" ] },
-    { "nazwa": "📦😎 Key-n-Stroke",                      "polecenia": [ "InstallKeyNStroke" ] }
+    { "nazwa": "💾 Netscan", "polecenia": [ "InstallNetscan" ] },
+    { "nazwa": "💾 Putty", "polecenia": [ "InstallPutty" ] },
+    { "nazwa": "💾 Winbox", "polecenia": [ "InstallWinbox" ] },
+    { "nazwa": "📦😎 Key-n-Stroke", "polecenia": [ "InstallKeyNStroke" ] }
     ]
 "@
 
@@ -679,6 +681,13 @@ function InstallWapro {
 }
 
 
+function InstallNetscan {
+    $uri = "https://www.pajcomp.pl/pub/!Misc/netscan.exe"
+    $installerPath = "$(Join-Path $installPath (Split-Path $uri -Leaf))"
+    Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
+    CreateDesktopShortcut -ShortcutName "Netscan" -File $installerPath
+}
+
 
 
 function InstallPutty {
@@ -739,7 +748,7 @@ $json = ConvertFrom-Json $jsonContent
 [xml]$XAML = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="runApp"
-        Title="PAJ-COMP - Instalator aplikacji" Height="650" Width="750"
+        Title="PAJ-COMP - Instalator aplikacji" Height="740" Width="970"
         MinWidth="750" MinHeight="660" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
         >
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
