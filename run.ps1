@@ -220,7 +220,7 @@ function InstallMiniTool {
     $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
     Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Verb RunAs -ArgumentList "/SILENT /SP-"
-    # Remove-Item $installerPath    
+    # Remove-Item $installerPath
 }
 
 function InstallOcct {
