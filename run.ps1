@@ -213,11 +213,14 @@ function InstallHwmonitor {
 }
 
 function InstallMiniTool {
+    # instalator uruchamia się bez -Wait i nie jest kasowany
+    # po instalacji uruchamia kilka procesów i zatrzymuje instalację kolejnych aplikacji
+
     $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/miniTool_Partition_Wizard_pw-free-online.exe"
     $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
     Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Verb RunAs -ArgumentList "/SILENT /SP-"
-    Remove-Item $installerPath    
+    # Remove-Item $installerPath    
 }
 
 function InstallOcct {
