@@ -636,6 +636,8 @@ function InstallSql2022 {
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql16.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name TcpDynamicPorts -Value ''
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql16.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name tcpport -Value "5$($sqlver)"
     New-NetFirewallRule -DisplayName "SQL$($sqlver)" -Profile Any -Direction Inbound -Action Allow -Protocol TCP -LocalPort "5$($sqlver)"
+    net stop MSSQL`$SQL$sqlver
+    net start MSSQL`$SQL$sqlver
 }
 
 function InstallSql2019 {
@@ -646,6 +648,8 @@ function InstallSql2019 {
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql15.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name TcpDynamicPorts -Value ''
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql15.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name tcpport -Value "5$($sqlver)"
     New-NetFirewallRule -DisplayName "SQL$($sqlver)" -Profile Any -Direction Inbound -Action Allow -Protocol TCP -LocalPort "5$($sqlver)"
+    net stop MSSQL`$SQL$sqlver
+    net start MSSQL`$SQL$sqlver
 }
 
 function InstallSql2017 {
@@ -656,6 +660,8 @@ function InstallSql2017 {
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql14.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name TcpDynamicPorts -Value ''
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql14.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name tcpport -Value "5$($sqlver)"
     New-NetFirewallRule -DisplayName "SQL$($sqlver)" -Profile Any -Direction Inbound -Action Allow -Protocol TCP -LocalPort "5$($sqlver)"
+    net stop MSSQL`$SQL$sqlver
+    net start MSSQL`$SQL$sqlver
 }
 
 
