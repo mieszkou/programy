@@ -669,7 +669,7 @@ function InstallPcm {
     $uri = "https://pobierz.insoft.com.pl/PC-Market7/Wersja_aktualna/InstallPCM_x64.exe"
     $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
     Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
-    Start-Process -FilePath $installerPath -Verb RunAs -Wait
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "--mode unattended --unattendedmodeui minimalWithDialogs --installer-language pl --db 0  --template 0 --killall 1 --enable-components installPcm,AktualizacjaShoper"
     # Remove-Item $installerPath    
 }
 
