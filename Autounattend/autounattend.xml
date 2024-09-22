@@ -1,0 +1,1474 @@
+<?xml version="1.0" encoding="utf-8"?>
+<unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
+	<!--https://schneegans.de/windows/unattend-generator/?LanguageMode=Unattended&UILanguage=pl-PL&Locale=pl-PL&Keyboard=00000415&GeoLocation=191&ProcessorArchitecture=amd64&BypassRequirementsCheck=true&BypassNetworkCheck=true&ComputerNameMode=Random&TimeZoneMode=Explicit&TimeZone=Central+European+Standard+Time&PartitionMode=Unattended&PartitionLayout=GPT&EspSize=300&RecoveryMode=Partition&RecoverySize=1000&WindowsEditionMode=Unattended&WindowsEdition=pro&UserAccountMode=Unattended&AccountName0=AdminPaj&AccountPassword0=Usher-grain&AccountGroup0=Administrators&AccountName1=User&AccountPassword1=&AccountGroup1=Users&AccountName2=&AccountName3=&AccountName4=&AutoLogonMode=Own&PasswordExpirationMode=Unlimited&LockoutMode=Default&HideFiles=HiddenSystem&ShowFileExtensions=true&DisableWidgets=true&ClassicContextMenu=true&LeftTaskbar=true&DeleteTaskbarIcons=true&HideEdgeFre=true&ShowAllTrayIcons=true&DisableSac=true&DisableSmartScreen=true&DisableFastStartup=true&DisableSystemRestore=true&HardenSystemDriveAcl=true&DisableLastAccess=true&NoAutoRebootWithLoggedOnUsers=true&TurnOffSystemSounds=true&DisableAppSuggestions=true&PreventDeviceEncryption=true&WifiMode=Skip&ExpressSettings=DisableAll&KeysMode=Skip&WallpaperMode=Default&Remove3DViewer=true&RemoveBingSearch=true&RemoveCamera=true&RemoveClipchamp=true&RemoveClock=true&RemoveCopilot=true&RemoveCortana=true&RemoveDevHome=true&RemoveFamily=true&RemoveFeedbackHub=true&RemoveGetHelp=true&RemoveInternetExplorer=true&RemoveMailCalendar=true&RemoveMaps=true&RemoveMathInputPanel=true&RemoveMixedReality=true&RemoveZuneVideo=true&RemoveNews=true&RemoveOffice365=true&RemoveOneDrive=true&RemoveOneNote=true&RemoveOpenSSHClient=true&RemoveOutlook=true&RemovePaint3D=true&RemovePeople=true&RemovePhotos=true&RemovePowerAutomate=true&RemovePowerShellISE=true&RemoveQuickAssist=true&RemoveRecall=true&RemoveSkype=true&RemoveSnippingTool=true&RemoveSolitaire=true&RemoveStepsRecorder=true&RemoveStickyNotes=true&RemoveTeams=true&RemoveGetStarted=true&RemoveToDo=true&RemoveVoiceRecorder=true&RemoveWeather=true&RemoveWindowsMediaPlayer=true&RemoveZuneMusic=true&RemoveWindowsTerminal=true&RemoveWordPad=true&RemoveXboxApps=true&RemoveYourPhone=true&SystemScript0=POWERCFG+%2FHIBERNATE+OFF%0D%0APOWERCFG+%2FSETACTIVE+SCHEME_MIN&SystemScriptType0=Cmd&FirstLogonScript0=%24installPath+%3D+%22C%3A%5CSerwis%22%0D%0A%5BNet.ServicePointManager%5D%3A%3ASecurityProtocol+%3D+%5BNet.SecurityProtocolType%5D%3A%3ATls12%0D%0A%24ProgressPreference+%3D+%27SilentlyContinue%27%0D%0A%0D%0A%0D%0A%0D%0A%23+Funkcja+do+zapisu+komunikatu+do+pliku+logu%0D%0Afunction+Write-Log+%7B+%0D%0A++++Param+%28%5Bstring%5D%24LogString%29%0D%0A++++%24Stamp+%3D+%28Get-Date%29.toString%28%22yyyy-MM-dd+HH%3Amm%3Ass%22%29%0D%0A++++%24LogMessage+%3D+%22%24Stamp+%24LogString%22%0D%0A++++Add-content+%24logFile+-value+%24LogMessage%0D%0A%0D%0A++++%24textbox.Text+%2B%3D+%24LogMessage+%2B+%22%60r%60n%22%0D%0A++++%24textbox.ScrollToEnd%28%29%0D%0A%0D%0A++++Write-Host+%24LogString%0D%0A%7D%0D%0A%0D%0A%23+Funkcja+wy%C5%9Bwietla+w+konsoli+informacj%C4%99+dla+u%C5%BCytkownika+i+zapisuje+j%C4%85+do+pliku+logu+z+sygnatura+czasow%C4%85%0D%0Afunction+Write-HostAndLog+%7B+%0D%0A++++param+%28%0D%0A++++++++%5BParameter%28Mandatory+%3D+%24true%29%5D%0D%0A++++++++%5Bstring%5D%24LogString%0D%0A++++%29%0D%0A%0D%0A++++Write-Log+-LogString+%24LogString%0D%0A++++Write-Host+%24LogString%0D%0A%7D%0D%0A%0D%0Afunction+CreateDesktopShortcut+%7B%0D%0A++++param+%28%0D%0A++++++++%5Bstring%5D%24ShortcutName%2C%0D%0A++++++++%5Bstring%5D%24File%2C+%0D%0A++++++++%5Bstring%5D%24Arguments%0D%0A++++%29%0D%0A++++%24WshShell+%3D+New-Object+-ComObject+WScript.Shell%0D%0A++++try+%7B%0D%0A++++++++%24shortcut+%3D+%24WshShell.CreateShortcut%28%22%24%28%5BEnvironment%5D%3A%3AGetFolderPath%28%27CommonDesktopDirectory%27%29%29%5C%24ShortcutName.lnk%22%29%0D%0A++++++++%24shortcut.TargetPath+%3D+%24File%0D%0A++++++++%24shortcut.Arguments+%3D+%24Arguments%0D%0A++++++++%24shortcut.Save%28%29%0D%0A++++%0D%0A++++%7D+Catch+%7B%0D%0A++++++++%24shortcut+%3D+%24WshShell.CreateShortcut%28%22%24%28%5BEnvironment%5D%3A%3AGetFolderPath%28%27DesktopDirectory%27%29%29%5C%24ShortcutName.lnk%22%29%0D%0A++++++++%24shortcut.TargetPath+%3D+%24File%0D%0A++++++++%24shortcut.Arguments+%3D+%24Arguments%0D%0A++++++++%24shortcut.Save%28%29%0D%0A++++%0D%0A++++%7D+++%0D%0A++++%0D%0A%7D%0D%0A%0D%0A%0D%0Afunction+InstallNotepad3+%7B%0D%0A++++%24uri+%3D+Invoke-RestMethod+-uri++https%3A%2F%2Fapi.github.com%2Frepos%2Frizonesoft%2FNotepad3%2Freleases%2Flatest+%7C+Select-Object+-ExpandProperty+%22assets%22+%7C+%3F+%7B+%24_.name.Contains%28%22x64_Setup.exe%22%29%7D+%7C+Select-Object+-ExpandProperty+browser_download_url%0D%0A++++%24installerPath+%3D+Join-Path+%24env%3ATEMP+%28Split-Path+%24uri+-Leaf%29%0D%0A++++Invoke-WebRequest+-UseBasicParsing+-Uri+%24uri+-OutFile+%24installerPath+%0D%0A++++Start-Process+-FilePath+%24installerPath+-Verb+RunAs+-Wait+-ArgumentList+%22%2FSILENT+%2FSP-%22%0D%0A++++Remove-Item+%24installerPath%0D%0A%7D%0D%0A%0D%0AInstallNotepad3%0D%0A%0D%0Afunction+InstallDoubleCmd+%7B%0D%0A++++%24uri+%3D+Invoke-RestMethod+-uri++https%3A%2F%2Fapi.github.com%2Frepos%2Fdoublecmd%2Fdoublecmd%2Freleases%2Flatest+%7C+Select-Object+-ExpandProperty+%22assets%22+%7C+%3F+%7B+%24_.name.Contains%28%22win64.exe%22%29%7D+%7C+Select-Object+-ExpandProperty+browser_download_url%0D%0A++++Invoke-WebRequest+-UseBasicParsing+-Uri+%24uri+-OutFile+%22%24%28%24env%3ATEMP%29%5Cdoublecmd.exe%22%0D%0A++++Start-Process+-Wait+-FilePath+%22%24%28%24env%3ATEMP%29%5Cdoublecmd.exe%22+-ArgumentList+%22%2FSILENT+%2FSP-%22%0D%0A++++New-Item+-Path+%22%24%28%24env%3AAPPDATA%29%5Cdoublecmd%22+-ItemType+Directory+-Force+%7C+Out-Null%0D%0A++++try+%7B%0D%0A++++Invoke-WebRequest+-UseBasicParsing+-Uri+%22https%3A%2F%2Fraw.githubusercontent.com%2Fmieszkou%2Fprogramy%2Fmaster%2Fdoublecmd%2Fdoublecmd.xml%22+-OutFile+%22C%3A%5CProgram+Files%5CDouble+Commander%5Cdoublecmd.xml%22%0D%0A++++%7D%0D%0A++++catch+%7B%0D%0A%0D%0A++++%7D%0D%0A++++try+%7B%0D%0A++++++++Invoke-WebRequest+-UseBasicParsing+-Uri+%22https%3A%2F%2Fraw.githubusercontent.com%2Fmieszkou%2Fprogramy%2Fmaster%2Fdoublecmd%2Fdoublecmd.xml%22+-OutFile+%22%24%28%24env%3AAPPDATA%29%5Cdoublecmd%5Cdoublecmd.xml%22%0D%0A++++%7D%0D%0A++++catch+%7B%0D%0A++++++++%0D%0A++++%7D%0D%0A++++%0D%0A++++%0D%0A++++%23+CreateDesktopShortcut+-ShortcutName+%22Double+Commander%22+-File+%22C%3A%5CProgram+Files%5CDouble+Commander%5Cdoublecmd.exe%22%0D%0A%7D%0D%0A%0D%0AInstallDoubleCmd%0D%0A%0D%0Afunction+InstallTeamViewerHost+%7B%0D%0A++++%24uri+%3D+%22https%3A%2F%2Fwww.pajcomp.pl%2Fpub%2FTeamViewer%2FTeamViewer_Host_x64.msi%22%0D%0A++++%24uri_conf+%3D+%22https%3A%2F%2Fwww.pajcomp.pl%2Fpub%2FTeamViewer%2F.tv_paj.tvopt%22%0D%0A++++%0D%0A++++%24installerPath+%3D+Join-Path+%24env%3ATEMP+%28Split-Path+%24uri+-Leaf%29%0D%0A++++%24confPath+%3D+Join-Path+%24env%3ATEMP+%28Split-Path+%24uri_conf+-Leaf%29%0D%0A%0D%0A++++Invoke-WebRequest+-UseBasicParsing+%24uri+-OutFile+%24installerPath%0D%0A++++Invoke-WebRequest+-UseBasicParsing+%24uri_conf+-OutFile+%24confPath%0D%0A%0D%0A++++%23-Wait+-FilePath+%22%24%28%24env%3ATEMP%29%5Cps7.msi%22+-ArgumentList+%22%2Fqb-%21+REBOOT%3DReallySuppress%22%0D%0A++++Start-Process+-Wait+-FilePath+%24installerPath++-ArgumentList+%22%2Fpassive+CUSTOMCONFIGID%3D639wciv+SETTINGSFILE%3D%24confPath%22%0D%0A%7D%0D%0A%0D%0AInstallTeamViewerHost%0D%0A%0D%0Afunction+InstallPosnetOps+%7B%0D%0A++++New-Item+-Path+%22%24installPath%5CPosnet-OPS%5C%22+-ItemType+Directory+-Force+%7C+Out-Null%0D%0A++++Invoke-WebRequest+-UseBasicParsing+-Uri+%22https%3A%2F%2Fgithub.com%2Fmieszkou%2Fprogramy%2Fraw%2Fmaster%2FPosnet-OPS%2Fposnet-ops-setup-11.44.89.exe%22+-OutFile+%22%24installPath%5Cposnet-ops-setup-11.30.80.exe%22+%0D%0A++++%23+Start-Process+-Wait+-FilePath+%22%24installPath%5Cposnet-ops-setup-11.44.89.exe%22+-ArgumentList+%22%2FD%3D%24installPath%5CPosnet-OPS%22%0D%0A%7D%0D%0A%0D%0AInstallPosnetOps%0D%0A%0D%0Afunction+InstallDrivers+%7B%0D%0A++++%24uri+%3D+%22https%3A%2F%2Fwww.pajcomp.pl%2Fpub%2F%3Fzip%3DSterowniki%22%0D%0A++++%0D%0A++++%24installerPath+%3D+Join-Path+%24env%3ATEMP+%22Sterowniki.zip%22%0D%0A++++%24destinationPath+%3D+%22%24installPath%5CSterowniki%5C%22%0D%0A%0D%0A++++Invoke-WebRequest+-UseBasicParsing+%24uri+-OutFile+%24installerPath%0D%0A++++%0D%0A++++New-Item+-Path+%24destinationPath+-ItemType+Directory+-Force+%7C+Out-Null%0D%0A++++Expand-Archive+%24installerPath+-DestinationPath+%24destinationPath+-Force%0D%0A++++Remove-Item+%24installerPath%0D%0A%0D%0A++++%23+Pobranie+listy+plik%C3%B3w+zip%0D%0A++++%24plikiZip+%3D+Get-ChildItem+-Path+%24destinationPath+-File+-Recurse+%7C+Where-Object+%7B+%28%24_.Name+-like+%22*.zip%22%29+-OR+%28+%24_.Name+-like+%22*.exe%22%29+%7D%0D%0A%0D%0A++++%23+Dla+ka%C5%BCdego+pliku+zip%0D%0A++++foreach+%28%24plik+in+%24plikiZip%29+%7B%0D%0A++++try+%7B%0D%0A++++++++%24nazwaKatalogu+%3D+%24plik.BaseName%0D%0A++++++++Expand-Archive+-Path+%24plik.FullName+-DestinationPath+%22%24%28%24plik.DirectoryName%29%5C%24nazwaKatalogu%22+-Force%0D%0A++++%7D+catch+%7B%0D%0A++++++++Remove-Item+-Path+%22%24%28%24plik.DirectoryName%29%5C%24nazwaKatalogu%22+-Force%0D%0A++++%7D%0D%0A++++%0D%0A%0D%0A%7D%0D%0A%7D%0D%0A%0D%0AInstallDrivers%0D%0A%0D%0Afunction+InstallAdminSql+%7B%0D%0A++++%24uri+%3D+%22https%3A%2F%2Fpajcomp.pl%2Fpub%2FSQL-tools%2FAdminSQL.zip%22%0D%0A++++%24installerPath+%3D+Join-Path+%24env%3ATEMP+%28Split-Path+%24uri+-Leaf%29%0D%0A+++++++%0D%0A++++Invoke-WebRequest+-UseBasicParsing+%24uri+-OutFile+%24installerPath%0D%0A++++Expand-Archive+%24installerPath+-DestinationPath+%22%24installPath%5CAdminSQL%22+-Force%0D%0A++++%23+CreateDesktopShortcut+-ShortcutName+%22AdminSQL%22+-File+%22%24installPath%5CAdminSQL%5CAdminSQL.exe%22%0D%0A++++Remove-Item+%24installerPath+%0D%0A%7D%0D%0A%0D%0AInstallAdminSql%0D%0A%0D%0Afunction+InstallHeidiSql+%7B%0D%0A++++%24uri+%3D+%22https%3A%2F%2Fwww.heidisql.com%22+%2B+%28Invoke-WebRequest+-UseBasicParsing+-Uri+%27https%3A%2F%2Fwww.heidisql.com%2Fdownload.php%27+%7C+Select-Object+-ExpandProperty+Links+%7C+Where-Object+%7B%28%24_.href+-like+%22%2Finstallers%2F*%22%29+-and+%28%24_.href+-like+%22*_Setup.exe%22%29%7D+%7C+Select-Object+-First+1+%7C+Select-Object+-ExpandProperty+href%29%0D%0A++++%24installerPath+%3D+Join-Path+%24env%3ATEMP+%28Split-Path+%24uri+-Leaf%29%0D%0A++++Invoke-WebRequest+-UseBasicParsing+%24uri+-OutFile+%24installerPath%0D%0A++++Start-Process+-FilePath+%24installerPath+-Args+%22%2FALLUSERS+%2Fsilent%22+-Verb+RunAs+-Wait%0D%0A++++Remove-Item+%24installerPath%0D%0A%7D%0D%0A%0D%0AInstallHeidiSql%0D%0A%0D%0Afunction+InstallSql2022+%7B%0D%0A++++%24sqlver%3D2022%0D%0A++++New-Item+-Path+%22%24%28%24env%3ATEMP%29%5Csql%24%28%24sqlver%29%22+-ItemType+Directory+-Force+%7C+Out-Null%0D%0A++++Invoke-WebRequest+-UseBasicParsing+-Uri+%22https%3A%2F%2Fpajcomp.pl%2Fpub%2FMSSQL%2Fsql%24%28%24sqlver%29%2FSQLEXPR_x64_ENU.exe%22+-OutFile+%22%24%28%24env%3ATEMP%29%5Csql%24%28%24sqlver%29%5CSQLEXPR_x64_ENU.exe%22%0D%0A++++Start-Process+-Wait+-FilePath+%22%24%28%24env%3ATEMP%29%5Csql%24%28%24sqlver%29%5CSQLEXPR_x64_ENU.exe%22+-ArgumentList+%22%2FQS+%2FIACCEPTSQLSERVERLICENSETERMS+%2FACTION%3D%22%22install%22%22+%2FFEATURES%3DSQL+%2FINSTANCENAME%3DSQL%24%28%24sqlver%29+%2FSECURITYMODE%3DSQL+%2FSAPWD%3DWapro3000+%2FTCPENABLED%3D1%22%0D%0A++++Set-ItemProperty+-Path+%22HKLM%3A%5Csoftware%5Cmicrosoft%5Cmicrosoft+sql+server%5Cmssql16.SQL%24%28%24sqlver%29%5Cmssqlserver%5Csupersocketnetlib%5Ctcp%5Cipall%22+-Name+TcpDynamicPorts+-Value+%27%27%0D%0A++++Set-ItemProperty+-Path+%22HKLM%3A%5Csoftware%5Cmicrosoft%5Cmicrosoft+sql+server%5Cmssql16.SQL%24%28%24sqlver%29%5Cmssqlserver%5Csupersocketnetlib%5Ctcp%5Cipall%22+-Name+tcpport+-Value+%225%24%28%24sqlver%29%22%0D%0A++++New-NetFirewallRule+-DisplayName+%22SQL%24%28%24sqlver%29%22+-Profile+Any+-Direction+Inbound+-Action+Allow+-Protocol+TCP+-LocalPort+%225%24%28%24sqlver%29%22%0D%0A++++net+stop+MSSQL%60%24SQL%24sqlver%0D%0A++++net+start+MSSQL%60%24SQL%24sqlver%0D%0A%7D%0D%0A%0D%0A%23+InstallSql2022%0D%0A%0D%0Afunction+InstallPcm+%7B%0D%0A++++%24uri+%3D+%22https%3A%2F%2Fpobierz.insoft.com.pl%2FPC-Market7%2FWersja_aktualna%2FInstallPCM_x64.exe%22%0D%0A++++%24installerPath+%3D+Join-Path+%24installPath+%28Split-Path+%24uri+-Leaf%29%0D%0A++++Invoke-WebRequest+-UseBasicParsing+-Uri+%24uri+-OutFile+%24installerPath%0D%0A++++Start-Process+-FilePath+%24installerPath+-Verb+RunAs+-Wait+-ArgumentList+%22%2D%2Dmode+unattended+%2D%2Dunattendedmodeui+minimalWithDialogs+%2D%2Dinstaller-language+pl+%2D%2Ddb+0++%2D%2Dtemplate+0+%2D%2Dkillall+1+%2D%2Denable-components+installPcm%2CAktualizacjaShoper%22%0D%0A++++%23+Remove-Item+%24installerPath++++%0D%0A%7D%0D%0A%0D%0A%23+InstallPcm%0D%0A%0D%0A%23+Poprawski+z+Sophia+Script%0D%0A%0D%0A%23+DiagTrackService%0D%0A%23+Connected+User+Experiences+and+Telemetry%0D%0A%23+Disabling+the+%22Connected+User+Experiences+and+Telemetry%22+service+%28DiagTrack%29+can+cause+you+not+being+able+to+get+Xbox+achievements+anymore+and+affects+Feedback+Hub%0D%0AGet-Service+-Name+DiagTrack+%7C+Stop-Service+-Force%0D%0AGet-Service+-Name+DiagTrack+%7C+Set-Service+-StartupType+Disabled%0D%0A%0D%0A%23+Block+connection+for+the+Unified+Telemetry+Client+Outbound+Traffic%0D%0AGet-NetFirewallRule+-Group+DiagTrack+%7C+Set-NetFirewallRule+-Enabled+True+-Action+Block%0D%0A%0D%0A%0D%0A%23+DiagnosticDataLevel+-Minimal%0D%0A%23+Set+the+diagnostic+data+collection+to+minimum%0D%0Aif+%28Get-WindowsEdition+-Online+%7C+Where-Object+-FilterScript+%7B%28%24_.Edition+-eq+%22Enterprise%22%29+-or+%28%24_.Edition+-eq+%22Education%22%29%7D%29%0D%0A%7B%0D%0A++++%23+Diagnostic+data+off%0D%0A++++New-ItemProperty+-Path+HKLM%3A%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection+-Name+AllowTelemetry+-PropertyType+DWord+-Value+0+-Force%0D%0A++++Set-Policy+-Scope+Computer+-Path+SOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection+-Name+AllowTelemetry+-Type+DWORD+-Value+0%0D%0A%7D%0D%0Aelse%0D%0A%7B%0D%0A++++%23+Send+required+diagnostic+data%0D%0A++++New-ItemProperty+-Path+HKLM%3A%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection+-Name+AllowTelemetry+-PropertyType+DWord+-Value+1+-Force%0D%0A++++Set-Policy+-Scope+Computer+-Path+SOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection+-Name+AllowTelemetry+-Type+DWORD+-Value+1%0D%0A%7D%0D%0A%0D%0ANew-ItemProperty+-Path+HKLM%3A%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CPolicies%5CDataCollection+-Name+MaxTelemetryAllowed+-PropertyType+DWord+-Value+1+-Force%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CDiagnostics%5CDiagTrack+-Name+ShowedToastAtLevel+-PropertyType+DWord+-Value+1+-Force%0D%0A%0D%0A%0D%0A%23+ErrorReporting%0D%0A%23+Turn+off+Windows+Error+Reporting%0D%0A%0D%0ARemove-ItemProperty+-Path+%22HKLM%3A%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Error+Reporting%22+-Name+Disabled+-Force+-ErrorAction+Ignore%0D%0ARemove-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Error+Reporting%22+-Name+Disabled+-Force+-ErrorAction+Ignore%0D%0ASet-Policy+-Scope+Computer+-Path+%22SOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Error+Reporting%22+-Name+Disabled+-Type+CLEAR%0D%0ASet-Policy+-Scope+User+-Path+%22Software%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Error+Reporting%22+-Name+Disabled+-Type+CLEAR%0D%0Aif+%28%28Get-WindowsEdition+-Online%29.Edition+-notmatch+%22Core%22%29%0D%0A%7B%0D%0AGet-ScheduledTask+-TaskName+QueueReporting+-ErrorAction+Ignore+%7C+Disable-ScheduledTask%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CWindows+Error+Reporting%22+-Name+Disabled+-PropertyType+DWord+-Value+1+-Force%0D%0A%7D%0D%0A%0D%0AGet-Service+-Name+WerSvc+%7C+Stop-Service+-Force%0D%0AGet-Service+-Name+WerSvc+%7C+Set-Service+-StartupType+Disabled%0D%0A%0D%0A%23+FeedbackFrequency%0D%0A%23+Change+the+feedback+frequency+to+%22Never%22%0D%0A%0D%0A%23+Remove+all+policies+in+order+to+make+changes+visible+in+UI+only+if+it%27s+possible%0D%0ARemove-ItemProperty+-Path+HKLM%3A%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection+-Name+DoNotShowFeedbackNotifications+-Force+-ErrorAction+Ignore%0D%0ASet-Policy+-Scope+Computer+-Path+SOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CDataCollection+-Name+DoNotShowFeedbackNotifications+-Type+CLEAR%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CSiuf%5CRules%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CSiuf%5CRules+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CSiuf%5CRules+-Name+NumberOfSIUFInPeriod+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0ARemove-ItemProperty+-Path+HKCU%3A%5CSOFTWARE%5CMicrosoft%5CSiuf%5CRules+-Name+PeriodInNanoSeconds+-Force+-ErrorAction+Ignore%0D%0A%0D%0A%23+WindowsWelcomeExperience%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SubscribedContent-310093Enabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+WindowsTips%0D%0ARemove-ItemProperty+-Path+HKLM%3A%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent+-Name+DisableSoftLanding+-Force+-ErrorAction+Ignore%0D%0ASet-Policy+-Scope+Computer+-Path+SOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent+-Name+DisableSoftLanding+-Type+CLEAR%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SubscribedContent-338389Enabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+SettingsSuggestedContent%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SubscribedContent-338393Enabled+-PropertyType+DWord+-Value+0+-Force%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SubscribedContent-353694Enabled+-PropertyType+DWord+-Value+0+-Force%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SubscribedContent-353696Enabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+AppsSilentInstalling+-Disable%0D%0A%23+Remove+all+policies+in+order+to+make+changes+visible+in+UI+only+if+it%27s+possible%0D%0ARemove-ItemProperty+-Path+HKLM%3A%5CSOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent+-Name+DisableWindowsConsumerFeatures+-Force+-ErrorAction+Ignore%0D%0ASet-Policy+-Scope+Computer+-Path+SOFTWARE%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent+-Name+DisableWindowsConsumerFeatures+-Type+CLEAR%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SilentInstalledAppsEnabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+WhatsNewInWindows+-Disable%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CUserProfileEngagement%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CUserProfileEngagement+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CUserProfileEngagement+-Name+ScoobeSystemSettingEnabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+TailoredExperiences+-Disable%0D%0A%23+Remove+all+policies+in+order+to+make+changes+visible+in+UI+only+if+it%27s+possible%0D%0ARemove-ItemProperty+-Path+HKCU%3A%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent+-Name+DisableTailoredExperiencesWithDiagnosticData+-Force+-ErrorAction+Ignore%0D%0ASet-Policy+-Scope+User+-Path+Software%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent+-Name+DisableTailoredExperiencesWithDiagnosticData+-Type+CLEAR%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CPrivacy+-Name+TailoredExperiencesWithDiagnosticDataEnabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+BingSearch+-Disable%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CExplorer%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CExplorer+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CExplorer+-Name+DisableSearchBoxSuggestions+-PropertyType+DWord+-Value+1+-Force%0D%0A%0D%0ASet-Policy+-Scope+User+-Path+Software%5CPolicies%5CMicrosoft%5CWindows%5CExplorer+-Name+DisableSearchBoxSuggestions+-Type+DWORD+-Value+1%0D%0A%0D%0A%23+StartRecommendationsTips+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+Start_IrisRecommendations+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+StartAccountNotifications+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+Start_AccountNotifications+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+OneDriveFileExplorerAd+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+ShowSyncProviderNotifications+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+FileTransferDialog+-Detailed%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5COperationStatusManager%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5COperationStatusManager+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5COperationStatusManager+-Name+EnthusiastMode+-PropertyType+DWord+-Value+1+-Force%0D%0A%0D%0A%23+QuickAccessRecentFiles+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer+-Name+ShowRecent+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+QuickAccessFrequentFolders+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer+-Name+ShowFrequent+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+TaskbarWidgets+-Hide%0D%0Aif+%28Get-AppxPackage+-Name+MicrosoftWindows.Client.WebExperience%29%0D%0A%7B%0D%0A++++%23+Microsoft+blocked+access+for+editing+TaskbarDa+key+in+KB5041585%0D%0A++++try%0D%0A++++%7B%0D%0A++++++++New-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+TaskbarDa+-PropertyType+DWord+-Value+0+-Force+-ErrorAction+Stop%0D%0A++++%7D%0D%0A++++catch+%5BSystem.UnauthorizedAccessException%5D%0D%0A++++%7B%0D%0A++++++++Write-Warning+-Message+%28%24Global%3AError.Exception.Message+%7C+Select-Object+-First+1%29%0D%0A++++++++Write-Error+-Message+%28%24Global%3AError.Exception.Message+%7C+Select-Object+-First+1%29+-ErrorAction+SilentlyContinue%0D%0A++++%7D%0D%0A%7D%0D%0A%0D%0A%23+TaskbarSearch+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CSearch+-Name+SearchboxTaskbarMode+-PropertyType+DWord+-Value+0+-Force%0D%0A%09%0D%0A%23+SearchHighlights+-Hide%0D%0A%23+Check+whether+%22Ask+Copilot%22+and+%22Find+results+in+Web%22+%28Web%29+were+disabled.+They+also+disable+Search+Highlights+automatically%0D%0A%23+Due+to+%22Set-StrictMode+-Version+Latest%22+we+have+to+use+GetValue%28%29%0D%0A%24BingSearchEnabled+%3D+%28%5BMicrosoft.Win32.Registry%5D%3A%3AGetValue%28%22HKEY_CURRENT_USER%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CSearch%22%2C+%22BingSearchEnabled%22%2C+%24null%29%29%0D%0A%24DisableSearchBoxSuggestions+%3D+%28%5BMicrosoft.Win32.Registry%5D%3A%3AGetValue%28%22HKEY_CURRENT_USER%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CExplorer%22%2C+%22DisableSearchBoxSuggestions%22%2C+%24null%29%29%0D%0Aif+%28%28%24BingSearchEnabled+-eq+1%29+-or+%28%24DisableSearchBoxSuggestions+-eq+1%29%29%0D%0A%7B%0D%0AWrite-Information+-MessageData+%22%22+-InformationAction+Continue%0D%0AWrite-Verbose+-Message+%24Localization.Skipped+-Verbose%0D%0A%0D%0Areturn%0D%0A%7D%0D%0Aelse%0D%0A%7B%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CSearchSettings+-Name+IsDynamicSearchBoxEnabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%7D%0D%0A%0D%0A%23+CopilotButton+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+ShowCopilotButton+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+TaskViewButton+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+ShowTaskViewButton+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+PreventTeamsInstallation+-Enable%0D%0AClear-Variable+-Name+Task+-ErrorAction+Ignore%0D%0A%23+Save+string+to+run+it+as+%22NT+SERVICE%5CTrustedInstaller%22%0D%0A%23+Remove+block+from+installing+Microsoft+Teams+for+new+users%0D%0A%24Task+%3D+%22Remove-ItemProperty+-Path+HKLM%3A%5CSOFTWARE%5CMicrosoft%5CWindows%5CCurrentVersion%5CCommunications+-Name+ConfigureChatAutoInstall+-Value+1+-Type+Dword+-Force%22%0D%0A%23+Create+a+Scheduled+Task+to+run+it+as+%22NT+SERVICE%5CTrustedInstaller%22%0D%0A%24Parameters+%3D+%40%7B%0D%0A++++TaskName+%3D+%22BlockTeamsInstallation%22%0D%0A++++Action+++%3D+New-ScheduledTaskAction+-Execute+powershell.exe+-Argument+%22-WindowStyle+Hidden+-Command+%24Task%22%0D%0A%7D%0D%0ARegister-ScheduledTask+%40Parameters+-Force%0D%0A%0D%0A%24ScheduleService+%3D+New-Object+-ComObject+Schedule.Service%0D%0A%24ScheduleService.Connect%28%29%0D%0A%24ScheduleService.GetFolder%28%22%5C%22%29.GetTask%28%22BlockTeamsInstallation%22%29.RunEx%28%24null%2C+0%2C+0%2C+%22NT+SERVICE%5CTrustedInstaller%22%29%0D%0A%0D%0A%23+Remove+temporary+task%0D%0AUnregister-ScheduledTask+-TaskName+BlockTeamsInstallation+-Confirm%3A%24false%0D%0A%0D%0A%23+UnpinTaskbarShortcuts%0D%0A%23+Unpin+shortcuts+from+the+taskbar%0D%0A%09%23+Extract+the+localized+%22Unpin+from+taskbar%22+string+from+shell32.dll%0D%0A%09%24LocalizedString+%3D+%5BWinAPI.GetStrings%5D%3A%3AGetString%285387%29%0D%0A%0D%0A%09foreach+%28%24Shortcut+in+%24Shortcuts%29%0D%0A%09%7B%0D%0A%09%09switch+%28%24Shortcut%29%0D%0A%09%09%7B%0D%0A%09%09%09Edge%0D%0A%09%09%09%7B%0D%0A%09%09%09%09if+%28Test-Path+-Path+%22%24env%3AAppData%5CMicrosoft%5CInternet+Explorer%5CQuick+Launch%5CUser+Pinned%5CTaskBar%5CMicrosoft+Edge.lnk%22%29%0D%0A%09%09%09%09%7B%0D%0A%09%09%09%09%09%23+Call+the+shortcut+context+menu+item%0D%0A%09%09%09%09%09%24Shell+%3D+%28New-Object+-ComObject+Shell.Application%29.NameSpace%28%22%24env%3AAppData%5CMicrosoft%5CInternet+Explorer%5CQuick+Launch%5CUser+Pinned%5CTaskBar%22%29%0D%0A%09%09%09%09%09%24Shortcut+%3D+%24Shell.ParseName%28%22Microsoft+Edge.lnk%22%29%0D%0A%09%09%09%09%09%23+Extract+the+localized+%22Unpin+from+taskbar%22+string+from+shell32.dll%0D%0A%09%09%09%09%09%24Shortcut.Verbs%28%29+%7C+Where-Object+-FilterScript+%7B%24_.Name+-eq+%24LocalizedString%7D+%7C+ForEach-Object+-Process+%7B%24_.DoIt%28%29%7D%0D%0A%09%09%09%09%7D%0D%0A%09%09%09%7D%0D%0A%09%09%09Store%0D%0A%09%09%09%7B%0D%0A%09%09%09%09if+%28%28New-Object+-ComObject+Shell.Application%29.NameSpace%28%22shell%3A%3A%3A%7B4234d49b-0245-4df3-b780-3893943456e1%7D%22%29.Items%28%29+%7C+Where-Object+-FilterScript+%7B%24_.Name+-eq+%22Microsoft+Store%22%7D%29%0D%0A%09%09%09%09%7B%0D%0A%09%09%09%09%09%23+Extract+the+localized+%22Unpin+from+taskbar%22+string+from+shell32.dll%0D%0A%09%09%09%09%09%28%28New-Object+-ComObject+Shell.Application%29.NameSpace%28%22shell%3A%3A%3A%7B4234d49b-0245-4df3-b780-3893943456e1%7D%22%29.Items%28%29+%7C+Where-Object+-FilterScript+%7B%0D%0A%09%09%09%09%09%09%24_.Name+-eq+%22Microsoft+Store%22%0D%0A%09%09%09%09%09%7D%29.Verbs%28%29+%7C+Where-Object+-FilterScript+%7B%24_.Name+-eq+%24LocalizedString%7D+%7C+ForEach-Object+-Process+%7B%24_.DoIt%28%29%7D%0D%0A%09%09%09%09%7D%0D%0A%09%09%09%7D%0D%0A%09%09%7D%0D%0A%09%7D%0D%0A%0D%0A%0D%0A%23+ControlPanelView+-LargeIcons%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CControlPanel%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CControlPanel+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CControlPanel+-Name+AllItemsIconView+-PropertyType+DWord+-Value+0+-Force%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CControlPanel+-Name+StartupPage+-PropertyType+DWord+-Value+1+-Force%0D%0A%0D%0A%23+WindowsColorMode+-Dark%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CThemes%5CPersonalize+-Name+SystemUsesLightTheme+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+AppColorMode+-Light%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CThemes%5CPersonalize+-Name+AppsUseLightTheme+-PropertyType+DWord+-Value+1+-Force%0D%0A%09%0D%0A%23+FirstLogonAnimation+-Disable%0D%0ANew-ItemProperty+-Path+%22HKLM%3A%5CSOFTWARE%5CMicrosoft%5CWindows+NT%5CCurrentVersion%5CWinlogon%22+-Name+EnableFirstLogonAnimation+-PropertyType+DWord+-Value+0+-Force%0D%0A%09%0D%0A%0D%0A%23+ShortcutsSuffix+-Disable%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CNamingTemplates%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CNamingTemplates+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CNamingTemplates+-Name+ShortcutNameTemplate+-PropertyType+String+-Value+%22%25s.lnk%22+-Force%0D%0A%0D%0A%23+FolderGroupBy+-None%0D%0A%23+Clear+any+Common+Dialog+views%0D%0AGet-ChildItem+-Path+%22HKCU%3A%5CSoftware%5CClasses%5CLocal+Settings%5CSoftware%5CMicrosoft%5CWindows%5CShell%5CBags%5C*%5CShell%22+-Recurse+%7C+Where-Object+-FilterScript+%7B%24_.PSChildName+-eq+%22%7B885A186E-A440-4ADA-812B-DB871B942259%7D%22%7D+%7C+Remove-Item+-Force%0D%0A%0D%0A%23+https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fwindows%2Fwin32%2Fproperties%2Fprops-system-null%0D%0Aif+%28-not+%28Test-Path+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+ColumnList+-PropertyType+String+-Value+%22System.Null%22+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+GroupBy+-PropertyType+String+-Value+%22System.Null%22+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+LogicalViewMode+-PropertyType+DWord+-Value+1+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+Name+-PropertyType+String+-Value+NoName+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+Order+-PropertyType+DWord+-Value+0+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+PrimaryProperty+-PropertyType+String+-Value+%22System.ItemNameDisplay%22+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+SortByList+-PropertyType+String+-Value+%22prop%3ASystem.ItemNameDisplay%22+-Force%0D%0A%0D%0A%23+NetworkAdaptersSavePower+-Disable%0D%0AWrite-Information+-MessageData+%22%22+-InformationAction+Continue%0D%0A%09%23+Extract+the+localized+%22Please+wait...%22+string+from+shell32.dll%0D%0A%09Write-Verbose+-Message+%28%5BWinAPI.GetStrings%5D%3A%3AGetString%2812612%29%29+-Verbose%0D%0A%0D%0A%09if+%28Get-NetAdapter+-Physical+%7C+Where-Object+-FilterScript+%7B%28%24_.Status+-eq+%22Up%22%29+-and+%24_.MacAddress%7D%29%0D%0A%09%7B%0D%0A%09%09%24PhysicalAdaptersStatusUp+%3D+%40%28%28Get-NetAdapter+-Physical+%7C+Where-Object+-FilterScript+%7B%28%24_.Status+-eq+%22Up%22%29+-and+%24_.MacAddress%7D%29.Name%29%0D%0A%09%7D%0D%0A%0D%0A%09%24Adapters+%3D+Get-NetAdapter+-Physical+%7C+Where-Object+-FilterScript+%7B%24_.MacAddress%7D+%7C+Get-NetAdapterPowerManagement+%7C+Where-Object+-FilterScript+%7B%24_.AllowComputerToTurnOffDevice+-ne+%22Unsupported%22%7D%0D%0A%0D%0A++++foreach+%28%24Adapter+in+%24Adapters%29%0D%0A++++%7B%0D%0A++++++++%24Adapter.AllowComputerToTurnOffDevice+%3D+%22Disabled%22%0D%0A++++++++%24Adapter+%7C+Set-NetAdapterPowerManagement%0D%0A++++%7D%0D%0A%0D%0A%0D%0A%09%23+All+network+adapters+are+turned+into+%22Disconnected%22+for+few+seconds%2C+so+we+need+to+wait+a+bit+to+let+them+up%0D%0A%09%23+Otherwise+functions+below+will+indicate+that+there+is+no+the+Internet+connection%0D%0A%09if+%28%24PhysicalAdaptersStatusUp%29%0D%0A%09%7B%0D%0A%09%09while%0D%0A%09%09%28%0D%0A%09%09%09Get-NetAdapter+-Physical+-Name+%24PhysicalAdaptersStatusUp+%7C+Where-Object+-FilterScript+%7B%28%24_.Status+-eq+%22Disconnected%22%29+-and+%24_.MacAddress%7D%0D%0A%09%09%29%0D%0A%09%09%7B%0D%0A%09%09%09Write-Information+-MessageData+%22%22+-InformationAction+Continue%0D%0A%09%09%09%23+Extract+the+localized+%22Please+wait...%22+string+from+shell32.dll%0D%0A%09%09%09Write-Verbose+-Message+%28%5BWinAPI.GetStrings%5D%3A%3AGetString%2812612%29%29+-Verbose%0D%0A%0D%0A%09%09%09Start-Sleep+-Seconds+2%0D%0A%09%09%7D%0D%0A%09%7D%0D%0A%0D%0A%23+IPv6Component+-Disable%0D%0ADisable-NetAdapterBinding+-Name+*+-ComponentID+ms_tcpip6%0D%0A%0D%0A%0D%0A%23+LatestInstalled.NET+-Enable%0D%0ANew-ItemProperty+-Path+HKLM%3A%5CSOFTWARE%5CMicrosoft%5C.NETFramework+-Name+OnlyUseLatestCLR+-PropertyType+DWord+-Value+1+-Force%0D%0ANew-ItemProperty+-Path+HKLM%3A%5CSOFTWARE%5CWow6432Node%5CMicrosoft%5C.NETFramework+-Name+OnlyUseLatestCLR+-PropertyType+DWord+-Value+1+-Force%0D%0A%0D%0A%23+NumLock+-Enable%0D%0ANew-ItemProperty+-Path+%22Registry%3A%3AHKEY_USERS%5C.DEFAULT%5CControl+Panel%5CKeyboard%22+-Name+InitialKeyboardIndicators+-PropertyType+String+-Value+2147483650+-Force%0D%0A%0D%0A%23+CortanaAutostart+-Disable%0D%0Aif+%28Get-AppxPackage+-Name+Microsoft.549981C3F5F10%29%0D%0A%7B%0D%0A++++if+%28-not+%28Test-Path+-Path+%22Registry%3A%3AHKEY_CLASSES_ROOT%5CLocal+Settings%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CAppModel%5CSystemAppData%5CMicrosoft.549981C3F5F10_8wekyb3d8bbwe%5CCortanaStartupId%22%29%29%0D%0A++++%7B%0D%0A++++++++New-Item+-Path+%22Registry%3A%3AHKEY_CLASSES_ROOT%5CLocal+Settings%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CAppModel%5CSystemAppData%5CMicrosoft.549981C3F5F10_8wekyb3d8bbwe%5CCortanaStartupId%22+-Force%0D%0A++++%7D%0D%0A++++New-ItemProperty+-Path+%22Registry%3A%3AHKEY_CLASSES_ROOT%5CLocal+Settings%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CAppModel%5CSystemAppData%5CMicrosoft.549981C3F5F10_8wekyb3d8bbwe%5CCortanaStartupId%22+-Name+State+-PropertyType+DWord+-Value+1+-Force%0D%0A%7D%0D%0A%0D%0A%23+TeamsAutostart+-Disable%0D%0Aif+%28Get-AppxPackage+-Name+MSTeams%29%0D%0A%7B%0D%0A++++New-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CClasses%5CLocal+Settings%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CAppModel%5CSystemAppData%5CMSTeams_8wekyb3d8bbwe%5CTeamsTfwStartupTask%22+-Name+State+-PropertyType+DWord+-Value+1+-Force%0D%0A%7D%0D%0A%0D%0A%0D%0A%23+DismissMSAccount%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows+Security+Health%5CState%22+-Name+AccountProtection_MicrosoftAccount_Disconnected+-PropertyType+DWord+-Value+1+-Force%0D%0A%0D%0A%23+Dismiss+Microsoft+Defender+offer+in+the+Windows+Security+about+turning+on+the+SmartScreen+filter+for+Microsoft+Edge%0D%0A%23+DismissSmartScreenFilter%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows+Security+Health%5CState%22+-Name+AppAndBrowser_EdgeSmartScreenOff+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A&FirstLogonScriptType0=Ps1&UserOnceScript1=New-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CDiagnostics%5CDiagTrack+-Name+ShowedToastAtLevel+-PropertyType+DWord+-Value+1+-Force%0D%0ARemove-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Error+Reporting%22+-Name+Disabled+-Force+-ErrorAction+Ignore%0D%0ASet-Policy+-Scope+User+-Path+%22Software%5CPolicies%5CMicrosoft%5CWindows%5CWindows+Error+Reporting%22+-Name+Disabled+-Type+CLEAR%0D%0AGet-ScheduledTask+-TaskName+QueueReporting+-ErrorAction+Ignore+%7C+Disable-ScheduledTask%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CWindows+Error+Reporting%22+-Name+Disabled+-PropertyType+DWord+-Value+1+-Force%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CSiuf%5CRules%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CSiuf%5CRules+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CSiuf%5CRules+-Name+NumberOfSIUFInPeriod+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0ARemove-ItemProperty+-Path+HKCU%3A%5CSOFTWARE%5CMicrosoft%5CSiuf%5CRules+-Name+PeriodInNanoSeconds+-Force+-ErrorAction+Ignore%0D%0A%0D%0A%23+WindowsWelcomeExperience%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SubscribedContent-310093Enabled+-PropertyType+DWord+-Value+0+-Force%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SubscribedContent-338389Enabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+SettingsSuggestedContent%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SubscribedContent-338393Enabled+-PropertyType+DWord+-Value+0+-Force%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SubscribedContent-353694Enabled+-PropertyType+DWord+-Value+0+-Force%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SubscribedContent-353696Enabled+-PropertyType+DWord+-Value+0+-Force%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CContentDeliveryManager+-Name+SilentInstalledAppsEnabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%23+WhatsNewInWindows+-Disable%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CUserProfileEngagement%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CUserProfileEngagement+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CUserProfileEngagement+-Name+ScoobeSystemSettingEnabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%23+TailoredExperiences+-Disable%0D%0A%23+Remove+all+policies+in+order+to+make+changes+visible+in+UI+only+if+it%27s+possible%0D%0ARemove-ItemProperty+-Path+HKCU%3A%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent+-Name+DisableTailoredExperiencesWithDiagnosticData+-Force+-ErrorAction+Ignore%0D%0ASet-Policy+-Scope+User+-Path+Software%5CPolicies%5CMicrosoft%5CWindows%5CCloudContent+-Name+DisableTailoredExperiencesWithDiagnosticData+-Type+CLEAR%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CPrivacy+-Name+TailoredExperiencesWithDiagnosticDataEnabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%23+BingSearch+-Disable%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CExplorer%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CExplorer+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CExplorer+-Name+DisableSearchBoxSuggestions+-PropertyType+DWord+-Value+1+-Force%0D%0A%0D%0ASet-Policy+-Scope+User+-Path+Software%5CPolicies%5CMicrosoft%5CWindows%5CExplorer+-Name+DisableSearchBoxSuggestions+-Type+DWORD+-Value+1%0D%0A%23+StartRecommendationsTips+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+Start_IrisRecommendations+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+StartAccountNotifications+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+Start_AccountNotifications+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+OneDriveFileExplorerAd+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+ShowSyncProviderNotifications+-PropertyType+DWord+-Value+0+-Force%0D%0A%23+FileTransferDialog+-Detailed%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5COperationStatusManager%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5COperationStatusManager+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5COperationStatusManager+-Name+EnthusiastMode+-PropertyType+DWord+-Value+1+-Force%0D%0A%23+QuickAccessRecentFiles+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer+-Name+ShowRecent+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+QuickAccessFrequentFolders+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer+-Name+ShowFrequent+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+TaskbarWidgets+-Hide%0D%0Aif+%28Get-AppxPackage+-Name+MicrosoftWindows.Client.WebExperience%29%0D%0A%7B%0D%0A++++%23+Microsoft+blocked+access+for+editing+TaskbarDa+key+in+KB5041585%0D%0A++++try%0D%0A++++%7B%0D%0A++++++++New-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+TaskbarDa+-PropertyType+DWord+-Value+0+-Force+-ErrorAction+Stop%0D%0A++++%7D%0D%0A++++catch+%5BSystem.UnauthorizedAccessException%5D%0D%0A++++%7B%0D%0A++++++++Write-Warning+-Message+%28%24Global%3AError.Exception.Message+%7C+Select-Object+-First+1%29%0D%0A++++++++Write-Error+-Message+%28%24Global%3AError.Exception.Message+%7C+Select-Object+-First+1%29+-ErrorAction+SilentlyContinue%0D%0A++++%7D%0D%0A%7D%0D%0A%0D%0A%23+TaskbarSearch+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CSearch+-Name+SearchboxTaskbarMode+-PropertyType+DWord+-Value+0+-Force%0D%0A%23+SearchHighlights+-Hide%0D%0A%23+Check+whether+%22Ask+Copilot%22+and+%22Find+results+in+Web%22+%28Web%29+were+disabled.+They+also+disable+Search+Highlights+automatically%0D%0A%23+Due+to+%22Set-StrictMode+-Version+Latest%22+we+have+to+use+GetValue%28%29%0D%0A%24BingSearchEnabled+%3D+%28%5BMicrosoft.Win32.Registry%5D%3A%3AGetValue%28%22HKEY_CURRENT_USER%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CSearch%22%2C+%22BingSearchEnabled%22%2C+%24null%29%29%0D%0A%24DisableSearchBoxSuggestions+%3D+%28%5BMicrosoft.Win32.Registry%5D%3A%3AGetValue%28%22HKEY_CURRENT_USER%5CSoftware%5CPolicies%5CMicrosoft%5CWindows%5CExplorer%22%2C+%22DisableSearchBoxSuggestions%22%2C+%24null%29%29%0D%0Aif+%28%28%24BingSearchEnabled+-eq+1%29+-or+%28%24DisableSearchBoxSuggestions+-eq+1%29%29%0D%0A%7B%0D%0AWrite-Information+-MessageData+%22%22+-InformationAction+Continue%0D%0AWrite-Verbose+-Message+%24Localization.Skipped+-Verbose%0D%0A%0D%0Areturn%0D%0A%7D%0D%0Aelse%0D%0A%7B%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CSearchSettings+-Name+IsDynamicSearchBoxEnabled+-PropertyType+DWord+-Value+0+-Force%0D%0A%7D%0D%0A%0D%0A%23+CopilotButton+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+ShowCopilotButton+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+TaskViewButton+-Hide%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CAdvanced+-Name+ShowTaskViewButton+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+ControlPanelView+-LargeIcons%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CControlPanel%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CControlPanel+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CControlPanel+-Name+AllItemsIconView+-PropertyType+DWord+-Value+0+-Force%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CControlPanel+-Name+StartupPage+-PropertyType+DWord+-Value+1+-Force%0D%0A%0D%0A%23+WindowsColorMode+-Dark%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CThemes%5CPersonalize+-Name+SystemUsesLightTheme+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%23+AppColorMode+-Light%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CThemes%5CPersonalize+-Name+AppsUseLightTheme+-PropertyType+DWord+-Value+1+-Force%0D%0A%23+ShortcutsSuffix+-Disable%0D%0Aif+%28-not+%28Test-Path+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CNamingTemplates%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CNamingTemplates+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CNamingTemplates+-Name+ShortcutNameTemplate+-PropertyType+String+-Value+%22%25s.lnk%22+-Force%0D%0A%0D%0A%23+FolderGroupBy+-None%0D%0A%23+Clear+any+Common+Dialog+views%0D%0AGet-ChildItem+-Path+%22HKCU%3A%5CSoftware%5CClasses%5CLocal+Settings%5CSoftware%5CMicrosoft%5CWindows%5CShell%5CBags%5C*%5CShell%22+-Recurse+%7C+Where-Object+-FilterScript+%7B%24_.PSChildName+-eq+%22%7B885A186E-A440-4ADA-812B-DB871B942259%7D%22%7D+%7C+Remove-Item+-Force%0D%0A%0D%0A%23+https%3A%2F%2Flearn.microsoft.com%2Fen-us%2Fwindows%2Fwin32%2Fproperties%2Fprops-system-null%0D%0Aif+%28-not+%28Test-Path+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22%29%29%0D%0A%7B%0D%0A++++New-Item+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Force%0D%0A%7D%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+ColumnList+-PropertyType+String+-Value+%22System.Null%22+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+GroupBy+-PropertyType+String+-Value+%22System.Null%22+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+LogicalViewMode+-PropertyType+DWord+-Value+1+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+Name+-PropertyType+String+-Value+NoName+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+Order+-PropertyType+DWord+-Value+0+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+PrimaryProperty+-PropertyType+String+-Value+%22System.ItemNameDisplay%22+-Force%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CExplorer%5CFolderTypes%5C%7B885a186e-a440-4ada-812b-db871b942259%7D%5CTopViews%5C%7B00000000-0000-0000-0000-000000000000%7D%22+-Name+SortByList+-PropertyType+String+-Value+%22prop%3ASystem.ItemNameDisplay%22+-Force%0D%0A%23+TeamsAutostart+-Disable%0D%0Aif+%28Get-AppxPackage+-Name+MSTeams%29%0D%0A%7B%0D%0A++++New-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CClasses%5CLocal+Settings%5CSoftware%5CMicrosoft%5CWindows%5CCurrentVersion%5CAppModel%5CSystemAppData%5CMSTeams_8wekyb3d8bbwe%5CTeamsTfwStartupTask%22+-Name+State+-PropertyType+DWord+-Value+1+-Force%0D%0A%7D%0D%0A%23+DismissMSAccount%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows+Security+Health%5CState%22+-Name+AccountProtection_MicrosoftAccount_Disconnected+-PropertyType+DWord+-Value+1+-Force%0D%0A%0D%0A%23+Dismiss+Microsoft+Defender+offer+in+the+Windows+Security+about+turning+on+the+SmartScreen+filter+for+Microsoft+Edge%0D%0A%23+DismissSmartScreenFilter%0D%0ANew-ItemProperty+-Path+%22HKCU%3A%5CSoftware%5CMicrosoft%5CWindows+Security+Health%5CState%22+-Name+AppAndBrowser_EdgeSmartScreenOff+-PropertyType+DWord+-Value+0+-Force%0D%0A%0D%0A%0D%0A&UserOnceScriptType1=Ps1&WdacMode=Skip-->
+	<settings pass="offlineServicing"></settings>
+	<settings pass="windowsPE">
+		<component name="Microsoft-Windows-International-Core-WinPE" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+			<SetupUILanguage>
+				<UILanguage>pl-PL</UILanguage>
+			</SetupUILanguage>
+			<InputLocale>0415:00000415</InputLocale>
+			<SystemLocale>pl-PL</SystemLocale>
+			<UILanguage>pl-PL</UILanguage>
+			<UserLocale>pl-PL</UserLocale>
+		</component>
+		<component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+			<ImageInstall>
+				<OSImage>
+					<InstallTo>
+						<DiskID>0</DiskID>
+						<PartitionID>3</PartitionID>
+					</InstallTo>
+				</OSImage>
+			</ImageInstall>
+			<UserData>
+				<ProductKey>
+					<Key>VK7JG-NPHTM-C97JM-9MPGT-3V66T</Key>
+				</ProductKey>
+				<AcceptEula>true</AcceptEula>
+			</UserData>
+			<RunSynchronous>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>1</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo SELECT DISK=0"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>2</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo CLEAN"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>3</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo CONVERT GPT"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>4</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo CREATE PARTITION EFI SIZE=300"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>5</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo FORMAT QUICK FS=FAT32 LABEL="System""</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>6</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo CREATE PARTITION MSR SIZE=16"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>7</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo CREATE PARTITION PRIMARY"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>8</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo SHRINK MINIMUM=1000"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>9</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo FORMAT QUICK FS=NTFS LABEL="Windows""</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>10</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo CREATE PARTITION PRIMARY"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>11</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo FORMAT QUICK FS=NTFS LABEL="Recovery""</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>12</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo SET ID="de94bba4-06d1-4d40-a16a-bfd50179d6ac""</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>13</Order>
+					<Path>cmd.exe /c "&gt;&gt;"X:\diskpart.txt" echo GPT ATTRIBUTES=0x8000000000000001"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>14</Order>
+					<Path>cmd.exe /c "diskpart.exe /s "X:\diskpart.txt" &gt;&gt;"X:\diskpart.log" || ( type "X:\diskpart.log" &amp; echo diskpart encountered an error. &amp; pause &amp; exit /b 1 )"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>15</Order>
+					<Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassTPMCheck /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>16</Order>
+					<Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassSecureBootCheck /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>17</Order>
+					<Path>reg.exe add "HKLM\SYSTEM\Setup\LabConfig" /v BypassRAMCheck /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+			</RunSynchronous>
+		</component>
+	</settings>
+	<settings pass="generalize"></settings>
+	<settings pass="specialize">
+		<component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+			<RunSynchronous>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>1</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>2</Order>
+					<Path>reg.exe load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>3</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "UninstallCopilot" /t REG_SZ /d "powershell.exe -NoProfile -Command \"Get-AppxPackage -Name 'Microsoft.Windows.Ai.Copilot.Provider' | Remove-AppxPackage;\"" /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>4</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Policies\Microsoft\Windows\WindowsCopilot" /v TurnOffWindowsCopilot /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>5</Order>
+					<Path>reg.exe unload "HKU\DefaultUser"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>6</Order>
+					<Path>reg.exe delete "HKLM\SOFTWARE\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\DevHomeUpdate" /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>7</Order>
+					<Path>cmd.exe /c "del "C:\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk""</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>8</Order>
+					<Path>cmd.exe /c "del "C:\Windows\System32\OneDriveSetup.exe""</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>9</Order>
+					<Path>cmd.exe /c "del "C:\Windows\SysWOW64\OneDriveSetup.exe""</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>10</Order>
+					<Path>reg.exe load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>11</Order>
+					<Path>reg.exe delete "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Run" /v OneDriveSetup /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>12</Order>
+					<Path>reg.exe unload "HKU\DefaultUser"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>13</Order>
+					<Path>reg.exe delete "HKLM\SOFTWARE\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\OutlookUpdate" /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>14</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications" /v ConfigureChatAutoInstall /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>15</Order>
+					<Path>powershell.exe -NoProfile -Command "$xml = [xml]::new(); $xml.Load('C:\Windows\Panther\unattend.xml'); $sb = [scriptblock]::Create( $xml.unattend.Extensions.ExtractScript ); Invoke-Command -ScriptBlock $sb -ArgumentList $xml;"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>16</Order>
+					<Path>powershell.exe -NoProfile -Command "Get-Content -LiteralPath 'C:\Windows\Temp\remove-packages.ps1' -Raw | Invoke-Expression;"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>17</Order>
+					<Path>powershell.exe -NoProfile -Command "Get-Content -LiteralPath 'C:\Windows\Temp\remove-caps.ps1' -Raw | Invoke-Expression;"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>18</Order>
+					<Path>powershell.exe -NoProfile -Command "Get-Content -LiteralPath 'C:\Windows\Temp\remove-features.ps1' -Raw | Invoke-Expression;"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>19</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\Start" /v ConfigureStartPins /t REG_SZ /d "{ \"pinnedList\": [] }" /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>20</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\Start" /v ConfigureStartPins_ProviderSet /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>21</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\Start" /v ConfigureStartPins_WinningProvider /t REG_SZ /d B5292708-1619-419B-9923-E5D9F3925E71 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>22</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\PolicyManager\providers\B5292708-1619-419B-9923-E5D9F3925E71\default\Device\Start" /v ConfigureStartPins /t REG_SZ /d "{ \"pinnedList\": [] }" /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>23</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\PolicyManager\providers\B5292708-1619-419B-9923-E5D9F3925E71\default\Device\Start" /v ConfigureStartPins_LastWrite /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>24</Order>
+					<Path>net.exe accounts /maxpwage:UNLIMITED</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>25</Order>
+					<Path>reg.exe load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>26</Order>
+					<Path>reg.exe add "HKU\DefaultUser\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "HideFileExt" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>27</Order>
+					<Path>reg.exe add "HKU\DefaultUser\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Hidden" /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>28</Order>
+					<Path>reg.exe unload "HKU\DefaultUser"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>29</Order>
+					<Path>powershell.exe -NoProfile -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\ShowAllTrayIcons.ps1' -Raw | Invoke-Expression;"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>30</Order>
+					<Path>powershell.exe -NoProfile -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\DeleteTaskbarIcons.ps1' -Raw | Invoke-Expression;"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>31</Order>
+					<Path>reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy" /v VerifiedAndReputablePolicyState /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>32</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v SmartScreenEnabled /t REG_SZ /d "Off" /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>33</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WTDS\Components" /v ServiceEnabled /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>34</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WTDS\Components" /v NotifyMalicious /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>35</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WTDS\Components" /v NotifyPasswordReuse /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>36</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\WTDS\Components" /v NotifyUnsafeApp /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>37</Order>
+					<Path>reg.exe load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>38</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Edge\SmartScreenEnabled" /ve /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>39</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Edge\SmartScreenPuaEnabled" /ve /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>40</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\AppHost" /v EnableWebContentEvaluation /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>41</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\AppHost" /v PreventOverride /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>42</Order>
+					<Path>reg.exe unload "HKU\DefaultUser"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>43</Order>
+					<Path>icacls.exe C:\ /remove:g "*S-1-5-11"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>44</Order>
+					<Path>fsutil.exe behavior set disableLastAccess 1</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>45</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v AUOptions /t REG_DWORD /d 4 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>46</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoRebootWithLoggedOnUsers /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>47</Order>
+					<Path>reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>48</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Dsh" /v AllowNewsAndInterests /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>49</Order>
+					<Path>reg.exe load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>50</Order>
+					<Path>powershell.exe -NoProfile -Command "Get-Content -LiteralPath '%TEMP%\sounds.ps1' -Raw | Invoke-Expression;"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>51</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "NoSounds" /t REG_SZ /d "reg.exe add \"HKCU\AppEvents\Schemes\" /ve /t REG_SZ /d \".None\" /f" /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>52</Order>
+					<Path>reg.exe unload "HKU\DefaultUser"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>53</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication\LogonUI\BootAnimation" /v DisableStartupSound /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>54</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\EditionOverrides" /v UserSetting_DisableStartupSound /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>55</Order>
+					<Path>reg.exe load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>56</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "ContentDeliveryAllowed" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>57</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "FeatureManagementEnabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>58</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "OEMPreInstalledAppsEnabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>59</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "PreInstalledAppsEnabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>60</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "PreInstalledAppsEverEnabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>61</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SilentInstalledAppsEnabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>62</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SoftLandingEnabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>63</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContentEnabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>64</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-310093Enabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>65</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-338387Enabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>66</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-338388Enabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>67</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-338389Enabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>68</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-338393Enabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>69</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-353698Enabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>70</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SystemPaneSuggestionsEnabled" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>71</Order>
+					<Path>reg.exe unload "HKU\DefaultUser"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>72</Order>
+					<Path>reg.exe add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsConsumerFeatures" /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>73</Order>
+					<Path>reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control\BitLocker" /v "PreventDeviceEncryption" /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>74</Order>
+					<Path>reg.exe load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>75</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "ClassicContextMenu" /t REG_SZ /d "reg.exe add \"HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32\" /ve /f" /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>76</Order>
+					<Path>reg.exe unload "HKU\DefaultUser"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>77</Order>
+					<Path>reg.exe load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>78</Order>
+					<Path>reg.exe add "HKU\DefaultUser\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarAl /t REG_DWORD /d 0 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>79</Order>
+					<Path>reg.exe unload "HKU\DefaultUser"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>80</Order>
+					<Path>reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Edge" /v HideFirstRunExperience /t REG_DWORD /d 1 /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>81</Order>
+					<Path>cmd.exe /c "C:\Windows\Setup\Scripts\unattend-01.cmd &gt;&gt;"C:\Windows\Setup\Scripts\unattend-01.log" 2&gt;&amp;1"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>82</Order>
+					<Path>reg.exe load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>83</Order>
+					<Path>reg.exe add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\RunOnce" /v "unattend-03" /t REG_SZ /d "powershell.exe -NoProfile -Command \"Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\unattend-03.ps1' -Raw | Invoke-Expression;\"" /f</Path>
+				</RunSynchronousCommand>
+				<RunSynchronousCommand wcm:action="add">
+					<Order>84</Order>
+					<Path>reg.exe unload "HKU\DefaultUser"</Path>
+				</RunSynchronousCommand>
+			</RunSynchronous>
+		</component>
+		<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+			<TimeZone>Central European Standard Time</TimeZone>
+		</component>
+	</settings>
+	<settings pass="auditSystem"></settings>
+	<settings pass="auditUser"></settings>
+	<settings pass="oobeSystem">
+		<component name="Microsoft-Windows-International-Core" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+			<InputLocale>0415:00000415</InputLocale>
+			<SystemLocale>pl-PL</SystemLocale>
+			<UILanguage>pl-PL</UILanguage>
+			<UserLocale>pl-PL</UserLocale>
+		</component>
+		<component name="Microsoft-Windows-Shell-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
+			<UserAccounts>
+				<LocalAccounts>
+					<LocalAccount wcm:action="add">
+						<Name>AdminPaj</Name>
+						<Group>Administrators</Group>
+						<Password>
+							<Value>Usher-grain</Value>
+							<PlainText>true</PlainText>
+						</Password>
+					</LocalAccount>
+					<LocalAccount wcm:action="add">
+						<Name>User</Name>
+						<Group>Users</Group>
+						<Password>
+							<Value></Value>
+							<PlainText>true</PlainText>
+						</Password>
+					</LocalAccount>
+				</LocalAccounts>
+			</UserAccounts>
+			<AutoLogon>
+				<Username>AdminPaj</Username>
+				<Enabled>true</Enabled>
+				<LogonCount>1</LogonCount>
+				<Password>
+					<Value>Usher-grain</Value>
+					<PlainText>true</PlainText>
+				</Password>
+			</AutoLogon>
+			<OOBE>
+				<ProtectYourPC>3</ProtectYourPC>
+				<HideEULAPage>true</HideEULAPage>
+				<HideWirelessSetupInOOBE>true</HideWirelessSetupInOOBE>
+			</OOBE>
+			<FirstLogonCommands>
+				<SynchronousCommand wcm:action="add">
+					<Order>1</Order>
+					<CommandLine>reg.exe add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoLogonCount /t REG_DWORD /d 0 /f</CommandLine>
+				</SynchronousCommand>
+				<SynchronousCommand wcm:action="add">
+					<Order>2</Order>
+					<CommandLine>powershell.exe -NoProfile -Command "Disable-ComputerRestore -Drive 'C:\';"</CommandLine>
+				</SynchronousCommand>
+				<SynchronousCommand wcm:action="add">
+					<Order>3</Order>
+					<CommandLine>cmd.exe /c "powershell.exe -NoProfile -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\unattend-02.ps1' -Raw | Invoke-Expression;" &gt;&gt;"C:\Windows\Setup\Scripts\unattend-02.log" 2&gt;&amp;1"</CommandLine>
+				</SynchronousCommand>
+			</FirstLogonCommands>
+		</component>
+	</settings>
+	<Extensions xmlns="https://schneegans.de/windows/unattend-generator/">
+		<ExtractScript>
+param(
+    [xml] $Document
+);
+
+$scriptsDir = 'C:\Windows\Setup\Scripts\';
+foreach( $file in $Document.unattend.Extensions.File ) {
+    $path = [System.Environment]::ExpandEnvironmentVariables(
+        $file.GetAttribute( 'path' )
+    );
+    if( $path.StartsWith( $scriptsDir ) ) {
+        mkdir -Path $scriptsDir -ErrorAction 'SilentlyContinue';
+    }
+    $encoding = switch( [System.IO.Path]::GetExtension( $path ) ) {
+        { $_ -in '.ps1', '.xml' } { [System.Text.Encoding]::UTF8; }
+        { $_ -in '.reg', '.vbs', '.js' } { [System.Text.UnicodeEncoding]::new( $false, $true ); }
+        default { [System.Text.Encoding]::Default; }
+    };
+    [System.IO.File]::WriteAllBytes( $path, ( $encoding.GetPreamble() + $encoding.GetBytes( $file.InnerText.Trim() ) ) );
+}
+		</ExtractScript>
+		<File path="C:\Windows\Temp\remove-packages.ps1">
+$selectors = @(
+	'Microsoft.Microsoft3DViewer';
+	'Microsoft.BingSearch';
+	'Microsoft.WindowsCamera';
+	'Clipchamp.Clipchamp';
+	'Microsoft.WindowsAlarms';
+	'Microsoft.549981C3F5F10';
+	'Microsoft.Windows.DevHome';
+	'MicrosoftCorporationII.MicrosoftFamily';
+	'Microsoft.WindowsFeedbackHub';
+	'Microsoft.GetHelp';
+	'Microsoft.Getstarted';
+	'microsoft.windowscommunicationsapps';
+	'Microsoft.WindowsMaps';
+	'Microsoft.MixedReality.Portal';
+	'Microsoft.BingNews';
+	'Microsoft.MicrosoftOfficeHub';
+	'Microsoft.Office.OneNote';
+	'Microsoft.OutlookForWindows';
+	'Microsoft.MSPaint';
+	'Microsoft.People';
+	'Microsoft.Windows.Photos';
+	'Microsoft.PowerAutomateDesktop';
+	'MicrosoftCorporationII.QuickAssist';
+	'Microsoft.SkypeApp';
+	'Microsoft.ScreenSketch';
+	'Microsoft.MicrosoftSolitaireCollection';
+	'Microsoft.MicrosoftStickyNotes';
+	'MicrosoftTeams';
+	'MSTeams';
+	'Microsoft.Todos';
+	'Microsoft.WindowsSoundRecorder';
+	'Microsoft.BingWeather';
+	'Microsoft.WindowsTerminal';
+	'Microsoft.Xbox.TCUI';
+	'Microsoft.XboxApp';
+	'Microsoft.XboxGameOverlay';
+	'Microsoft.XboxGamingOverlay';
+	'Microsoft.XboxIdentityProvider';
+	'Microsoft.XboxSpeechToTextOverlay';
+	'Microsoft.GamingApp';
+	'Microsoft.YourPhone';
+	'Microsoft.ZuneMusic';
+	'Microsoft.ZuneVideo';
+);
+$getCommand = { Get-AppxProvisionedPackage -Online; };
+$filterCommand = { $_.DisplayName -eq $selector; };
+$removeCommand = {
+  [CmdletBinding()]
+  param(
+    [Parameter( Mandatory, ValueFromPipeline )]
+    $InputObject
+  );
+  process {
+    $InputObject | Remove-AppxProvisionedPackage -AllUsers -Online -ErrorAction 'Continue';
+  }
+};
+$type = 'Package';
+$logfile = 'C:\Windows\Temp\remove-packages.log';
+&amp; {
+	$installed = &amp; $getCommand;
+	foreach( $selector in $selectors ) {
+		$result = [ordered] @{
+			Selector = $selector;
+		};
+		$found = $installed | Where-Object -FilterScript $filterCommand;
+		if( $found ) {
+			$result.Output = $found | &amp; $removeCommand;
+			if( $? ) {
+				$result.Message = "$type removed.";
+			} else {
+				$result.Message = "$type not removed.";
+				$result.Error = $Error[0];
+			}
+		} else {
+			$result.Message = "$type not installed.";
+		}
+		$result | ConvertTo-Json -Depth 3 -Compress;
+	}
+} *&gt;&amp;1 &gt;&gt; $logfile;
+		</File>
+		<File path="C:\Windows\Temp\remove-caps.ps1">
+$selectors = @(
+	'Browser.InternetExplorer';
+	'MathRecognizer';
+	'OpenSSH.Client';
+	'Microsoft.Windows.PowerShell.ISE';
+	'App.Support.QuickAssist';
+	'Microsoft.Windows.SnippingTool';
+	'App.StepsRecorder';
+	'Media.WindowsMediaPlayer';
+	'Microsoft.Windows.WordPad';
+);
+$getCommand = { Get-WindowsCapability -Online; };
+$filterCommand = { ($_.Name -split '~')[0] -eq $selector; };
+$removeCommand = {
+  [CmdletBinding()]
+  param(
+    [Parameter( Mandatory, ValueFromPipeline )]
+    $InputObject
+  );
+  process {
+    $InputObject | Remove-WindowsCapability -Online -ErrorAction 'Continue';
+  }
+};
+$type = 'Capability';
+$logfile = 'C:\Windows\Temp\remove-caps.log';
+&amp; {
+	$installed = &amp; $getCommand;
+	foreach( $selector in $selectors ) {
+		$result = [ordered] @{
+			Selector = $selector;
+		};
+		$found = $installed | Where-Object -FilterScript $filterCommand;
+		if( $found ) {
+			$result.Output = $found | &amp; $removeCommand;
+			if( $? ) {
+				$result.Message = "$type removed.";
+			} else {
+				$result.Message = "$type not removed.";
+				$result.Error = $Error[0];
+			}
+		} else {
+			$result.Message = "$type not installed.";
+		}
+		$result | ConvertTo-Json -Depth 3 -Compress;
+	}
+} *&gt;&amp;1 &gt;&gt; $logfile;
+		</File>
+		<File path="C:\Windows\Temp\remove-features.ps1">
+$selectors = @(
+	'Recall';
+	'Microsoft-SnippingTool';
+);
+$getCommand = { Get-WindowsOptionalFeature -Online; };
+$filterCommand = { $_.FeatureName -eq $selector; };
+$removeCommand = {
+  [CmdletBinding()]
+  param(
+    [Parameter( Mandatory, ValueFromPipeline )]
+    $InputObject
+  );
+  process {
+    $InputObject | Disable-WindowsOptionalFeature -Online -Remove -NoRestart -ErrorAction 'Continue';
+  }
+};
+$type = 'Feature';
+$logfile = 'C:\Windows\Temp\remove-features.log';
+&amp; {
+	$installed = &amp; $getCommand;
+	foreach( $selector in $selectors ) {
+		$result = [ordered] @{
+			Selector = $selector;
+		};
+		$found = $installed | Where-Object -FilterScript $filterCommand;
+		if( $found ) {
+			$result.Output = $found | &amp; $removeCommand;
+			if( $? ) {
+				$result.Message = "$type removed.";
+			} else {
+				$result.Message = "$type not removed.";
+				$result.Error = $Error[0];
+			}
+		} else {
+			$result.Message = "$type not installed.";
+		}
+		$result | ConvertTo-Json -Depth 3 -Compress;
+	}
+} *&gt;&amp;1 &gt;&gt; $logfile;
+		</File>
+		<File path="C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\LayoutModification.xml"><![CDATA[
+<LayoutModificationTemplate Version="1" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
+	<LayoutOptions StartTileGroupCellWidth="6" />
+	<DefaultLayoutOverride>
+		<StartLayoutCollection>
+			<StartLayout GroupCellWidth="6" xmlns="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" />
+		</StartLayoutCollection>
+	</DefaultLayoutOverride>
+</LayoutModificationTemplate>
+		]]></File>
+		<File path="C:\Windows\Setup\Scripts\ShowAllTrayIcons.ps1">
+if( [System.Environment]::OSVersion.Version.Build -lt 20000 ) {
+	# Windows 10
+	reg.exe load 'HKU\DefaultUser' 'C:\Users\Default\NTUSER.DAT';
+	Set-ItemProperty -LiteralPath 'Registry::HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Explorer' -Name 'EnableAutoTray' -Type 'DWord' -Value 0 -Force;
+	reg.exe unload 'HKU\DefaultUser';
+} else {
+	# Windows 11
+	Register-ScheduledTask -TaskName 'ShowAllTrayIcons' -Xml $(
+		Get-Content -LiteralPath "C:\Windows\Setup\Scripts\ShowAllTrayIcons.xml" -Raw;
+	);
+}
+		</File>
+		<File path="C:\Windows\Setup\Scripts\ShowAllTrayIcons.xml"><![CDATA[
+<Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+	<Triggers>
+		<LogonTrigger>
+			<Repetition>
+				<Interval>PT1M</Interval>
+				<StopAtDurationEnd>false</StopAtDurationEnd>
+			</Repetition>
+			<Enabled>true</Enabled>
+		</LogonTrigger>
+	</Triggers>
+	<Principals>
+		<Principal id="Author">
+			<GroupId>S-1-5-32-545</GroupId>
+			<RunLevel>LeastPrivilege</RunLevel>
+		</Principal>
+	</Principals>
+	<Settings>
+		<MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+		<DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries>
+		<StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
+		<AllowHardTerminate>true</AllowHardTerminate>
+		<StartWhenAvailable>false</StartWhenAvailable>
+		<RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
+		<IdleSettings>
+			<StopOnIdleEnd>true</StopOnIdleEnd>
+			<RestartOnIdle>false</RestartOnIdle>
+		</IdleSettings>
+		<AllowStartOnDemand>true</AllowStartOnDemand>
+		<Enabled>true</Enabled>
+		<Hidden>false</Hidden>
+		<RunOnlyIfIdle>false</RunOnlyIfIdle>
+		<WakeToRun>false</WakeToRun>
+		<ExecutionTimeLimit>PT72H</ExecutionTimeLimit>
+		<Priority>7</Priority>
+	</Settings>
+	<Actions Context="Author">
+		<Exec>
+			<Command>C:\Windows\System32\wscript.exe</Command>
+			<Arguments>C:\Windows\Setup\Scripts\ShowAllTrayIcons.vbs</Arguments>
+		</Exec>
+	</Actions>
+</Task>
+		]]></File>
+		<File path="C:\Windows\Setup\Scripts\ShowAllTrayIcons.vbs">
+Set shell = CreateObject( "WScript.Shell" )
+Set exec = shell.Exec( "reg.exe QUERY ""HKCU\Control Panel\NotifyIconSettings""" )
+Set re = New RegExp
+re.Pattern = "^HKEY_CURRENT_USER\\Control Panel\\NotifyIconSettings\\\d+$"
+While Not exec.StdOut.AtEndOfStream
+	line = exec.StdOut.ReadLine
+	If re.Test( line ) Then
+		shell.RegWrite line + "\IsPromoted", 1, "REG_DWORD"
+	End If
+Wend
+		</File>
+		<File path="C:\Windows\Setup\Scripts\DeleteTaskbarIcons.ps1">
+reg.exe load 'HKU\DefaultUser' 'C:\Users\Default\NTUSER.DAT';
+
+$command = 'powershell.exe -NoProfile -Command "{0}"' -f { Remove-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband' '*'; Get-Process 'explorer' | Where-Object { $_.SI -eq (Get-Process -Id $PID).SI; } | Stop-Process; };
+Set-ItemProperty -LiteralPath 'Registry::HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\RunOnce' -Name 'DeleteTaskbarIcons' -Type 'String' -Value $command -Force;
+
+reg.exe unload 'HKU\DefaultUser';
+		</File>
+		<File path="%TEMP%\sounds.ps1">
+$mountKey = 'DefaultUser';
+New-PSDrive -PSProvider 'Registry' -Root 'HKEY_USERS' -Name 'HKU';
+$excludes = Get-ChildItem -LiteralPath "HKU:\${mountKey}\AppEvents\EventLabels" |
+    Where-Object -FilterScript { ($_ | Get-ItemProperty).ExcludeFromCPL -eq 1; } |
+    Select-Object -ExpandProperty 'PSChildName';
+Get-ChildItem -Path "HKU:\${mountKey}\AppEvents\Schemes\Apps\*\*" |
+    Where-Object -Property 'PSChildName' -NotIn $excludes |
+    Get-ChildItem -Include '.Current' | Set-ItemProperty -Name '(default)' -Value '';
+Remove-PSDrive -Name 'HKU';
+		</File>
+		<File path="C:\Windows\Setup\Scripts\unattend-01.cmd">
+POWERCFG /HIBERNATE OFF
+POWERCFG /SETACTIVE SCHEME_MIN
+		</File>
+		<File path="C:\Windows\Setup\Scripts\unattend-02.ps1">
+$installPath = "C:\Serwis"
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+$ProgressPreference = 'SilentlyContinue'
+
+
+
+# Funkcja do zapisu komunikatu do pliku logu
+function Write-Log { 
+    Param ([string]$LogString)
+    $Stamp = (Get-Date).toString("yyyy-MM-dd HH:mm:ss")
+    $LogMessage = "$Stamp $LogString"
+    Add-content $logFile -value $LogMessage
+
+    $textbox.Text += $LogMessage + "`r`n"
+    $textbox.ScrollToEnd()
+
+    Write-Host $LogString
+}
+
+# Funkcja wyświetla w konsoli informację dla użytkownika i zapisuje ją do pliku logu z sygnatura czasową
+function Write-HostAndLog { 
+    param (
+        [Parameter(Mandatory = $true)]
+        [string]$LogString
+    )
+
+    Write-Log -LogString $LogString
+    Write-Host $LogString
+}
+
+function CreateDesktopShortcut {
+    param (
+        [string]$ShortcutName,
+        [string]$File, 
+        [string]$Arguments
+    )
+    $WshShell = New-Object -ComObject WScript.Shell
+    try {
+        $shortcut = $WshShell.CreateShortcut("$([Environment]::GetFolderPath('CommonDesktopDirectory'))\$ShortcutName.lnk")
+        $shortcut.TargetPath = $File
+        $shortcut.Arguments = $Arguments
+        $shortcut.Save()
+    
+    } Catch {
+        $shortcut = $WshShell.CreateShortcut("$([Environment]::GetFolderPath('DesktopDirectory'))\$ShortcutName.lnk")
+        $shortcut.TargetPath = $File
+        $shortcut.Arguments = $Arguments
+        $shortcut.Save()
+    
+    }   
+    
+}
+
+
+function InstallNotepad3 {
+    $uri = Invoke-RestMethod -uri  https://api.github.com/repos/rizonesoft/Notepad3/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("x64_Setup.exe")} | Select-Object -ExpandProperty browser_download_url
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath 
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/SILENT /SP-"
+    Remove-Item $installerPath
+}
+
+InstallNotepad3
+
+function InstallDoubleCmd {
+    $uri = Invoke-RestMethod -uri  https://api.github.com/repos/doublecmd/doublecmd/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("win64.exe")} | Select-Object -ExpandProperty browser_download_url
+    Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile "$($env:TEMP)\doublecmd.exe"
+    Start-Process -Wait -FilePath "$($env:TEMP)\doublecmd.exe" -ArgumentList "/SILENT /SP-"
+    New-Item -Path "$($env:APPDATA)\doublecmd" -ItemType Directory -Force | Out-Null
+    try {
+    Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "C:\Program Files\Double Commander\doublecmd.xml"
+    }
+    catch {
+
+    }
+    try {
+        Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:APPDATA)\doublecmd\doublecmd.xml"
+    }
+    catch {
+        
+    }
+    
+    
+    # CreateDesktopShortcut -ShortcutName "Double Commander" -File "C:\Program Files\Double Commander\doublecmd.exe"
+}
+
+InstallDoubleCmd
+
+function InstallTeamViewerHost {
+    $uri = "https://www.pajcomp.pl/pub/TeamViewer/TeamViewer_Host_x64.msi"
+    $uri_conf = "https://www.pajcomp.pl/pub/TeamViewer/.tv_paj.tvopt"
+    
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    $confPath = Join-Path $env:TEMP (Split-Path $uri_conf -Leaf)
+
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Invoke-WebRequest -UseBasicParsing $uri_conf -OutFile $confPath
+
+    #-Wait -FilePath "$($env:TEMP)\ps7.msi" -ArgumentList "/qb-! REBOOT=ReallySuppress"
+    Start-Process -Wait -FilePath $installerPath  -ArgumentList "/passive CUSTOMCONFIGID=639wciv SETTINGSFILE=$confPath"
+}
+
+InstallTeamViewerHost
+
+function InstallPosnetOps {
+    New-Item -Path "$installPath\Posnet-OPS\" -ItemType Directory -Force | Out-Null
+    Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-OPS/posnet-ops-setup-11.44.89.exe" -OutFile "$installPath\posnet-ops-setup-11.30.80.exe" 
+    # Start-Process -Wait -FilePath "$installPath\posnet-ops-setup-11.44.89.exe" -ArgumentList "/D=$installPath\Posnet-OPS"
+}
+
+InstallPosnetOps
+
+function InstallDrivers {
+    $uri = "https://www.pajcomp.pl/pub/?zip=Sterowniki"
+    
+    $installerPath = Join-Path $env:TEMP "Sterowniki.zip"
+    $destinationPath = "$installPath\Sterowniki\"
+
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    
+    New-Item -Path $destinationPath -ItemType Directory -Force | Out-Null
+    Expand-Archive $installerPath -DestinationPath $destinationPath -Force
+    Remove-Item $installerPath
+
+    # Pobranie listy plików zip
+    $plikiZip = Get-ChildItem -Path $destinationPath -File -Recurse | Where-Object { ($_.Name -like "*.zip") -OR ( $_.Name -like "*.exe") }
+
+    # Dla każdego pliku zip
+    foreach ($plik in $plikiZip) {
+    try {
+        $nazwaKatalogu = $plik.BaseName
+        Expand-Archive -Path $plik.FullName -DestinationPath "$($plik.DirectoryName)\$nazwaKatalogu" -Force
+    } catch {
+        Remove-Item -Path "$($plik.DirectoryName)\$nazwaKatalogu" -Force
+    }
+    
+
+}
+}
+
+InstallDrivers
+
+function InstallAdminSql {
+    $uri = "https://pajcomp.pl/pub/SQL-tools/AdminSQL.zip"
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+       
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\AdminSQL" -Force
+    # CreateDesktopShortcut -ShortcutName "AdminSQL" -File "$installPath\AdminSQL\AdminSQL.exe"
+    Remove-Item $installerPath 
+}
+
+InstallAdminSql
+
+function InstallHeidiSql {
+    $uri = "https://www.heidisql.com" + (Invoke-WebRequest -UseBasicParsing -Uri 'https://www.heidisql.com/download.php' | Select-Object -ExpandProperty Links | Where-Object {($_.href -like "/installers/*") -and ($_.href -like "*_Setup.exe")} | Select-Object -First 1 | Select-Object -ExpandProperty href)
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath
+    Start-Process -FilePath $installerPath -Args "/ALLUSERS /silent" -Verb RunAs -Wait
+    Remove-Item $installerPath
+}
+
+InstallHeidiSql
+
+function InstallSql2022 {
+    $sqlver=2022
+    New-Item -Path "$($env:TEMP)\sql$($sqlver)" -ItemType Directory -Force | Out-Null
+    Invoke-WebRequest -UseBasicParsing -Uri "https://pajcomp.pl/pub/MSSQL/sql$($sqlver)/SQLEXPR_x64_ENU.exe" -OutFile "$($env:TEMP)\sql$($sqlver)\SQLEXPR_x64_ENU.exe"
+    Start-Process -Wait -FilePath "$($env:TEMP)\sql$($sqlver)\SQLEXPR_x64_ENU.exe" -ArgumentList "/QS /IACCEPTSQLSERVERLICENSETERMS /ACTION=""install"" /FEATURES=SQL /INSTANCENAME=SQL$($sqlver) /SECURITYMODE=SQL /SAPWD=Wapro3000 /TCPENABLED=1"
+    Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql16.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name TcpDynamicPorts -Value ''
+    Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql16.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name tcpport -Value "5$($sqlver)"
+    New-NetFirewallRule -DisplayName "SQL$($sqlver)" -Profile Any -Direction Inbound -Action Allow -Protocol TCP -LocalPort "5$($sqlver)"
+    net stop MSSQL`$SQL$sqlver
+    net start MSSQL`$SQL$sqlver
+}
+
+# InstallSql2022
+
+function InstallPcm {
+    $uri = "https://pobierz.insoft.com.pl/PC-Market7/Wersja_aktualna/InstallPCM_x64.exe"
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "--mode unattended --unattendedmodeui minimalWithDialogs --installer-language pl --db 0  --template 0 --killall 1 --enable-components installPcm,AktualizacjaShoper"
+    # Remove-Item $installerPath    
+}
+
+# InstallPcm
+
+# Poprawski z Sophia Script
+
+# DiagTrackService
+# Connected User Experiences and Telemetry
+# Disabling the "Connected User Experiences and Telemetry" service (DiagTrack) can cause you not being able to get Xbox achievements anymore and affects Feedback Hub
+Get-Service -Name DiagTrack | Stop-Service -Force
+Get-Service -Name DiagTrack | Set-Service -StartupType Disabled
+
+# Block connection for the Unified Telemetry Client Outbound Traffic
+Get-NetFirewallRule -Group DiagTrack | Set-NetFirewallRule -Enabled True -Action Block
+
+
+# DiagnosticDataLevel -Minimal
+# Set the diagnostic data collection to minimum
+if (Get-WindowsEdition -Online | Where-Object -FilterScript {($_.Edition -eq "Enterprise") -or ($_.Edition -eq "Education")})
+{
+    # Diagnostic data off
+    New-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection -Name AllowTelemetry -PropertyType DWord -Value 0 -Force
+    Set-Policy -Scope Computer -Path SOFTWARE\Policies\Microsoft\Windows\DataCollection -Name AllowTelemetry -Type DWORD -Value 0
+}
+else
+{
+    # Send required diagnostic data
+    New-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection -Name AllowTelemetry -PropertyType DWord -Value 1 -Force
+    Set-Policy -Scope Computer -Path SOFTWARE\Policies\Microsoft\Windows\DataCollection -Name AllowTelemetry -Type DWORD -Value 1
+}
+
+New-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection -Name MaxTelemetryAllowed -PropertyType DWord -Value 1 -Force
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack -Name ShowedToastAtLevel -PropertyType DWord -Value 1 -Force
+
+
+# ErrorReporting
+# Turn off Windows Error Reporting
+
+Remove-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" -Name Disabled -Force -ErrorAction Ignore
+Remove-ItemProperty -Path "HKCU:\Software\Policies\Microsoft\Windows\Windows Error Reporting" -Name Disabled -Force -ErrorAction Ignore
+Set-Policy -Scope Computer -Path "SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" -Name Disabled -Type CLEAR
+Set-Policy -Scope User -Path "Software\Policies\Microsoft\Windows\Windows Error Reporting" -Name Disabled -Type CLEAR
+if ((Get-WindowsEdition -Online).Edition -notmatch "Core")
+{
+Get-ScheduledTask -TaskName QueueReporting -ErrorAction Ignore | Disable-ScheduledTask
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\Windows Error Reporting" -Name Disabled -PropertyType DWord -Value 1 -Force
+}
+
+Get-Service -Name WerSvc | Stop-Service -Force
+Get-Service -Name WerSvc | Set-Service -StartupType Disabled
+
+# FeedbackFrequency
+# Change the feedback frequency to "Never"
+
+# Remove all policies in order to make changes visible in UI only if it's possible
+Remove-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection -Name DoNotShowFeedbackNotifications -Force -ErrorAction Ignore
+Set-Policy -Scope Computer -Path SOFTWARE\Policies\Microsoft\Windows\DataCollection -Name DoNotShowFeedbackNotifications -Type CLEAR
+if (-not (Test-Path -Path HKCU:\Software\Microsoft\Siuf\Rules))
+{
+    New-Item -Path HKCU:\Software\Microsoft\Siuf\Rules -Force
+}
+New-ItemProperty -Path HKCU:\Software\Microsoft\Siuf\Rules -Name NumberOfSIUFInPeriod -PropertyType DWord -Value 0 -Force
+
+Remove-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Siuf\Rules -Name PeriodInNanoSeconds -Force -ErrorAction Ignore
+
+# WindowsWelcomeExperience
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SubscribedContent-310093Enabled -PropertyType DWord -Value 0 -Force
+
+# WindowsTips
+Remove-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent -Name DisableSoftLanding -Force -ErrorAction Ignore
+Set-Policy -Scope Computer -Path SOFTWARE\Policies\Microsoft\Windows\CloudContent -Name DisableSoftLanding -Type CLEAR
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SubscribedContent-338389Enabled -PropertyType DWord -Value 0 -Force
+
+# SettingsSuggestedContent
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SubscribedContent-338393Enabled -PropertyType DWord -Value 0 -Force
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SubscribedContent-353694Enabled -PropertyType DWord -Value 0 -Force
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SubscribedContent-353696Enabled -PropertyType DWord -Value 0 -Force
+
+# AppsSilentInstalling -Disable
+# Remove all policies in order to make changes visible in UI only if it's possible
+Remove-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent -Name DisableWindowsConsumerFeatures -Force -ErrorAction Ignore
+Set-Policy -Scope Computer -Path SOFTWARE\Policies\Microsoft\Windows\CloudContent -Name DisableWindowsConsumerFeatures -Type CLEAR
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SilentInstalledAppsEnabled -PropertyType DWord -Value 0 -Force
+
+# WhatsNewInWindows -Disable
+if (-not (Test-Path -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement))
+{
+    New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement -Force
+}
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement -Name ScoobeSystemSettingEnabled -PropertyType DWord -Value 0 -Force
+
+# TailoredExperiences -Disable
+# Remove all policies in order to make changes visible in UI only if it's possible
+Remove-ItemProperty -Path HKCU:\Software\Policies\Microsoft\Windows\CloudContent -Name DisableTailoredExperiencesWithDiagnosticData -Force -ErrorAction Ignore
+Set-Policy -Scope User -Path Software\Policies\Microsoft\Windows\CloudContent -Name DisableTailoredExperiencesWithDiagnosticData -Type CLEAR
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Privacy -Name TailoredExperiencesWithDiagnosticDataEnabled -PropertyType DWord -Value 0 -Force
+
+# BingSearch -Disable
+if (-not (Test-Path -Path HKCU:\Software\Policies\Microsoft\Windows\Explorer))
+{
+    New-Item -Path HKCU:\Software\Policies\Microsoft\Windows\Explorer -Force
+}
+New-ItemProperty -Path HKCU:\Software\Policies\Microsoft\Windows\Explorer -Name DisableSearchBoxSuggestions -PropertyType DWord -Value 1 -Force
+
+Set-Policy -Scope User -Path Software\Policies\Microsoft\Windows\Explorer -Name DisableSearchBoxSuggestions -Type DWORD -Value 1
+
+# StartRecommendationsTips -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name Start_IrisRecommendations -PropertyType DWord -Value 0 -Force
+
+# StartAccountNotifications -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name Start_AccountNotifications -PropertyType DWord -Value 0 -Force
+
+# OneDriveFileExplorerAd -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name ShowSyncProviderNotifications -PropertyType DWord -Value 0 -Force
+
+# FileTransferDialog -Detailed
+if (-not (Test-Path -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager))
+{
+    New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager -Force
+}
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager -Name EnthusiastMode -PropertyType DWord -Value 1 -Force
+
+# QuickAccessRecentFiles -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer -Name ShowRecent -PropertyType DWord -Value 0 -Force
+
+# QuickAccessFrequentFolders -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer -Name ShowFrequent -PropertyType DWord -Value 0 -Force
+
+# TaskbarWidgets -Hide
+if (Get-AppxPackage -Name MicrosoftWindows.Client.WebExperience)
+{
+    # Microsoft blocked access for editing TaskbarDa key in KB5041585
+    try
+    {
+        New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name TaskbarDa -PropertyType DWord -Value 0 -Force -ErrorAction Stop
+    }
+    catch [System.UnauthorizedAccessException]
+    {
+        Write-Warning -Message ($Global:Error.Exception.Message | Select-Object -First 1)
+        Write-Error -Message ($Global:Error.Exception.Message | Select-Object -First 1) -ErrorAction SilentlyContinue
+    }
+}
+
+# TaskbarSearch -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Search -Name SearchboxTaskbarMode -PropertyType DWord -Value 0 -Force
+	
+# SearchHighlights -Hide
+# Check whether "Ask Copilot" and "Find results in Web" (Web) were disabled. They also disable Search Highlights automatically
+# Due to "Set-StrictMode -Version Latest" we have to use GetValue()
+$BingSearchEnabled = ([Microsoft.Win32.Registry]::GetValue("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search", "BingSearchEnabled", $null))
+$DisableSearchBoxSuggestions = ([Microsoft.Win32.Registry]::GetValue("HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", $null))
+if (($BingSearchEnabled -eq 1) -or ($DisableSearchBoxSuggestions -eq 1))
+{
+Write-Information -MessageData "" -InformationAction Continue
+Write-Verbose -Message $Localization.Skipped -Verbose
+
+return
+}
+else
+{
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\SearchSettings -Name IsDynamicSearchBoxEnabled -PropertyType DWord -Value 0 -Force
+}
+
+# CopilotButton -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name ShowCopilotButton -PropertyType DWord -Value 0 -Force
+
+# TaskViewButton -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name ShowTaskViewButton -PropertyType DWord -Value 0 -Force
+
+# PreventTeamsInstallation -Enable
+Clear-Variable -Name Task -ErrorAction Ignore
+# Save string to run it as "NT SERVICE\TrustedInstaller"
+# Remove block from installing Microsoft Teams for new users
+$Task = "Remove-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Communications -Name ConfigureChatAutoInstall -Value 1 -Type Dword -Force"
+# Create a Scheduled Task to run it as "NT SERVICE\TrustedInstaller"
+$Parameters = @{
+    TaskName = "BlockTeamsInstallation"
+    Action   = New-ScheduledTaskAction -Execute powershell.exe -Argument "-WindowStyle Hidden -Command $Task"
+}
+Register-ScheduledTask @Parameters -Force
+
+$ScheduleService = New-Object -ComObject Schedule.Service
+$ScheduleService.Connect()
+$ScheduleService.GetFolder("\").GetTask("BlockTeamsInstallation").RunEx($null, 0, 0, "NT SERVICE\TrustedInstaller")
+
+# Remove temporary task
+Unregister-ScheduledTask -TaskName BlockTeamsInstallation -Confirm:$false
+
+# UnpinTaskbarShortcuts
+# Unpin shortcuts from the taskbar
+	# Extract the localized "Unpin from taskbar" string from shell32.dll
+	$LocalizedString = [WinAPI.GetStrings]::GetString(5387)
+
+	foreach ($Shortcut in $Shortcuts)
+	{
+		switch ($Shortcut)
+		{
+			Edge
+			{
+				if (Test-Path -Path "$env:AppData\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar\Microsoft Edge.lnk")
+				{
+					# Call the shortcut context menu item
+					$Shell = (New-Object -ComObject Shell.Application).NameSpace("$env:AppData\Microsoft\Internet Explorer\Quick Launch\User Pinned\TaskBar")
+					$Shortcut = $Shell.ParseName("Microsoft Edge.lnk")
+					# Extract the localized "Unpin from taskbar" string from shell32.dll
+					$Shortcut.Verbs() | Where-Object -FilterScript {$_.Name -eq $LocalizedString} | ForEach-Object -Process {$_.DoIt()}
+				}
+			}
+			Store
+			{
+				if ((New-Object -ComObject Shell.Application).NameSpace("shell:::{4234d49b-0245-4df3-b780-3893943456e1}").Items() | Where-Object -FilterScript {$_.Name -eq "Microsoft Store"})
+				{
+					# Extract the localized "Unpin from taskbar" string from shell32.dll
+					((New-Object -ComObject Shell.Application).NameSpace("shell:::{4234d49b-0245-4df3-b780-3893943456e1}").Items() | Where-Object -FilterScript {
+						$_.Name -eq "Microsoft Store"
+					}).Verbs() | Where-Object -FilterScript {$_.Name -eq $LocalizedString} | ForEach-Object -Process {$_.DoIt()}
+				}
+			}
+		}
+	}
+
+
+# ControlPanelView -LargeIcons
+if (-not (Test-Path -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel))
+{
+    New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel -Force
+}
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel -Name AllItemsIconView -PropertyType DWord -Value 0 -Force
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel -Name StartupPage -PropertyType DWord -Value 1 -Force
+
+# WindowsColorMode -Dark
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name SystemUsesLightTheme -PropertyType DWord -Value 0 -Force
+
+# AppColorMode -Light
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name AppsUseLightTheme -PropertyType DWord -Value 1 -Force
+	
+# FirstLogonAnimation -Disable
+New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name EnableFirstLogonAnimation -PropertyType DWord -Value 0 -Force
+	
+
+# ShortcutsSuffix -Disable
+if (-not (Test-Path -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates))
+{
+    New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates -Force
+}
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates -Name ShortcutNameTemplate -PropertyType String -Value "%s.lnk" -Force
+
+# FolderGroupBy -None
+# Clear any Common Dialog views
+Get-ChildItem -Path "HKCU:\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\*\Shell" -Recurse | Where-Object -FilterScript {$_.PSChildName -eq "{885A186E-A440-4ADA-812B-DB871B942259}"} | Remove-Item -Force
+
+# https://learn.microsoft.com/en-us/windows/win32/properties/props-system-null
+if (-not (Test-Path -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}"))
+{
+    New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Force
+}
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name ColumnList -PropertyType String -Value "System.Null" -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name GroupBy -PropertyType String -Value "System.Null" -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name LogicalViewMode -PropertyType DWord -Value 1 -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name Name -PropertyType String -Value NoName -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name Order -PropertyType DWord -Value 0 -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name PrimaryProperty -PropertyType String -Value "System.ItemNameDisplay" -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name SortByList -PropertyType String -Value "prop:System.ItemNameDisplay" -Force
+
+# NetworkAdaptersSavePower -Disable
+Write-Information -MessageData "" -InformationAction Continue
+	# Extract the localized "Please wait..." string from shell32.dll
+	Write-Verbose -Message ([WinAPI.GetStrings]::GetString(12612)) -Verbose
+
+	if (Get-NetAdapter -Physical | Where-Object -FilterScript {($_.Status -eq "Up") -and $_.MacAddress})
+	{
+		$PhysicalAdaptersStatusUp = @((Get-NetAdapter -Physical | Where-Object -FilterScript {($_.Status -eq "Up") -and $_.MacAddress}).Name)
+	}
+
+	$Adapters = Get-NetAdapter -Physical | Where-Object -FilterScript {$_.MacAddress} | Get-NetAdapterPowerManagement | Where-Object -FilterScript {$_.AllowComputerToTurnOffDevice -ne "Unsupported"}
+
+    foreach ($Adapter in $Adapters)
+    {
+        $Adapter.AllowComputerToTurnOffDevice = "Disabled"
+        $Adapter | Set-NetAdapterPowerManagement
+    }
+
+
+	# All network adapters are turned into "Disconnected" for few seconds, so we need to wait a bit to let them up
+	# Otherwise functions below will indicate that there is no the Internet connection
+	if ($PhysicalAdaptersStatusUp)
+	{
+		while
+		(
+			Get-NetAdapter -Physical -Name $PhysicalAdaptersStatusUp | Where-Object -FilterScript {($_.Status -eq "Disconnected") -and $_.MacAddress}
+		)
+		{
+			Write-Information -MessageData "" -InformationAction Continue
+			# Extract the localized "Please wait..." string from shell32.dll
+			Write-Verbose -Message ([WinAPI.GetStrings]::GetString(12612)) -Verbose
+
+			Start-Sleep -Seconds 2
+		}
+	}
+
+# IPv6Component -Disable
+Disable-NetAdapterBinding -Name * -ComponentID ms_tcpip6
+
+
+# LatestInstalled.NET -Enable
+New-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\.NETFramework -Name OnlyUseLatestCLR -PropertyType DWord -Value 1 -Force
+New-ItemProperty -Path HKLM:\SOFTWARE\Wow6432Node\Microsoft\.NETFramework -Name OnlyUseLatestCLR -PropertyType DWord -Value 1 -Force
+
+# NumLock -Enable
+New-ItemProperty -Path "Registry::HKEY_USERS\.DEFAULT\Control Panel\Keyboard" -Name InitialKeyboardIndicators -PropertyType String -Value 2147483650 -Force
+
+# CortanaAutostart -Disable
+if (Get-AppxPackage -Name Microsoft.549981C3F5F10)
+{
+    if (-not (Test-Path -Path "Registry::HKEY_CLASSES_ROOT\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Microsoft.549981C3F5F10_8wekyb3d8bbwe\CortanaStartupId"))
+    {
+        New-Item -Path "Registry::HKEY_CLASSES_ROOT\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Microsoft.549981C3F5F10_8wekyb3d8bbwe\CortanaStartupId" -Force
+    }
+    New-ItemProperty -Path "Registry::HKEY_CLASSES_ROOT\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\Microsoft.549981C3F5F10_8wekyb3d8bbwe\CortanaStartupId" -Name State -PropertyType DWord -Value 1 -Force
+}
+
+# TeamsAutostart -Disable
+if (Get-AppxPackage -Name MSTeams)
+{
+    New-ItemProperty -Path "HKCU:\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\MSTeams_8wekyb3d8bbwe\TeamsTfwStartupTask" -Name State -PropertyType DWord -Value 1 -Force
+}
+
+
+# DismissMSAccount
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows Security Health\State" -Name AccountProtection_MicrosoftAccount_Disconnected -PropertyType DWord -Value 1 -Force
+
+# Dismiss Microsoft Defender offer in the Windows Security about turning on the SmartScreen filter for Microsoft Edge
+# DismissSmartScreenFilter
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows Security Health\State" -Name AppAndBrowser_EdgeSmartScreenOff -PropertyType DWord -Value 0 -Force
+		</File>
+		<File path="C:\Windows\Setup\Scripts\unattend-03.ps1">
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Diagnostics\DiagTrack -Name ShowedToastAtLevel -PropertyType DWord -Value 1 -Force
+Remove-ItemProperty -Path "HKCU:\Software\Policies\Microsoft\Windows\Windows Error Reporting" -Name Disabled -Force -ErrorAction Ignore
+Set-Policy -Scope User -Path "Software\Policies\Microsoft\Windows\Windows Error Reporting" -Name Disabled -Type CLEAR
+Get-ScheduledTask -TaskName QueueReporting -ErrorAction Ignore | Disable-ScheduledTask
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\Windows Error Reporting" -Name Disabled -PropertyType DWord -Value 1 -Force
+if (-not (Test-Path -Path HKCU:\Software\Microsoft\Siuf\Rules))
+{
+    New-Item -Path HKCU:\Software\Microsoft\Siuf\Rules -Force
+}
+New-ItemProperty -Path HKCU:\Software\Microsoft\Siuf\Rules -Name NumberOfSIUFInPeriod -PropertyType DWord -Value 0 -Force
+
+Remove-ItemProperty -Path HKCU:\SOFTWARE\Microsoft\Siuf\Rules -Name PeriodInNanoSeconds -Force -ErrorAction Ignore
+
+# WindowsWelcomeExperience
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SubscribedContent-310093Enabled -PropertyType DWord -Value 0 -Force
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SubscribedContent-338389Enabled -PropertyType DWord -Value 0 -Force
+
+# SettingsSuggestedContent
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SubscribedContent-338393Enabled -PropertyType DWord -Value 0 -Force
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SubscribedContent-353694Enabled -PropertyType DWord -Value 0 -Force
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SubscribedContent-353696Enabled -PropertyType DWord -Value 0 -Force
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager -Name SilentInstalledAppsEnabled -PropertyType DWord -Value 0 -Force
+# WhatsNewInWindows -Disable
+if (-not (Test-Path -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement))
+{
+    New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement -Force
+}
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\UserProfileEngagement -Name ScoobeSystemSettingEnabled -PropertyType DWord -Value 0 -Force
+# TailoredExperiences -Disable
+# Remove all policies in order to make changes visible in UI only if it's possible
+Remove-ItemProperty -Path HKCU:\Software\Policies\Microsoft\Windows\CloudContent -Name DisableTailoredExperiencesWithDiagnosticData -Force -ErrorAction Ignore
+Set-Policy -Scope User -Path Software\Policies\Microsoft\Windows\CloudContent -Name DisableTailoredExperiencesWithDiagnosticData -Type CLEAR
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Privacy -Name TailoredExperiencesWithDiagnosticDataEnabled -PropertyType DWord -Value 0 -Force
+# BingSearch -Disable
+if (-not (Test-Path -Path HKCU:\Software\Policies\Microsoft\Windows\Explorer))
+{
+    New-Item -Path HKCU:\Software\Policies\Microsoft\Windows\Explorer -Force
+}
+New-ItemProperty -Path HKCU:\Software\Policies\Microsoft\Windows\Explorer -Name DisableSearchBoxSuggestions -PropertyType DWord -Value 1 -Force
+
+Set-Policy -Scope User -Path Software\Policies\Microsoft\Windows\Explorer -Name DisableSearchBoxSuggestions -Type DWORD -Value 1
+# StartRecommendationsTips -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name Start_IrisRecommendations -PropertyType DWord -Value 0 -Force
+
+# StartAccountNotifications -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name Start_AccountNotifications -PropertyType DWord -Value 0 -Force
+
+# OneDriveFileExplorerAd -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name ShowSyncProviderNotifications -PropertyType DWord -Value 0 -Force
+# FileTransferDialog -Detailed
+if (-not (Test-Path -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager))
+{
+    New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager -Force
+}
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager -Name EnthusiastMode -PropertyType DWord -Value 1 -Force
+# QuickAccessRecentFiles -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer -Name ShowRecent -PropertyType DWord -Value 0 -Force
+
+# QuickAccessFrequentFolders -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer -Name ShowFrequent -PropertyType DWord -Value 0 -Force
+
+# TaskbarWidgets -Hide
+if (Get-AppxPackage -Name MicrosoftWindows.Client.WebExperience)
+{
+    # Microsoft blocked access for editing TaskbarDa key in KB5041585
+    try
+    {
+        New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name TaskbarDa -PropertyType DWord -Value 0 -Force -ErrorAction Stop
+    }
+    catch [System.UnauthorizedAccessException]
+    {
+        Write-Warning -Message ($Global:Error.Exception.Message | Select-Object -First 1)
+        Write-Error -Message ($Global:Error.Exception.Message | Select-Object -First 1) -ErrorAction SilentlyContinue
+    }
+}
+
+# TaskbarSearch -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Search -Name SearchboxTaskbarMode -PropertyType DWord -Value 0 -Force
+# SearchHighlights -Hide
+# Check whether "Ask Copilot" and "Find results in Web" (Web) were disabled. They also disable Search Highlights automatically
+# Due to "Set-StrictMode -Version Latest" we have to use GetValue()
+$BingSearchEnabled = ([Microsoft.Win32.Registry]::GetValue("HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Search", "BingSearchEnabled", $null))
+$DisableSearchBoxSuggestions = ([Microsoft.Win32.Registry]::GetValue("HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Explorer", "DisableSearchBoxSuggestions", $null))
+if (($BingSearchEnabled -eq 1) -or ($DisableSearchBoxSuggestions -eq 1))
+{
+Write-Information -MessageData "" -InformationAction Continue
+Write-Verbose -Message $Localization.Skipped -Verbose
+
+return
+}
+else
+{
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\SearchSettings -Name IsDynamicSearchBoxEnabled -PropertyType DWord -Value 0 -Force
+}
+
+# CopilotButton -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name ShowCopilotButton -PropertyType DWord -Value 0 -Force
+
+# TaskViewButton -Hide
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced -Name ShowTaskViewButton -PropertyType DWord -Value 0 -Force
+
+# ControlPanelView -LargeIcons
+if (-not (Test-Path -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel))
+{
+    New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel -Force
+}
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel -Name AllItemsIconView -PropertyType DWord -Value 0 -Force
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\ControlPanel -Name StartupPage -PropertyType DWord -Value 1 -Force
+
+# WindowsColorMode -Dark
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name SystemUsesLightTheme -PropertyType DWord -Value 0 -Force
+
+# AppColorMode -Light
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize -Name AppsUseLightTheme -PropertyType DWord -Value 1 -Force
+# ShortcutsSuffix -Disable
+if (-not (Test-Path -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates))
+{
+    New-Item -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates -Force
+}
+New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates -Name ShortcutNameTemplate -PropertyType String -Value "%s.lnk" -Force
+
+# FolderGroupBy -None
+# Clear any Common Dialog views
+Get-ChildItem -Path "HKCU:\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\*\Shell" -Recurse | Where-Object -FilterScript {$_.PSChildName -eq "{885A186E-A440-4ADA-812B-DB871B942259}"} | Remove-Item -Force
+
+# https://learn.microsoft.com/en-us/windows/win32/properties/props-system-null
+if (-not (Test-Path -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}"))
+{
+    New-Item -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Force
+}
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name ColumnList -PropertyType String -Value "System.Null" -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name GroupBy -PropertyType String -Value "System.Null" -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name LogicalViewMode -PropertyType DWord -Value 1 -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name Name -PropertyType String -Value NoName -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name Order -PropertyType DWord -Value 0 -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name PrimaryProperty -PropertyType String -Value "System.ItemNameDisplay" -Force
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\FolderTypes\{885a186e-a440-4ada-812b-db871b942259}\TopViews\{00000000-0000-0000-0000-000000000000}" -Name SortByList -PropertyType String -Value "prop:System.ItemNameDisplay" -Force
+# TeamsAutostart -Disable
+if (Get-AppxPackage -Name MSTeams)
+{
+    New-ItemProperty -Path "HKCU:\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppModel\SystemAppData\MSTeams_8wekyb3d8bbwe\TeamsTfwStartupTask" -Name State -PropertyType DWord -Value 1 -Force
+}
+# DismissMSAccount
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows Security Health\State" -Name AccountProtection_MicrosoftAccount_Disconnected -PropertyType DWord -Value 1 -Force
+
+# Dismiss Microsoft Defender offer in the Windows Security about turning on the SmartScreen filter for Microsoft Edge
+# DismissSmartScreenFilter
+New-ItemProperty -Path "HKCU:\Software\Microsoft\Windows Security Health\State" -Name AppAndBrowser_EdgeSmartScreenOff -PropertyType DWord -Value 0 -Force
+		</File>
+	</Extensions>
+</unattend>
