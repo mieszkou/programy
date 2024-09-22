@@ -527,8 +527,8 @@ function InstallPosnetNps {
 
 function InstallPosnetOps {
     New-Item -Path "$installPath\Posnet-OPS\" -ItemType Directory -Force | Out-Null
-    Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-OPS/posnet-ops-setup-11.30.80.exe" -OutFile "$installPath\posnet-ops-setup-11.30.80.exe" 
-    Start-Process -Wait -FilePath "$installPath\posnet-ops-setup-11.30.80.exe" -ArgumentList "/D=$installPath\Posnet-OPS"
+    Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/mieszkou/programy/raw/master/Posnet-OPS/posnet-ops-setup-11.44.89.exe" -OutFile "$installPath\posnet-ops-setup-11.30.80.exe" 
+    Start-Process -Wait -FilePath "$installPath\posnet-ops-setup-11.44.89.exe" -ArgumentList "/D=$installPath\Posnet-OPS"
 }
 
 # (dla systemu Windows XP/2000/VISTA/7/8/8.1/10)
