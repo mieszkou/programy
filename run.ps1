@@ -709,8 +709,8 @@ function InstallPutty {
 
 
 function InstallWinbox {
-    $uri = "https://mt.lv/winbox64"
-    $installerPath = "$(Join-Path $installPath (Split-Path $uri -Leaf)).exe"
+    $uri = "https://download.mikrotik.com/routeros/winbox/3.41/winbox64.exe"
+    $installerPath = "$(Join-Path $installPath (Split-Path $uri -Leaf))"
     Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
     CreateDesktopShortcut -ShortcutName "Winbox" -File $installerPath
 }
