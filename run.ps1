@@ -79,6 +79,8 @@ $jsonContent = @"
     { "nazwa": "Programy" },
     { "nazwa": "💾 Insoft PCM", "polecenia": [ "InstallPcm" ] },
     { "nazwa": "💾 Insoft PC-POS", "polecenia": [ "InstallPcPos" ] },
+    { "nazwa": "💾 Insoft SCServer", "polecenia": [ "InstallScserver" ] },
+    { "nazwa": "💾 Insoft Impex", "polecenia": [ "InstallImpex" ] },
     { "nazwa": "💾 WAPRO (wszystkie, aktualizacja)", "polecenia": [ "InstallWapro" ] },
 
     { "nazwa": "Narzędzia" },
@@ -687,6 +689,27 @@ function InstallPcPos {
     Start-Process -FilePath $installerPath -Verb RunAs -Wait
     # Remove-Item $installerPath    
 }
+
+function InstallScserver {
+    $uri = "https://pobierz.insoft.com.pl/Scserver/Wersja_aktualna/Scserver-x64.exe"
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait
+    # Remove-Item $installerPath    
+}
+
+function InstallImpex {
+    $uri = "https://pobierz.insoft.com.pl/Narzedzia/ImpEx/ImpEx.zip"
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
+    Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\Impex\" -Force
+    CreateDesktopShortcut -ShortcutName "Impex" -File "$installPath\Impex\Impex.exe"
+    # Remove-Item $installerPath    
+}
+
+
+
+
 
 function InstallWapro {
     $uri = "https://storage.wapro.pl/storage/InstalatorWAPRO/InstalatorWAPRO.exe"
