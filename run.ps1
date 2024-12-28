@@ -699,11 +699,11 @@ function InstallScserver {
 }
 
 function InstallImpex {
-    $uri = "https://pobierz.insoft.com.pl/Narzedzia/ImpEx/ImpEx.zip"
+    $uri = "https://pajcomp.pl/pub/Insoft/ImpEx/ImpEx.zip"
     $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
     Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath
-    Expand-Archive $installerPath -DestinationPath "$installPath\Impex\" -Force
-    CreateDesktopShortcut -ShortcutName "Impex" -File "$installPath\Impex\Impex.exe"
+    Expand-Archive $installerPath -DestinationPath "$installPath\" -Force
+    CreateDesktopShortcut -ShortcutName "ImpEx" -File "$installPath\Impex\ImpEx.exe"
     # Remove-Item $installerPath    
 }
 
