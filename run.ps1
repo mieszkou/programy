@@ -256,10 +256,12 @@ function InstallThrottleStop {
 
 
 function InstallNotepad3 {
-    $uri = Invoke-RestMethod -uri  https://api.github.com/repos/rizonesoft/Notepad3/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("x64_Setup.exe")} | Select-Object -ExpandProperty browser_download_url
+    $uri = Invoke-RestMethod -uri https://api.github.com/repos/rizonesoft/Notepad3/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("x64_Setup.exe")} | Select-Object -ExpandProperty browser_download_url
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath 
-    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/SILENT /SP-"
+    # Wylaczam cicha instalacje - nie dziala w najnowszej wersji notepad3 - dodali instalator Opery którego nie da się pominąć automatycznie
+    # Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/SILENT /SP-"
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/LOG /LANG=plk /SP-"
     Remove-Item $installerPath
 }
 
@@ -270,13 +272,17 @@ function InstallDoubleCmd {
     Start-Process -Wait -FilePath "$($env:TEMP)\doublecmd.exe" -ArgumentList "/SILENT /SP-"
     New-Item -Path "$($env:APPDATA)\doublecmd" -ItemType Directory -Force | Out-Null
     try {
-    Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "C:\Program Files\Double Commander\doublecmd.xml"
+        Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "C:\Program Files\Double Commander\doublecmd.xml"
+        Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/libeay32.dll" -OutFile "C:\Program Files\Double Commander\libeay32.dll"
+        Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/ssleay32.dll" -OutFile "C:\Program Files\Double Commander\ssleay32.dll"
     }
     catch {
 
     }
     try {
         Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/doublecmd.xml" -OutFile "$($env:APPDATA)\doublecmd\doublecmd.xml"
+        Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/libeay32.dll" -OutFile "$($env:APPDATA)\doublecmd\libeay32.dll"
+        Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/doublecmd/ssleay32.dll" -OutFile "$($env:APPDATA)\doublecmd\ssleay32.dll"
     }
     catch {
         
