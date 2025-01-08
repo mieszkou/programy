@@ -1,9 +1,5 @@
 $installPath = "C:\Serwis"
 
-# Disk2vhd
-# TODO: do zmiany link (pobiera 32bit wersję która nie działa na 64bit systemach
-# https://download.sysinternals.com/files/Disk2vhd.zip
-
 $jsonContent = @"
 [  
 
@@ -54,6 +50,7 @@ $jsonContent = @"
     { "nazwa": "📦☠️ Network Password Recovery (AV!)",   "polecenia": [ "InstallNetworkPasswordRecovery" ] },
     { "nazwa": "📦 TaskSchedulerView ",                   "polecenia": [ "InstallTaskSchedulerView " ] },
     { "nazwa": "📦 ProcessTCPSummary ",                   "polecenia": [ "InstallProcessTCPSummary " ] },
+    { "nazwa": "📦 WinUpdatesView",                   "polecenia": [ "InstallWinUpdatesView" ] },
 
 
     
@@ -521,6 +518,18 @@ function InstallProcessTCPSummary {
     
     Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
     CreateDesktopShortcut -ShortcutName "ProcessTCPSummary " -File "$installPath\Nirsoft\ProcessTCPSummary.exe"
+    Remove-Item $installerPath
+}
+
+function InstallWinUpdatesView {
+    $uri = "https://www.nirsoft.net/utils/winupdatesview-x64.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/windows_updates_history_viewer.html"}
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Invoke-WebRequest -UseBasicParsing $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "WinUpdatesView" -File "$installPath\Nirsoft\WinUpdatesView.exe"
     Remove-Item $installerPath
 }
 
