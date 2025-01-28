@@ -260,7 +260,22 @@ function InstallNotepad3 {
     Invoke-WebRequest -UseBasicParsing -Uri $uri -OutFile $installerPath 
     # Wylaczam cicha instalacje - nie dziala w najnowszej wersji notepad3 - dodali instalator Opery którego nie da się pominąć automatycznie
     # Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/SILENT /SP-"
-    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/LOG /LANG=plk /SP-"
+    
+    # Sprawdzenie czy istnieje klucz rejestru dla Opery, jeśli nie, dodaj go
+    $operaKeyPath = "HKLM:\SOFTWARE\Opera"
+    if (-not (Test-Path $operaKeyPath)) {
+        New-Item -Path $operaKeyPath -Force | Out-Null
+    }
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/SILENT /LOG /LANG=plk /SP-"
+    
+    # Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/LOG /LANG=plk /SP-"
+
+    New-Item -Path "$installPath\Notepad3" -ItemType Directory -Force | Out-Null
+    Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/Notepad3/example.md" -OutFile "$installPath\Notepad3\example.md"
+    Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/mieszkou/programy/master/Notepad3/prezentacja.ini" -OutFile "$installPath\Notepad3\prezentacja.ini"
+    
+    CreateDesktopShortcut -ShortcutName "Notepad3 do prezentacji" -File "C:\Program Files\Notepad3\Notepad3.exe" -Arguments "/f $installPath\Notepad3\prezentacja.ini /t Show $installPath\Notepad3\example.md"
+
     Remove-Item $installerPath
 }
 
