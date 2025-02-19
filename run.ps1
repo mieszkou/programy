@@ -250,7 +250,7 @@ function InstallCpuZ {
         $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/cpu-z_2.10-en.zip"
 
         $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-        Get-File -UseBasicParsing $uri -OutFile $installerPath
+        Get-File -Url $uri -OutFile $installerPath
         Expand-Archive $installerPath -DestinationPath "$installPath\Diag\CPU-Z\" -Force
         CreateDesktopShortcut -ShortcutName "CPU-Z x64" -File "$installPath\Diag\CPU-Z\cpuz_x64.exe"
         CreateDesktopShortcut -ShortcutName "CPU-Z x32" -File "$installPath\Diag\CPU-Z\cpuz_x32.exe"
@@ -261,7 +261,7 @@ function InstallCrystalDiskInfo {
     $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/crystalDiskInfo_9_3_2.zip"
 
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Expand-Archive $installerPath -DestinationPath "$installPath\Diag\DiskInfo\" -Force
     CreateDesktopShortcut -ShortcutName "Crystal DiskInfo x64" -File "$installPath\Diag\DiskInfo\DiskInfo64.exe"
     CreateDesktopShortcut -ShortcutName "Crystal DiskInfo x32" -File "$installPath\Diag\DiskInfo\DiskInfo32.exe"
