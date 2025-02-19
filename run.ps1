@@ -273,7 +273,7 @@ function InstallCrystalDiskMark {
     $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/crystalDiskMark.zip"
 
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Expand-Archive $installerPath -DestinationPath "$installPath\Diag\DiskMark\" -Force
     CreateDesktopShortcut -ShortcutName "Crystal DiskMark x64" -File "$installPath\Diag\DiskMark\DiskMark64.exe"
     CreateDesktopShortcut -ShortcutName "Crystal DiskMark x32" -File "$installPath\Diag\DiskMark\DiskMark32.exe"
@@ -284,7 +284,7 @@ function InstallCrystalDiskMark {
 function InstallDiskGenius {
     $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/diskgenius_DGEngSetup5601565.exe"
     $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing -Uri $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/SILENT"
     Remove-Item $installerPath    
 }
@@ -293,7 +293,7 @@ function InstallHDSentinel {
     $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/hdsentinel_pro_portable.zip"
 
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Expand-Archive $installerPath -DestinationPath "$installPath\Diag\HDSentinel\" -Force
     CreateDesktopShortcut -ShortcutName "HDSentinel" -File "$installPath\Diag\HDSentinel\HDSentinel.exe"
     Remove-Item $installerPath 
@@ -303,7 +303,7 @@ function InstallHwinfo {
     $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/hwiNFO_hwi_806.zip"
 
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Expand-Archive $installerPath -DestinationPath "$installPath\Diag\HWiNFO\" -Force
     CreateDesktopShortcut -ShortcutName "HWiNFO x64" -File "$installPath\Diag\HWiNFO\HWiNFO64.exe"
     CreateDesktopShortcut -ShortcutName "HWiNFO x32" -File "$installPath\Diag\HWiNFO\HWiNFO32.exe"
@@ -314,7 +314,7 @@ function InstallHwmonitor {
     $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/hwmonitor-pro_1.53.zip"
 
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Expand-Archive $installerPath -DestinationPath "$installPath\Diag\HWMonitorPro\" -Force
     CreateDesktopShortcut -ShortcutName "HWMonitorPro x64" -File "$installPath\Diag\HWMonitorPro\HWMonitorPro_x64.exe"
     CreateDesktopShortcut -ShortcutName "HWMonitorPro x32" -File "$installPath\Diag\HWMonitorPro\HWMonitorPro_x32.exe"
@@ -327,7 +327,7 @@ function InstallMiniTool {
 
     $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/miniTool_Partition_Wizard_pw-free-online.exe"
     $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Verb RunAs -ArgumentList "/SILENT /SP-"
     # Remove-Item $installerPath
 }
@@ -346,7 +346,7 @@ function InstallSsdZ {
     $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/ssd-z_16.09.09wip.zip"
 
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Expand-Archive $installerPath -DestinationPath "$installPath\Diag\SSD-Z\" -Force
     CreateDesktopShortcut -ShortcutName "SSD-Z" -File "$installPath\Diag\SSD-Z\SSD-Z.exe"
     Remove-Item $installerPath 
@@ -356,7 +356,7 @@ function InstallThrottleStop {
     $uri = "https://www.pajcomp.pl/pub/!Misc/Diag/throttleStop_9.6.zip"
 
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Expand-Archive $installerPath -DestinationPath "$installPath\Diag\ThrottleStop\" -Force
     CreateDesktopShortcut -ShortcutName "ThrottleStop" -File "$installPath\Diag\ThrottleStop\ThrottleStop.exe"
     Remove-Item $installerPath 
@@ -367,15 +367,15 @@ function InstallThrottleStop {
 function InstallNotepad3 {
     $uri = Invoke-RestMethod -uri https://api.github.com/repos/rizonesoft/Notepad3/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("x64_Setup.exe")} | Select-Object -ExpandProperty browser_download_url
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing -Uri $uri -OutFile $installerPath 
+    Get-File -Url $uri -OutFile $installerPath 
     # Wylaczam cicha instalacje - nie dziala w najnowszej wersji notepad3 - dodali instalator Opery którego nie da się pominąć automatycznie
     # Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/SILENT /SP-"
     
     Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "/LOG /LANG=plk /SP-"
 
     New-Item -Path "$installPath\Notepad3" -ItemType Directory -Force | Out-Null
-    Get-File -UseBasicParsing "https://raw.githubusercontent.com/mieszkou/programy/master/Notepad3/example.md" -OutFile "$installPath\Notepad3\example.md"
-    Get-File -UseBasicParsing "https://raw.githubusercontent.com/mieszkou/programy/master/Notepad3/prezentacja.ini" -OutFile "$installPath\Notepad3\prezentacja.ini"
+    Get-File -Url "https://raw.githubusercontent.com/mieszkou/programy/master/Notepad3/example.md" -OutFile "$installPath\Notepad3\example.md"
+    Get-File -Url "https://raw.githubusercontent.com/mieszkou/programy/master/Notepad3/prezentacja.ini" -OutFile "$installPath\Notepad3\prezentacja.ini"
     
     CreateDesktopShortcut -ShortcutName "Notepad3 do prezentacji" -File "C:\Program Files\Notepad3\Notepad3.exe" -Arguments "/f $installPath\Notepad3\prezentacja.ini /t Show $installPath\Notepad3\example.md"
 
@@ -385,7 +385,7 @@ function InstallNotepad3 {
 
 function InstallDoubleCmd {
     $uri = Invoke-RestMethod -uri  https://api.github.com/repos/doublecmd/doublecmd/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("win64.exe")} | Select-Object -ExpandProperty browser_download_url
-    Get-File -Uri $uri -OutFile "$($env:TEMP)\doublecmd.exe"
+    Get-File -Url $uri -OutFile "$($env:TEMP)\doublecmd.exe"
     Start-Process -Wait -FilePath "$($env:TEMP)\doublecmd.exe" -ArgumentList "/SILENT /SP-"
     New-Item -Path "$($env:APPDATA)\doublecmd" -ItemType Directory -Force | Out-Null
     try {
@@ -425,9 +425,9 @@ function InstallAnyDesk {
     $uri = "https://download.anydesk.com/AnyDesk.exe"
     
     try {
-        Get-File -UseBasicParsing $uri -OutFile "$([Environment]::GetFolderPath('CommonDesktopDirectory'))\AnyDesk.exe"
+        Get-File -Url $uri -OutFile "$([Environment]::GetFolderPath('CommonDesktopDirectory'))\AnyDesk.exe"
     } Catch {
-        Get-File -UseBasicParsing $uri -OutFile "$([Environment]::GetFolderPath('DesktopDirectory'))\AnyDesk.exe"
+        Get-File -Url $uri -OutFile "$([Environment]::GetFolderPath('DesktopDirectory'))\AnyDesk.exe"
     }
 }
 
@@ -436,9 +436,9 @@ function InstallTeamViewerQS {
     $uri = "https://www.pajcomp.pl/pub/TeamViewer/TeamViewerQS_paj24.exe"
     
     try {
-        Get-File -UseBasicParsing $uri -OutFile "$([Environment]::GetFolderPath('CommonDesktopDirectory'))\TeamViewerQS.exe"
+        Get-File -Url $uri -OutFile "$([Environment]::GetFolderPath('CommonDesktopDirectory'))\TeamViewerQS.exe"
     } Catch {
-        Get-File -UseBasicParsing $uri -OutFile "$([Environment]::GetFolderPath('DesktopDirectory'))\TeamViewerQS.exe"
+        Get-File -Url $uri -OutFile "$([Environment]::GetFolderPath('DesktopDirectory'))\TeamViewerQS.exe"
     }
 }
 
@@ -450,8 +450,8 @@ function InstallTeamViewerHost {
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     $confPath = Join-Path $env:TEMP (Split-Path $uri_conf -Leaf)
 
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
-    Get-File -UseBasicParsing $uri_conf -OutFile $confPath
+    Get-File -Url $uri -OutFile $installerPath
+    Get-File -Url $uri_conf -OutFile $confPath
 
     #-Wait -FilePath "$($env:TEMP)\ps7.msi" -ArgumentList "/qb-! REBOOT=ReallySuppress"
     Start-Process -Wait -FilePath $installerPath  -ArgumentList "/passive CUSTOMCONFIGID=639wciv SETTINGSFILE=$confPath"
@@ -464,7 +464,7 @@ function InstallTeamViewerHost {
 function Install7Zip {
     $uri = 'https://7-zip.org/' + (Invoke-WebRequest -UseBasicParsing -Uri 'https://7-zip.org/' | Select-Object -ExpandProperty Links | Where-Object {($_.outerHTML -match 'Download')-and ($_.href -like 'a/*') -and ($_.href -like '*-x64.exe')} | Select-Object -First 1 | Select-Object -ExpandProperty href)
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Args "/S" -Verb RunAs -Wait
     Remove-Item $installerPath
 }
@@ -490,7 +490,7 @@ function InstallDisk2vhd {
     $uri = "https://download.sysinternals.com/files/Disk2vhd.zip"
 
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Expand-Archive $installerPath -DestinationPath "$installPath\Sysinternals\Disk2vhd\" -Force
     CreateDesktopShortcut -ShortcutName "Disk2vhd x64" -File "$installPath\Sysinternals\Disk2vhd\disk2vhd64.exe"
     CreateDesktopShortcut -ShortcutName "Disk2vhd x32" -File "$installPath\Sysinternals\Disk2vhd\disk2vhd.exe"
@@ -554,8 +554,8 @@ function InstallWirelessKeyView {
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     $7zipPath = Join-Path $env:TEMP (Split-Path $uri7zip -Leaf)
     
-    Get-File -UseBasicParsing $uri -OutFile $installerPath -Headers $nirsoftHeaders
-    Get-File -UseBasicParsing $uri7zip -OutFile $7zipPath
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    Get-File -Url $uri7zip -OutFile $7zipPath
     
     Start-Process -Wait -FilePath $7zipPath -ArgumentList "e $installerPath -o$installPath\Nirsoft\ * -p`"WKey4567#`" -y" -NoNewWindow
     CreateDesktopShortcut -ShortcutName "WirelessKeyView" -File "$installPath\Nirsoft\WirelessKeyView.exe"
@@ -567,7 +567,7 @@ function InstallWirelessNetworkWatcher {
     $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/wireless_network_watcher.html"}
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     
-    Get-File -UseBasicParsing $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
     
     Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
     CreateDesktopShortcut -ShortcutName "Wireless Network Watcher" -File "$installPath\Nirsoft\WNetWatcher.exe"
@@ -579,7 +579,7 @@ function InstallWirelessNetView {
     $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/wireless_network_view.html"}
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     
-    Get-File -UseBasicParsing $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
     
     Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
     CreateDesktopShortcut -ShortcutName "WirelessNetView" -File "$installPath\Nirsoft\WirelessNetView.exe"
@@ -592,7 +592,7 @@ function InstallMailPassView {
     $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/mailpv.html"}
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     
-    Get-File -UseBasicParsing $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
     
     Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
     CreateDesktopShortcut -ShortcutName "MailPassView" -File "$installPath\Nirsoft\mailpv.exe"
@@ -607,8 +607,8 @@ function InstallNetworkPasswordRecovery {
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     $7zipPath = Join-Path $env:TEMP (Split-Path $uri7zip -Leaf)
     
-    Get-File -UseBasicParsing $uri -OutFile $installerPath -Headers $nirsoftHeaders
-    Get-File -UseBasicParsing $uri7zip -OutFile $7zipPath
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    Get-File -Url $uri7zip -OutFile $7zipPath
     
     Start-Process -Wait -FilePath $7zipPath -ArgumentList "e $installerPath -o$installPath\Nirsoft\ * -p`"ntps5291#`" -y" -NoNewWindow
     CreateDesktopShortcut -ShortcutName "Network Password Recovery" -File "$installPath\Nirsoft\netpass.exe"
@@ -620,7 +620,7 @@ function InstallTaskSchedulerView {
     $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/task_scheduler_view.html"}
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     
-    Get-File -UseBasicParsing $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
     
     Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
     CreateDesktopShortcut -ShortcutName "TaskSchedulerView " -File "$installPath\Nirsoft\TaskSchedulerView.exe"
@@ -632,7 +632,7 @@ function InstallProcessTCPSummary {
     $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/process_tcp_summary.html"}
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     
-    Get-File -UseBasicParsing $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
     
     Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
     CreateDesktopShortcut -ShortcutName "ProcessTCPSummary " -File "$installPath\Nirsoft\ProcessTCPSummary.exe"
@@ -644,7 +644,7 @@ function InstallWinUpdatesView {
     $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/windows_updates_history_viewer.html"}
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     
-    Get-File -UseBasicParsing $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
     
     Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
     CreateDesktopShortcut -ShortcutName "WinUpdatesView" -File "$installPath\Nirsoft\WinUpdatesView.exe"
@@ -663,7 +663,7 @@ function InstallPosnetNps {
 function InstallPosnetOps {
     $uri = "https://github.com/mieszkou/programy/raw/master/Posnet-OPS/Posnet_OPS_Setup_11.45.90.exe"
     $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
-    Get-File $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Wait -ArgumentList "/D=$installPath\Posnet-OPS"
 }
 
@@ -705,7 +705,7 @@ function InstallDrivers {
     $installerPath = Join-Path $env:TEMP "Sterowniki.zip"
     $destinationPath = "$installPath\Sterowniki\"
 
-    Get-File $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     
     New-Item -Path $destinationPath -ItemType Directory -Force | Out-Null
     Expand-Archive $installerPath -DestinationPath $destinationPath -Force
@@ -733,7 +733,7 @@ function InstallAdminSql {
     $uri = "https://pajcomp.pl/pub/SQL-tools/AdminSQL.zip"
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
        
-    Get-File $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Expand-Archive $installerPath -DestinationPath "$installPath\AdminSQL" -Force
     CreateDesktopShortcut -ShortcutName "AdminSQL" -File "$installPath\AdminSQL\AdminSQL.exe"
     Remove-Item $installerPath 
@@ -742,7 +742,7 @@ function InstallAdminSql {
 function InstallHeidiSql {
     $uri = "https://www.heidisql.com" + (Invoke-WebRequest -UseBasicParsing -Uri 'https://www.heidisql.com/download.php' | Select-Object -ExpandProperty Links | Where-Object {($_.href -like "/installers/*") -and ($_.href -like "*_Setup.exe")} | Select-Object -First 1 | Select-Object -ExpandProperty href)
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Args "/ALLUSERS /silent" -Verb RunAs -Wait
     Remove-Item $installerPath
 }
@@ -756,7 +756,7 @@ function InstallSSMS {
 function InstallSQLBackupMaster {
     $uri = "https://www.sqlbackupmaster.com/Content/download/sbm-setup.exe"
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
-    Get-File $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Verb RunAs -Wait
 }
 
@@ -791,7 +791,7 @@ function InstallSql2019 {
 function InstallSql2017 {
     $sqlver=2017
     New-Item -Path "$($env:TEMP)\sql$($sqlver)" -ItemType Directory -Force | Out-Null
-    Get-File -UseBasicParsing -Uri "https://pajcomp.pl/pub/MSSQL/sql$($sqlver)/SQLEXPR_x64_ENU.exe" -OutFile "$($env:TEMP)\sql$($sqlver)\SQLEXPR_x64_ENU.exe"
+    Get-File -Uri "https://pajcomp.pl/pub/MSSQL/sql$($sqlver)/SQLEXPR_x64_ENU.exe" -OutFile "$($env:TEMP)\sql$($sqlver)\SQLEXPR_x64_ENU.exe"
     Start-Process -Wait -FilePath "$($env:TEMP)\sql$($sqlver)\SQLEXPR_x64_ENU.exe" -ArgumentList "/QS /IACCEPTSQLSERVERLICENSETERMS /ACTION=""install"" /FEATURES=SQL /INSTANCENAME=SQL$($sqlver) /SECURITYMODE=SQL /SAPWD=Wapro3000 /TCPENABLED=1"
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql14.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name TcpDynamicPorts -Value ''
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql14.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name tcpport -Value "5$($sqlver)"
