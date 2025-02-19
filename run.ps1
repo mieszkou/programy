@@ -114,7 +114,7 @@ function Get-File {
     # Sprawdzanie wersji PowerShella
     $psVersion = $PSVersionTable.PSVersion.Major
     if ($psVersion -lt 6) {
-        Write-Output "⚠️ Stary PowerShell wykryty (v$psVersion) – używanie Invoke-WebRequest..."
+        Write-Log "⚠️ Stary PowerShell wykryty (v$psVersion) – używanie Invoke-WebRequest..."
         
         # Przygotowanie parametrów do Invoke-WebRequest
         $invokeParams = @{
@@ -129,12 +129,12 @@ function Get-File {
         $ProgressPreference = 'SilentlyContinue'
         Invoke-WebRequest @invokeParams
 
-        Write-Output "✅ Pobieranie zakończone! Plik zapisano jako: $ParOutFile"
+        Write-Log "✅ Pobieranie zakończone! Plik zapisano jako: $ParOutFile"
         return
     }
 
     # Jeśli mamy nowszego PowerShella, używamy HttpClient
-    Write-Output "🚀 Nowy PowerShell wykryty (v$psVersion) – używanie HttpClient..."
+    Write-Log "🚀 Nowy PowerShell wykryty (v$psVersion) – używanie HttpClient..."
 
     $httpClient = [System.Net.Http.HttpClient]::new()
 
@@ -156,9 +156,9 @@ function Get-File {
     # Pobranie rozmiaru pliku
     $totalBytes = $response.Content.Headers.ContentLength
     if (-not $totalBytes) {
-        Write-Warning "⚠️ Brak informacji o rozmiarze pliku – pasek postępu może nie działać poprawnie."
+        Write-Log "⚠️ Brak informacji o rozmiarze pliku – pasek postępu może nie działać poprawnie."
     } else {
-        Write-Output "📦 Pobieranie: $fileName | Rozmiar: $([math]::Round($totalBytes / 1MB, 2)) MB"
+        Write-Log "📦 Pobieranie: $fileName | Rozmiar: $([math]::Round($totalBytes / 1MB, 2)) MB"
     }
 
     # Otwieranie strumienia
@@ -192,7 +192,7 @@ function Get-File {
         $stream.Close()
     }
 
-    Write-Output "✅ Pobieranie zakończone! Plik zapisano jako: $ParOutFile"
+    Write-Log "✅ Pobieranie zakończone! Plik zapisano jako: $ParOutFile"
 }
 
 
