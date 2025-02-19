@@ -907,7 +907,7 @@ function ExecuteSelectedCommands {
     Write-Log "ZAKOŃCZONO"
     Write-Log "-----------------------------------------"
 
-    $Window.Show()
+    $Window.ShowDialog()
 }
 
 # Konwersja treści JSON na obiekt PowerShell
