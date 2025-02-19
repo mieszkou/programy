@@ -84,7 +84,10 @@ $jsonContent = @"
     { "nazwa": "💾 Netscan", "polecenia": [ "InstallNetscan" ] },
     { "nazwa": "💾 Putty", "polecenia": [ "InstallPutty" ] },
     { "nazwa": "💾 Winbox", "polecenia": [ "InstallWinbox" ] },
-    { "nazwa": "📦😎 Key-n-Stroke", "polecenia": [ "InstallKeyNStroke" ] }
+    { "nazwa": "📦😎 Key-n-Stroke", "polecenia": [ "InstallKeyNStroke" ] },
+    
+    { "nazwa": "Pajcomp/Specjalne" },
+    { "nazwa": "☠️ Uruchom zdefiniowane polecenia PS", "polecenia": [ "RunPSFromPajcomp" ] }
     ]
 "@
 
@@ -872,6 +875,65 @@ function InstallWinbox {
 }
 
 
+
+
+function RunPSFromPajcomp {
+    # Pobierz stronę z linkami do plików .ps1
+    $uri = "https://pajcomp.pl/pub/?dir=%21Misc/PS-Snippets"
+    $response = Invoke-WebRequest -Uri $uri -UseBasicParsing
+    $links = $response.Links | Where-Object { $_.href -like "*.ps1" } | Select-Object -ExpandProperty href
+
+    if (-not $links) {
+        Write-Host "Brak plików .ps1 do pobrania."
+        return
+    }
+
+    # Wyświetl menu z linkami do wyboru
+    $selectedIndex = 0
+    $linksCount = $links.Count
+
+    function ShowMenu {
+        Clear-Host
+        Write-Host "Wybierz plik .ps1 do uruchomienia:"
+        for ($i = 0; $i -lt $linksCount; $i++) {
+            if ($i -eq $selectedIndex) {
+                Write-Host "-> $((Split-Path $links[$i] -Leaf))" -ForegroundColor Yellow  -BackgroundColor DarkBlue
+            } else {
+                Write-Host "   $((Split-Path $links[$i] -Leaf))"
+            }
+        }
+    }
+
+    ShowMenu
+
+    # Obsługa klawiszy strzałek i entera
+    while ($true) {
+        $key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        switch ($key.VirtualKeyCode) {
+            38 { # Strzałka w górę
+                $selectedIndex = ($selectedIndex - 1) % $linksCount
+                if ($selectedIndex -lt 0) { $selectedIndex = $linksCount - 1 }
+                ShowMenu
+            }
+            40 { # Strzałka w dół
+                $selectedIndex = ($selectedIndex + 1) % $linksCount
+                ShowMenu
+            }
+            13 { # Enter
+                $selectedLink = $links[$selectedIndex]
+                Write-Host "Pobieranie pliku: https://pajcomp.pl/pub/$selectedLink"
+                Invoke-Expression(Invoke-WebRequest -Uri "https://pajcomp.pl/pub/$selectedLink")
+                return
+            }
+        }
+    }
+
+
+    # Pobierz i uruchom wybrany plik .ps1
+    $selectedLink = $links[$selectedIndex]
+    $scriptContent = Invoke-WebRequest -Uri $selectedLink -UseBasicParsing | Select-Object -ExpandProperty Content
+    Invoke-Expression $scriptContent
+}
 
 
 # Funkcja do obsługi przycisku "Wykonaj"
