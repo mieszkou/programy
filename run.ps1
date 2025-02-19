@@ -895,6 +895,7 @@ function ExecuteSelectedCommands {
             $checkbox.Background = "#cccccc"
             $index = $checkbox.Tag
             $commands = $json[$index].polecenia
+            Write-Log "___________________________________"
             Write-Log $json[$index].nazwa + " : start"
             
             foreach ($command in $commands) {
