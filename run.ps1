@@ -337,7 +337,7 @@ function InstallOcct {
 
     $installerPath = Join-Path "$installPath\Diag\OCCT\" (Split-Path $uri -Leaf)
     New-Item -Path "$installPath\Diag\OCCT\" -ItemType Directory -Force | Out-Null
-    Get-File -UseBasicParsing $uri -OutFile $installerPath
+    Get-File -Url $uri -OutFile $installerPath
     CreateDesktopShortcut -ShortcutName "OCCT" -File "$installPath\Diag\OCCT\occt.exe"
 }
 
