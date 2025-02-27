@@ -922,7 +922,7 @@ function RunPSFromPajcomp {
             13 { # Enter
                 $selectedLink = $links[$selectedIndex]
                 Write-Host "Pobieranie pliku: https://pajcomp.pl/pub/$selectedLink"
-                Invoke-Expression(Invoke-WebRequest -Uri "https://pajcomp.pl/pub/$selectedLink")
+                Invoke-Expression(Invoke-RestMethod -Uri "https://pajcomp.pl/pub/$selectedLink")
                 return
             }
         }
@@ -930,9 +930,9 @@ function RunPSFromPajcomp {
 
 
     # Pobierz i uruchom wybrany plik .ps1
-    $selectedLink = $links[$selectedIndex]
-    $scriptContent = Invoke-WebRequest -Uri $selectedLink -UseBasicParsing | Select-Object -ExpandProperty Content
-    Invoke-Expression $scriptContent
+    # $selectedLink = $links[$selectedIndex]
+    # $scriptContent = Invoke-WebRequest -Uri $selectedLink -UseBasicParsing | Select-Object -ExpandProperty Content
+    # Invoke-Expression $scriptContent
 }
 
 
