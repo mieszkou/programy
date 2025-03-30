@@ -816,7 +816,7 @@ function InstallPcPos {
     $uri = "https://pobierz.insoft.com.pl/PC-POS7/Wersja_aktualna/pcpos7_x64_install.exe"
     $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
     Get-File -Uri $uri -OutFile $installerPath
-    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "--mode unattended --unattendedmodeui minimalWithDialogs --enable-components nativeclient2014,POSY --installer-language pl --TYPDBINSTALL 1 --TYPDRUK SpoofFiscalPrinter --TYPDB"
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "--mode unattended --unattendedmodeui minimalWithDialogs --enable-components nativeclient2014,POSY --installer-language pl --TYPDBINSTALL 1 --TYPDRUK SpoofFiscalPrinter"
     # Remove-Item $installerPath    
 }
 
