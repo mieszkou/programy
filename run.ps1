@@ -19,22 +19,22 @@ $jsonContent = @"
 
     { "nazwa": "Podstawowe" },
     { "nazwa": "💾 Notepad 3",                         "polecenia": [ "InstallNotepad3" ] },
-    { "nazwa": "💾😎 Double Commander",                  "polecenia": [ "InstallDoubleCmd" ] },
+    { "nazwa": "💾😎 Double Commander",                "polecenia": [ "InstallDoubleCmd" ] },
     { "nazwa": "💾 7-zip",                             "polecenia": [ "Install7Zip" ] },
     { "nazwa": "💾 LibreOffice.org",                   "polecenia": [ "InstallLibreOffice" ]},
     { "nazwa": "Zdalna pomoc" },
-    { "nazwa": "📦 AnyDesk (kopiuj na pulpit)",          "polecenia": [ "InstallAnyDesk" ] },
-    { "nazwa": "📦 TeamViewerQS (kopiuj na pulpit)",          "polecenia": [ "InstallTeamViewerQS" ] },
-    { "nazwa": "💾😎 TeamViewer Host (instaluj)",        "polecenia": [ "InstallTeamViewerHost" ] },
+    { "nazwa": "📦 AnyDesk (kopiuj na pulpit)",         "polecenia": [ "InstallAnyDesk" ] },
+    { "nazwa": "📦 TeamViewerQS (kopiuj na pulpit)",    "polecenia": [ "InstallTeamViewerQS" ] },
+    { "nazwa": "💾😎 TeamViewer Host (instaluj)",      "polecenia": [ "InstallTeamViewerHost" ] },
     { "nazwa": "Narzędzia SQL" },
     { "nazwa": "📦 AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
     { "nazwa": "💾 HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
     { "nazwa": "💾 SQL Server Management Studio",      "polecenia": [ "InstallSSMS" ] },
-    { "nazwa": "💾 SQL Backup Master",                  "polecenia": [ "InstallSQLBackupMaster" ] },
+    { "nazwa": "💾 SQL Backup Master",                 "polecenia": [ "InstallSQLBackupMaster" ] },
     { "nazwa": "Systemowe" },
     { "nazwa": "💾 PowerShell 7",                      "polecenia": [ "InstallPowerShell7" ] },
     { "nazwa": "SysInternals" },
-    { "nazwa": "📦😎 Bginfo",                            "polecenia": [ "InstallBginfo" ] },
+    { "nazwa": "📦😎 Bginfo",                          "polecenia": [ "InstallBginfo" ] },
     { "nazwa": "📦 Autologon",                         "polecenia": [ "InstallSysInternals -fileName 'Autologon'" ] },
     { "nazwa": "📦 Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
     { "nazwa": "📦 Disk2vhd",                          "polecenia": [ "InstallDisk2vhd" ] },
@@ -43,14 +43,15 @@ $jsonContent = @"
     { "nazwa": "📦 Tcpview",                           "polecenia": [ "InstallSysInternals -fileName 'Tcpview'" ] },
     { "nazwa": "📦 ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
     { "nazwa": "Nirsoft" },
-    { "nazwa": "📦☠️ WirelessKeyView",             "polecenia": [ "InstallWirelessKeyView" ] },
+    { "nazwa": "📦 NirCmd",                            "polecenia": [ "InstallNirCmd" ] },
+    { "nazwa": "📦☠️ WirelessKeyView",                 "polecenia": [ "InstallWirelessKeyView" ] },
     { "nazwa": "📦 WirelessNetworkWatcher (Netscan)",  "polecenia": [ "InstallWirelessNetworkWatcher" ] },
     { "nazwa": "📦 WirelessNetView",                   "polecenia": [ "InstallWirelessNetView" ] },
-    { "nazwa": "📦☠️ Mail PassView (AV!)",               "polecenia": [ "InstallMailPassView" ] },
-    { "nazwa": "📦☠️ Network Password Recovery (AV!)",   "polecenia": [ "InstallNetworkPasswordRecovery" ] },
-    { "nazwa": "📦 TaskSchedulerView ",                   "polecenia": [ "InstallTaskSchedulerView " ] },
-    { "nazwa": "📦 ProcessTCPSummary ",                   "polecenia": [ "InstallProcessTCPSummary " ] },
-    { "nazwa": "📦 WinUpdatesView",                   "polecenia": [ "InstallWinUpdatesView" ] },
+    { "nazwa": "📦☠️ Mail PassView (AV!)",             "polecenia": [ "InstallMailPassView" ] },
+    { "nazwa": "📦☠️ Network Password Recovery (AV!)", "polecenia": [ "InstallNetworkPasswordRecovery" ] },
+    { "nazwa": "📦 TaskSchedulerView ",                 "polecenia": [ "InstallTaskSchedulerView " ] },
+    { "nazwa": "📦 ProcessTCPSummary ",                 "polecenia": [ "InstallProcessTCPSummary " ] },
+    { "nazwa": "📦 WinUpdatesView",                     "polecenia": [ "InstallWinUpdatesView" ] },
 
 
     
@@ -549,6 +550,22 @@ function InstallKeyNStroke {
     
     CreateDesktopShortcut -ShortcutName "Key-n-Stroke" -File "$installPath\Key-n-Stroke\Key-n-Stroke.exe"
 }
+
+function InstallNirCmd {
+    $uri = "https://www.nirsoft.net/utils/nircmd-x64.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/nircmd.html"}
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "NirCmd - pomoc" -File "$installPath\Nirsoft\NirCmd.chm"
+    Remove-Item $installerPath
+}
+
+
+
 function InstallWirelessKeyView {
     $uri = "https://www.nirsoft.net/toolsdownload/wirelesskeyview.zip"
     $uri7zip = "https://www.pajcomp.pl/pub/%21Misc/7z.exe"
