@@ -768,7 +768,7 @@ function InstallAdminSql {
 }
 
 function InstallHeidiSql {
-    $uri = "https://www.heidisql.com" + (Invoke-WebRequest -UseBasicParsing -Uri 'https://www.heidisql.com/download.php?download=installer' | Select-Object -ExpandProperty Links | Where-Object {($_.href -like "/installers/*") -and ($_.href -like "*_Setup.exe")} | Select-Object -First 1 | Select-Object -ExpandProperty href)
+    $uri = "https://www.heidisql.com" + (Invoke-WebRequest -UseBasicParsing -Uri 'https://www.heidisql.com/download.php?download=installer' | Select-Object -ExpandProperty Links | Where-Object {($_.href -like "*/installers/*") -and ($_.href -like "*_Setup.exe")} | Select-Object -First 1 | Select-Object -ExpandProperty href)
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     Get-File -Url $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Args "/ALLUSERS /silent" -Verb RunAs -Wait
