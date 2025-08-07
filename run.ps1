@@ -1,4 +1,4 @@
-$version = "1.0.1"
+$version = "1.0.1.202508070541"
 # 0.x.x - zmiany działania aplikacji, dodanie nowych funkcji
 # x.0.x - zmiany w interfejsie, poprawki błędów
 # x.x.0 - dodawanie nowych aplikacji, zmiany kosmetyczne
