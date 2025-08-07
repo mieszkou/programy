@@ -1,3 +1,11 @@
+$version = "1.0.1"
+# 0.x.x - zmiany działania aplikacji, dodanie nowych funkcji
+# x.0.x - zmiany w interfejsie, poprawki błędów
+# x.x.0 - dodawanie nowych aplikacji, zmiany kosmetyczne
+# ----
+# 1.0.1 - pierwsze wydanie z oznaczeniem wersji, poprawki dla HeidiSQL
+
+
 $installPath = "C:\Serwis"
 
 $jsonContent = @"
@@ -760,7 +768,7 @@ function InstallAdminSql {
 }
 
 function InstallHeidiSql {
-    $uri = "https://www.heidisql.com" + (Invoke-WebRequest -UseBasicParsing -Uri 'https://www.heidisql.com/download.php' | Select-Object -ExpandProperty Links | Where-Object {($_.href -like "/installers/*") -and ($_.href -like "*_Setup.exe")} | Select-Object -First 1 | Select-Object -ExpandProperty href)
+    $uri = "https://www.heidisql.com" + (Invoke-WebRequest -UseBasicParsing -Uri 'https://www.heidisql.com/download.php?download=installer' | Select-Object -ExpandProperty Links | Where-Object {($_.href -like "/installers/*") -and ($_.href -like "*_Setup.exe")} | Select-Object -First 1 | Select-Object -ExpandProperty href)
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     Get-File -Url $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Args "/ALLUSERS /silent" -Verb RunAs -Wait
@@ -997,7 +1005,7 @@ $json = ConvertFrom-Json $jsonContent
 [xml]$XAML = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="runApp"
-        Title="PAJ-COMP - Instalator aplikacji" Height="740" Width="970"
+        Title="PAJ-COMP - Instalator aplikacji | $version" Height="740" Width="970"
         MinWidth="750" MinHeight="660" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
         >
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
