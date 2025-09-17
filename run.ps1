@@ -51,15 +51,17 @@ $jsonContent = @"
     { "nazwa": "📦 Tcpview",                           "polecenia": [ "InstallSysInternals -fileName 'Tcpview'" ] },
     { "nazwa": "📦 ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
     { "nazwa": "Nirsoft" },
-    { "nazwa": "📦 NirCmd",                            "polecenia": [ "InstallNirCmd" ] },
-    { "nazwa": "📦☠️ WirelessKeyView",                 "polecenia": [ "InstallWirelessKeyView" ] },
-    { "nazwa": "📦 WirelessNetworkWatcher (Netscan)",  "polecenia": [ "InstallWirelessNetworkWatcher" ] },
-    { "nazwa": "📦 WirelessNetView",                   "polecenia": [ "InstallWirelessNetView" ] },
-    { "nazwa": "📦☠️ Mail PassView (AV!)",             "polecenia": [ "InstallMailPassView" ] },
-    { "nazwa": "📦☠️ Network Password Recovery (AV!)", "polecenia": [ "InstallNetworkPasswordRecovery" ] },
-    { "nazwa": "📦 TaskSchedulerView ",                 "polecenia": [ "InstallTaskSchedulerView " ] },
+    { "nazwa": "📦 DHCPLogView",                       "polecenia": [ "InstallDHCPLogView " ] },
+    { "nazwa": "📦 LANIPScanner",                      "polecenia": [ "InstallLANIPScanner" ] },
+    { "nazwa": "📦 Mail PassView (AV!) ☠️",            "polecenia": [ "InstallMailPassView" ] },
+    { "nazwa": "📦 Network Password Recovery (AV!) ☠️","polecenia": [ "InstallNetworkPasswordRecovery" ] },
+    { "nazwa": "📦 NirCmd",                             "polecenia": [ "InstallNirCmd" ] },
     { "nazwa": "📦 ProcessTCPSummary ",                 "polecenia": [ "InstallProcessTCPSummary " ] },
+    { "nazwa": "📦 TaskSchedulerView ",                 "polecenia": [ "InstallTaskSchedulerView " ] },
     { "nazwa": "📦 WinUpdatesView",                     "polecenia": [ "InstallWinUpdatesView" ] },
+    { "nazwa": "📦 WirelessKeyView ☠️",                 "polecenia": [ "InstallWirelessKeyView" ] },
+    { "nazwa": "📦 WirelessNetView",                    "polecenia": [ "InstallWirelessNetView" ] },
+    { "nazwa": "📦 WirelessNetworkWatcher (Netscan)",   "polecenia": [ "InstallWirelessNetworkWatcher" ] },
 
 
     
@@ -558,6 +560,34 @@ function InstallKeyNStroke {
     
     CreateDesktopShortcut -ShortcutName "Key-n-Stroke" -File "$installPath\Key-n-Stroke\Key-n-Stroke.exe"
 }
+
+function InstallDHCPLogView {
+    $uri = "https://www.nirsoft.net/utils/dhcplogview-x64.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/dhcp_log_view.html"}
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "DHCPLogView" -File "$installPath\Nirsoft\DHCPLogView.exe"
+    Remove-Item $installerPath
+}
+
+function InstallLANIPScanner {
+    $uri = "https://www.nirsoft.net/utils/lanipscanner.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/lan_ip_scanner.html"}
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "LANIPScanner" -File "$installPath\Nirsoft\LANIPScanner.exe"
+    Remove-Item $installerPath
+}
+
+
 
 function InstallNirCmd {
     $uri = "https://www.nirsoft.net/utils/nircmd-x64.zip"
