@@ -30,6 +30,9 @@ $jsonContent = @"
     { "nazwa": "💾😎 Double Commander",                "polecenia": [ "InstallDoubleCmd" ] },
     { "nazwa": "💾 7-zip",                             "polecenia": [ "Install7Zip" ] },
     { "nazwa": "💾 LibreOffice.org",                   "polecenia": [ "InstallLibreOffice" ]},
+    { "nazwa": "-" },
+    { "nazwa": "-" },
+    { "nazwa": "www.pajcomp.pl" },
     { "nazwa": "Zdalna pomoc" },
     { "nazwa": "📦 AnyDesk (kopiuj na pulpit)",         "polecenia": [ "InstallAnyDesk" ] },
     { "nazwa": "📦 TeamViewerQS (kopiuj na pulpit)",    "polecenia": [ "InstallTeamViewerQS" ] },
@@ -73,7 +76,8 @@ $jsonContent = @"
     { "nazwa": "📦 Elzab Stampa",                      "polecenia": [ "InstallElzabStampa" ] },
     { "nazwa": "📦 Elzab - programy  komunikacyjne",   "polecenia": [ "InstallElzabWinexe" ] },
     { "nazwa": "📦 Sterowniki do urządzeń",            "polecenia": [ "InstallDrivers" ], "opis": "Wszystkie sterowniki z https://pajcomp.pl/pub/?dir=Sterowniki" },
-
+   { "nazwa": "-" },
+ 
     { "nazwa": "Silnik bazy danych SQL" },
     { "nazwa": "💾😎🛠️ MS SQL 2022 Express",               "polecenia": [ "InstallSql2022" ], 
     "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2022\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52022`\n- Otwarcie tego portu w firewall-u windows (!!)." },
@@ -92,6 +96,8 @@ $jsonContent = @"
     { "nazwa": "💾 WAPRO (wszystkie, aktualizacja)", "polecenia": [ "InstallWapro" ] },
 
     { "nazwa": "Narzędzia" },
+    { "nazwa": "📦 OpenVPN Community (klient)", "polecenia": [ "InstallOpenVPN" ] },
+    { "nazwa": "📦 WireGuard (klient)", "polecenia": [ "InstallWireGuard" ] },
     { "nazwa": "💾 Netscan", "polecenia": [ "InstallNetscan" ] },
     { "nazwa": "💾 Putty", "polecenia": [ "InstallPutty" ] },
     { "nazwa": "💾 Winbox", "polecenia": [ "InstallWinbox" ] },
@@ -929,6 +935,22 @@ function InstallWinbox {
     CreateDesktopShortcut -ShortcutName "Winbox" -File $installerPath
 }
 
+function InstallOpenVPN {
+    $uri = (Invoke-WebRequest -UseBasicParsing -Uri 'https://openvpn.net/community/' | Select-Object -ExpandProperty Links | Where-Object {($_.href -like "*/releases/*") -and ($_.href -like "*amd64.msi")} | Select-Object -First 1 | Select-Object -ExpandProperty href)
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Get-File -Url $uri -OutFile $installerPath
+    Start-Process -FilePath "msiexec.exe" -ArgumentList "/i `"$installerPath`" /norestart" -Verb RunAs -Wait
+    Remove-Item $installerPath
+}
+
+
+function InstallWireGuard {
+    $uri = "https://download.wireguard.com/windows-client/wireguard-installer.exe"
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
+    Get-File -Uri $uri -OutFile $installerPath
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait
+    # Remove-Item $installerPath    
+}
 
 
 
@@ -1041,7 +1063,7 @@ $json = ConvertFrom-Json $jsonContent
     <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
         <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
 
-        <TextBox Text="💾 - Pobiera instalator najnowszej wersji i go uruchamia&#x0a;📦 - Pobiera plik zip i jedynie rozpakowuje go w wybranym folderze&#x0a;😎 - Dodatkowe ustawienia aplikacji (info w opisie)&#x0a;🛠️ - Zmienia ustawienia systemu (!!)&#x0a;☠️ - Wymaga wyłączenia antywirusa (!!)&#x0a;" Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto" Height="100" MinHeight="100" MaxHeight="100" FontFamily="Consolas" FontSize="14" Focusable="False" IsTabStop="False" Padding="5,5,5,5"  AcceptsReturn="True" />
+        <TextBox Text="💾 - Pobiera instalator najnowszej wersji i go uruchamia&#x0a;📦 - Pobiera plik zip i jedynie rozpakowuje go w wybranym folderze&#x0a;😎 - Dodatkowe ustawienia aplikacji (info w opisie)&#x0a;🛠️ - Zmienia ustawienia systemu (!!)&#x0a;☠️ - Wymaga wyłączenia antywirusa (!!)&#x0a;" Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto" Height="30" MinHeight="20" MaxHeight="100" FontFamily="Consolas" FontSize="14" Focusable="False" IsTabStop="False" Padding="5,5,5,5"  AcceptsReturn="True" />
         <Grid Height="50">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="5*"/>
