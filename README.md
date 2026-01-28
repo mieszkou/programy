@@ -6,10 +6,10 @@ Działanie: https://streamable.com/eonbu4
 
 # TODO
 
-- [ ] Dodać LibreOffice
+- [x] Dodać LibreOffice
 - [ ] Dodać tapety
-- [ ] Dodać winbox
-- [ ] Dodać prog. diagnostyczne
+- [x] Dodać winbox
+- [x] Dodać prog. diagnostyczne
 - [x] Dodać TaskSchedulerView 
 
 # Wprowadzenie
