@@ -725,10 +725,10 @@ function InstallPosnetNps {
 }
 
 function InstallPosnetOps {
-    $uri = "https://github.com/mieszkou/programy/raw/master/Posnet-OPS/Posnet_OPS_Setup_11.45.90.exe"
+    $uri = "https://github.com/mieszkou/programy/raw/master/Posnet-OPS/Posnet_OPS_Setup_11.50.98.exe"
     $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
     Get-File -Url $uri -OutFile $installerPath
-    Start-Process -FilePath $installerPath -Wait -ArgumentList "/D=$installPath\Posnet-OPS"
+    Start-Process -FilePath $installerPath -Wait -ArgumentList "/S /D=$installPath\Posnet-OPS"
 }
 
 # (dla systemu Windows XP/2000/VISTA/7/8/8.1/10)
