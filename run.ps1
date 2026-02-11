@@ -90,6 +90,7 @@ $jsonContent = @"
     
     { "nazwa": "Programy" },
     { "nazwa": "💾 Insoft PCM", "polecenia": [ "InstallPcm" ] },
+    { "nazwa": "💾 Insoft PcKSeF (usługa)", "polecenia": [ "InstallPcKSeF" ] },
     { "nazwa": "💾 Insoft PC-POS", "polecenia": [ "InstallPcPos" ] },
     { "nazwa": "💾 Insoft SCServer", "polecenia": [ "InstallScserver" ] },
     { "nazwa": "💾 Insoft Impex", "polecenia": [ "InstallImpex" ] },
@@ -872,6 +873,15 @@ function InstallPcm {
     Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "--mode unattended --unattendedmodeui minimalWithDialogs --installer-language pl --db 0  --template 0 --killall 1 --enable-components installPcm,AktualizacjaShoper"
     # Remove-Item $installerPath    
 }
+
+function InstallPcKSeF {
+    $uri = "https://pobierz.insoft.com.pl/PC-Market7/Wersja_aktualna/pcksef-x64.exe"
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
+    Get-File -Uri $uri -OutFile $installerPath
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "--mode unattended --unattendedmodeui minimalWithDialogs --installer-language pl"
+    # Remove-Item $installerPath    
+}
+
 
 function InstallPcPos {
     $uri = "https://pobierz.insoft.com.pl/PC-POS7/Wersja_aktualna/pcpos7_x64_install.exe"
