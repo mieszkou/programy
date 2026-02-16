@@ -79,6 +79,9 @@ $jsonContent = @"
    { "nazwa": "-" },
  
     { "nazwa": "Silnik bazy danych SQL" },
+    { "nazwa": "💾😎🛠️ MS SQL 2025 Express",               "polecenia": [ "InstallSql2025" ], 
+    "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2025\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52025`\n- Otwarcie tego portu w firewall-u windows (!!)." },
+ 
     { "nazwa": "💾😎🛠️ MS SQL 2022 Express",               "polecenia": [ "InstallSql2022" ], 
     "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2022\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52022`\n- Otwarcie tego portu w firewall-u windows (!!)." },
     
