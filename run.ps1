@@ -826,7 +826,18 @@ function InstallSQLBackupMaster {
 }
 
 
-
+function InstallSql2025 {
+    $sqlver=2025
+    New-Item -Path "$($env:TEMP)\sql$($sqlver)" -ItemType Directory -Force | Out-Null
+    Get-File -Uri "https://pajcomp.pl/pub/MSSQL/sql$($sqlver)/SQLEXPR_x64_ENU.exe" -OutFile "$($env:TEMP)\sql$($sqlver)\SQLEXPR_x64_ENU.exe"
+    Start-Process -Wait -FilePath "$($env:TEMP)\sql$($sqlver)\SQLEXPR_x64_ENU.exe" -ArgumentList "/QS /IACCEPTSQLSERVERLICENSETERMS /ACTION=""install"" /FEATURES=SQL /SQLSVCSTARTUPTYPE=""Automatic"" /INSTANCENAME=SQL$($sqlver) /SECURITYMODE=SQL /SAPWD=Wapro3000 /TCPENABLED=1"
+    Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql16.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name TcpDynamicPorts -Value ''
+    Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql16.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name tcpport -Value "5$($sqlver)"
+    New-NetFirewallRule -DisplayName "SQL$($sqlver)" -Profile Any -Direction Inbound -Action Allow -Protocol TCP -LocalPort "5$($sqlver)"
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\MSSQL`$SQL$sqlver" -Name DelayedAutoStart -Value 0
+    net stop MSSQL`$SQL$sqlver
+    net start MSSQL`$SQL$sqlver
+}
 
 
 function InstallSql2022 {
@@ -837,6 +848,7 @@ function InstallSql2022 {
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql16.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name TcpDynamicPorts -Value ''
     Set-ItemProperty -Path "HKLM:\software\microsoft\microsoft sql server\mssql16.SQL$($sqlver)\mssqlserver\supersocketnetlib\tcp\ipall" -Name tcpport -Value "5$($sqlver)"
     New-NetFirewallRule -DisplayName "SQL$($sqlver)" -Profile Any -Direction Inbound -Action Allow -Protocol TCP -LocalPort "5$($sqlver)"
+    Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\MSSQL`$SQL$sqlver" -Name DelayedAutoStart -Value 0
     net stop MSSQL`$SQL$sqlver
     net start MSSQL`$SQL$sqlver
 }
@@ -878,7 +890,7 @@ function InstallPcKSeF {
     $uri = "https://pobierz.insoft.com.pl/PC-Market7/Wersja_aktualna/pcksef-x64.exe"
     $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
     Get-File -Uri $uri -OutFile $installerPath
-    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "--mode unattended --unattendedmodeui minimalWithDialogs --installer-language pl"
+    Start-Process -FilePath $installerPath -Verb RunAs -Wait -ArgumentList "--installer-language pl"
     # Remove-Item $installerPath    
 }
 
