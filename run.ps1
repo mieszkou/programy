@@ -1,4 +1,4 @@
-$version = "1.0.1.202508070541"
+$version = "1.0.1.20260217"
 # 0.x.x - zmiany działania aplikacji, dodanie nowych funkcji
 # x.0.x - zmiany w interfejsie, poprawki błędów
 # x.x.0 - dodawanie nowych aplikacji, zmiany kosmetyczne
@@ -27,13 +27,14 @@ $jsonContent = @"
 
     { "nazwa": "Podstawowe" },
     { "nazwa": "📦😎 Total Commander",                 "polecenia": [ "InstallTotalCommander" ] },
+    { "nazwa": "📦 Total Commander (tylko exe)",       "polecenia": [ "InstallTotalCommanderExe" ] },
     { "nazwa": "💾 Notepad 3",                         "polecenia": [ "InstallNotepad3" ] },
     { "nazwa": "💾😎 Double Commander",                "polecenia": [ "InstallDoubleCmd" ] },
     { "nazwa": "💾 7-zip",                             "polecenia": [ "Install7Zip" ] },
     { "nazwa": "💾 LibreOffice.org",                   "polecenia": [ "InstallLibreOffice" ]},
     { "nazwa": "-" },
-    { "nazwa": "-" },
     { "nazwa": "www.pajcomp.pl" },
+
     { "nazwa": "Zdalna pomoc" },
     { "nazwa": "📦 AnyDesk (kopiuj na pulpit)",         "polecenia": [ "InstallAnyDesk" ] },
     { "nazwa": "📦 TeamViewerQS (kopiuj na pulpit)",    "polecenia": [ "InstallTeamViewerQS" ] },
@@ -398,6 +399,17 @@ function InstallTotalCommander {
         CreateDesktopShortcut -ShortcutName "Total Commander x64" -File "$installPath\Totalcmd\TotalCmd64.exe"
         Remove-Item $installerPath 
 }
+
+function InstallTotalCommanderExe {
+        $uri = "https://raw.githubusercontent.com/mieszkou/programy/master/totalcmd/totalcmdexe.zip"
+
+        $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+        Get-File -Url $uri -OutFile $installerPath
+        Expand-Archive $installerPath -DestinationPath "$installPath" -Force
+        CreateDesktopShortcut -ShortcutName "Total Commander x64 - tylko exe" -File "$installPath\TotalCmd64.exe"
+        Remove-Item $installerPath 
+}
+
 
 function InstallNotepad3 {
     $uri = Invoke-RestMethod -uri https://api.github.com/repos/rizonesoft/Notepad3/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("x64_Setup.exe")} | Select-Object -ExpandProperty browser_download_url
