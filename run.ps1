@@ -26,11 +26,11 @@ $jsonContent = @"
 
 
     { "nazwa": "Podstawowe" },
+    { "nazwa": "📦😎 Total Commander",                 "polecenia": [ "InstallTotalCommander" ] },
     { "nazwa": "💾 Notepad 3",                         "polecenia": [ "InstallNotepad3" ] },
     { "nazwa": "💾😎 Double Commander",                "polecenia": [ "InstallDoubleCmd" ] },
     { "nazwa": "💾 7-zip",                             "polecenia": [ "Install7Zip" ] },
     { "nazwa": "💾 LibreOffice.org",                   "polecenia": [ "InstallLibreOffice" ]},
-    { "nazwa": "-" },
     { "nazwa": "-" },
     { "nazwa": "-" },
     { "nazwa": "www.pajcomp.pl" },
@@ -389,6 +389,15 @@ function InstallThrottleStop {
 }
 
 
+function InstallTotalCommander {
+        $uri = "https://raw.githubusercontent.com/mieszkou/programy/master/totalcmd/totalcmd.zip"
+
+        $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+        Get-File -Url $uri -OutFile $installerPath
+        Expand-Archive $installerPath -DestinationPath "$installPath\Totalcmd\" -Force
+        CreateDesktopShortcut -ShortcutName "Total Commander x64" -File "$installPath\Totalcmd\TotalCmd64.exe"
+        Remove-Item $installerPath 
+}
 
 function InstallNotepad3 {
     $uri = Invoke-RestMethod -uri https://api.github.com/repos/rizonesoft/Notepad3/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("x64_Setup.exe")} | Select-Object -ExpandProperty browser_download_url
