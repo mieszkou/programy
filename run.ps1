@@ -1,10 +1,10 @@
-$version = "1.0.1.20260217"
+$version = "1.0.1.20260227"
 # 0.x.x - zmiany działania aplikacji, dodanie nowych funkcji
 # x.0.x - zmiany w interfejsie, poprawki błędów
 # x.x.0 - dodawanie nowych aplikacji, zmiany kosmetyczne
 # ----
 # 1.0.1 - pierwsze wydanie z oznaczeniem wersji, poprawki dla HeidiSQL
-
+# 1.0.1.20260227 - aktualizacja linków do instalatorów, dodanie DBeaver
 
 $installPath = "C:\Serwis"
 
@@ -42,6 +42,7 @@ $jsonContent = @"
     { "nazwa": "Narzędzia SQL" },
     { "nazwa": "📦 AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
     { "nazwa": "💾 HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
+    { "nazwa": "📦 DBeaver",                          "polecenia": [ "InstallDBeaver" ] },
     { "nazwa": "💾 SQL Server Management Studio",      "polecenia": [ "InstallSSMS" ] },
     { "nazwa": "💾 SQL Backup Master",                 "polecenia": [ "InstallSQLBackupMaster" ] },
     { "nazwa": "Systemowe" },
@@ -55,7 +56,7 @@ $jsonContent = @"
     { "nazwa": "📦 Process Monitor",                   "polecenia": [ "InstallSysInternals -fileName 'Procmon'" ] },
     { "nazwa": "📦 Tcpview",                           "polecenia": [ "InstallSysInternals -fileName 'Tcpview'" ] },
     { "nazwa": "📦 ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
-     { "nazwa": "-" },
+    
     { "nazwa": "Nirsoft" },
     { "nazwa": "📦 DHCPLogView",                       "polecenia": [ "InstallDHCPLogView " ] },
     { "nazwa": "📦 LANIPScanner",                      "polecenia": [ "InstallLANIPScanner" ] },
@@ -80,7 +81,7 @@ $jsonContent = @"
     { "nazwa": "📦 Elzab - programy  komunikacyjne",   "polecenia": [ "InstallElzabWinexe" ] },
     { "nazwa": "📦 Sterowniki do urządzeń",            "polecenia": [ "InstallDrivers" ], "opis": "Wszystkie sterowniki z https://pajcomp.pl/pub/?dir=Sterowniki" },
    { "nazwa": "-" },
-   { "nazwa": "-" },
+       { "nazwa": "-" },
     { "nazwa": "Silnik bazy danych SQL" },
     { "nazwa": "💾😎🛠️ MS SQL 2025 Express",               "polecenia": [ "InstallSql2025" ], 
     "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2025\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52025`\n- Otwarcie tego portu w firewall-u windows (!!)." },
@@ -837,6 +838,17 @@ function InstallHeidiSql {
     Start-Process -FilePath $installerPath -Args "/ALLUSERS /silent" -Verb RunAs -Wait
     Remove-Item $installerPath
 }
+
+function InstallDBeaver {
+    $uri = "https://dbeaver.io/files/dbeaver-ce-latest-win32.win32.x86_64.zip"
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+       
+    Get-File -Url $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath" -Force
+    CreateDesktopShortcut -ShortcutName "DBeaver" -File "$installPath\dbeaver\dbeaver.exe"
+    Remove-Item $installerPath 
+}
+
 
 function InstallSSMS {
     $uri = "https://aka.ms/ssmsfullsetup"
