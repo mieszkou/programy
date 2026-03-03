@@ -1,10 +1,11 @@
-$version = "1.0.1.20260227"
+$version = "1.0.1.20260303"
 # 0.x.x - zmiany działania aplikacji, dodanie nowych funkcji
 # x.0.x - zmiany w interfejsie, poprawki błędów
 # x.x.0 - dodawanie nowych aplikacji, zmiany kosmetyczne
 # ----
 # 1.0.1 - pierwsze wydanie z oznaczeniem wersji, poprawki dla HeidiSQL
 # 1.0.1.20260227 - aktualizacja linków do instalatorów, dodanie DBeaver
+# 1.0.1.20260303 - aktualizacja linków do instalatorów, dodanie SQLiteStudio
 
 $installPath = "C:\Serwis"
 
@@ -32,8 +33,8 @@ $jsonContent = @"
     { "nazwa": "💾😎 Double Commander",                "polecenia": [ "InstallDoubleCmd" ] },
     { "nazwa": "💾 7-zip",                             "polecenia": [ "Install7Zip" ] },
     { "nazwa": "💾 LibreOffice.org",                   "polecenia": [ "InstallLibreOffice" ]},
-    { "nazwa": "-" },
-    { "nazwa": "www.pajcomp.pl" },
+     { "nazwa": "Systemowe" },
+    { "nazwa": "💾 PowerShell 7",                      "polecenia": [ "InstallPowerShell7" ] },
 
     { "nazwa": "Zdalna pomoc" },
     { "nazwa": "📦 AnyDesk (kopiuj na pulpit)",         "polecenia": [ "InstallAnyDesk" ] },
@@ -42,12 +43,11 @@ $jsonContent = @"
     { "nazwa": "Narzędzia SQL" },
     { "nazwa": "📦 AdminSQL",                          "polecenia": [ "InstallAdminSql" ] },
     { "nazwa": "💾 HeidiSQL",                          "polecenia": [ "InstallHeidiSql" ] },
+    { "nazwa": "📦 SQLiteStudio",                      "polecenia": [ "InstallSQLiteStudio" ] },
     { "nazwa": "📦 DBeaver",                          "polecenia": [ "InstallDBeaver" ] },
     { "nazwa": "💾 SQL Server Management Studio",      "polecenia": [ "InstallSSMS" ] },
     { "nazwa": "💾 SQL Backup Master",                 "polecenia": [ "InstallSQLBackupMaster" ] },
-    { "nazwa": "Systemowe" },
-    { "nazwa": "💾 PowerShell 7",                      "polecenia": [ "InstallPowerShell7" ] },
-    { "nazwa": "SysInternals" },
+     { "nazwa": "SysInternals" },
     { "nazwa": "📦😎 Bginfo",                          "polecenia": [ "InstallBginfo" ] },
     { "nazwa": "📦 Autologon",                         "polecenia": [ "InstallSysInternals -fileName 'Autologon'" ] },
     { "nazwa": "📦 Autoruns",                          "polecenia": [ "InstallSysInternals -fileName 'autoruns'" ] },
@@ -57,7 +57,8 @@ $jsonContent = @"
     { "nazwa": "📦 Tcpview",                           "polecenia": [ "InstallSysInternals -fileName 'Tcpview'" ] },
     { "nazwa": "📦 ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
     
-    { "nazwa": "Nirsoft" },
+    { "nazwa": " " },    
+     { "nazwa": "Nirsoft" },
     { "nazwa": "📦 DHCPLogView",                       "polecenia": [ "InstallDHCPLogView " ] },
     { "nazwa": "📦 LANIPScanner",                      "polecenia": [ "InstallLANIPScanner" ] },
     { "nazwa": "📦 Mail PassView (AV!) ☠️",            "polecenia": [ "InstallMailPassView" ] },
@@ -80,8 +81,7 @@ $jsonContent = @"
     { "nazwa": "📦 Elzab Stampa",                      "polecenia": [ "InstallElzabStampa" ] },
     { "nazwa": "📦 Elzab - programy  komunikacyjne",   "polecenia": [ "InstallElzabWinexe" ] },
     { "nazwa": "📦 Sterowniki do urządzeń",            "polecenia": [ "InstallDrivers" ], "opis": "Wszystkie sterowniki z https://pajcomp.pl/pub/?dir=Sterowniki" },
-   { "nazwa": "-" },
-       { "nazwa": "-" },
+
     { "nazwa": "Silnik bazy danych SQL" },
     { "nazwa": "💾😎🛠️ MS SQL 2025 Express",               "polecenia": [ "InstallSql2025" ], 
     "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2025\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52025`\n- Otwarcie tego portu w firewall-u windows (!!)." },
@@ -838,6 +838,17 @@ function InstallHeidiSql {
     Start-Process -FilePath $installerPath -Args "/ALLUSERS /silent" -Verb RunAs -Wait
     Remove-Item $installerPath
 }
+
+function InstallSQLiteStudio {
+    $uri = Invoke-RestMethod -uri https://api.github.com/repos/pawelsalawa/sqlitestudio/releases/latest | Select-Object -ExpandProperty "assets" | ? { $_.name.Contains("-windows-x64.zip")} | Select-Object -ExpandProperty browser_download_url
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    Get-File -Url $uri -OutFile $installerPath 
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\" -Force
+    CreateDesktopShortcut -ShortcutName "SQLiteStudio" -File "$installPath\SQLiteStudio\SQLiteStudio.exe"
+    Remove-Item $installerPath     
+}
+
 
 function InstallDBeaver {
     $uri = "https://dbeaver.io/files/dbeaver-ce-latest-win32.win32.x86_64.zip"
