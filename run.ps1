@@ -1,4 +1,4 @@
-$version = "1.0.1.20260303"
+$version = "1.0.1.20260305"
 # 0.x.x - zmiany działania aplikacji, dodanie nowych funkcji
 # x.0.x - zmiany w interfejsie, poprawki błędów
 # x.x.0 - dodawanie nowych aplikacji, zmiany kosmetyczne
@@ -6,7 +6,7 @@ $version = "1.0.1.20260303"
 # 1.0.1 - pierwsze wydanie z oznaczeniem wersji, poprawki dla HeidiSQL
 # 1.0.1.20260227 - aktualizacja linków do instalatorów, dodanie DBeaver
 # 1.0.1.20260303 - aktualizacja linków do instalatorów, dodanie SQLiteStudio
-
+# 1.0.1.20260305 - aktualizacja linków do instalatorów, dodanie Remote Desktop Manager
 $installPath = "C:\Serwis"
 
 $jsonContent = @"
@@ -104,6 +104,7 @@ $jsonContent = @"
     { "nazwa": "💾 WAPRO (wszystkie, aktualizacja)", "polecenia": [ "InstallWapro" ] },
 
     { "nazwa": "Narzędzia" },
+    { "nazwa": "📦 Remote Desktop Manager", "polecenia": [ "InstallRemoteDesktopManager" ] },
     { "nazwa": "📦 OpenVPN Community (klient)", "polecenia": [ "InstallOpenVPN" ] },
     { "nazwa": "📦 WireGuard (klient)", "polecenia": [ "InstallWireGuard" ] },
     { "nazwa": "💾 Netscan", "polecenia": [ "InstallNetscan" ] },
@@ -1006,6 +1007,23 @@ function InstallWinbox {
     CreateDesktopShortcut -ShortcutName "Winbox" -File $installerPath
 }
 
+function InstallRemoteDesktopManager {
+    $uri7zip = "https://www.pajcomp.pl/pub/%21Misc/7z.exe"
+    $uri = ((Invoke-WebRequest "https://devolutions.net/remote-desktop-manager/download/thank-you/?platform=RDM7zX64&os=windows").Content |
+                Select-String 'const productInfo = ({.*});').Matches.Groups[1].Value |
+                ConvertFrom-Json |
+                Select-Object -ExpandProperty 'RDM7zX64.Url'
+
+    $installerPath = Join-Path $installPath (Split-Path $uri -Leaf)
+    Get-File -Url $uri -OutFile $installerPath
+
+     $7zipPath = Join-Path $env:TEMP (Split-Path $uri7zip -Leaf)
+     Get-File -Url $uri7zip -OutFile $7zipPath
+    
+     Start-Process -Wait -FilePath $7zipPath -ArgumentList "x $installerPath -o$installPath\RemoteDesktopManager\ * -y" -NoNewWindow
+     CreateDesktopShortcut -ShortcutName "Remote Desktop Manager" -File "$installPath\RemoteDesktopManager\RemoteDesktopManager.exe"
+    # Remove-Item $installerPath
+}
 function InstallOpenVPN {
     $uri = (Invoke-WebRequest -UseBasicParsing -Uri 'https://openvpn.net/community/' | Select-Object -ExpandProperty Links | Where-Object {($_.href -like "*/releases/*") -and ($_.href -like "*amd64.msi")} | Select-Object -First 1 | Select-Object -ExpandProperty href)
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
