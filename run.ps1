@@ -1,4 +1,4 @@
-$version = "1.0.1.20260305"
+$version = "1.0.1.20260308"
 # 0.x.x - zmiany działania aplikacji, dodanie nowych funkcji
 # x.0.x - zmiany w interfejsie, poprawki błędów
 # x.x.0 - dodawanie nowych aplikacji, zmiany kosmetyczne
@@ -7,6 +7,8 @@ $version = "1.0.1.20260305"
 # 1.0.1.20260227 - aktualizacja linków do instalatorów, dodanie DBeaver
 # 1.0.1.20260303 - aktualizacja linków do instalatorów, dodanie SQLiteStudio
 # 1.0.1.20260305 - aktualizacja linków do instalatorów, dodanie Remote Desktop Manager
+# 1.0.1.20260308 - poprawa linku do Winbox, dodanie Winbox4
+
 $installPath = "C:\Serwis"
 
 $jsonContent = @"
@@ -109,7 +111,8 @@ $jsonContent = @"
     { "nazwa": "📦 WireGuard (klient)", "polecenia": [ "InstallWireGuard" ] },
     { "nazwa": "💾 Netscan", "polecenia": [ "InstallNetscan" ] },
     { "nazwa": "💾 Putty", "polecenia": [ "InstallPutty" ] },
-    { "nazwa": "💾 Winbox", "polecenia": [ "InstallWinbox" ] },
+    { "nazwa": "💾 Winbox 3.x", "polecenia": [ "InstallWinbox" ] },
+    { "nazwa": "📦 Winbox 4.x", "polecenia": [ "InstallWinbox4" ] },
     { "nazwa": "📦😎 Key-n-Stroke", "polecenia": [ "InstallKeyNStroke" ] },
     
     { "nazwa": "Pajcomp/Specjalne" },
@@ -1001,11 +1004,31 @@ function InstallPutty {
 
 
 function InstallWinbox {
-    $uri = "https://download.mikrotik.com/routeros/winbox/3.41/winbox64.exe"
+    $uri = Invoke-WebRequest "https://mikrotik.com/download/winbox" |
+                Select-Object -ExpandProperty Links | 
+                Where-Object {($_.href -like "*/winbox64.exe")} | 
+                Select-Object -First 1 | 
+                Select-Object -ExpandProperty href
+
     $installerPath = "$(Join-Path $installPath (Split-Path $uri -Leaf))"
     Get-File -Uri $uri -OutFile $installerPath
     CreateDesktopShortcut -ShortcutName "Winbox" -File $installerPath
 }
+
+function InstallWinbox4 {
+   $uri = (Invoke-WebRequest "https://mikrotik.com/download/winbox" |
+                Select-Object -ExpandProperty Links | 
+                Where-Object {($_.href -like "*/*_Windows.zip")} | 
+                Select-Object -First 1 | 
+                Select-Object -ExpandProperty href)
+    
+    $installerPath = "$(Join-Path $installPath (Split-Path $uri -Leaf))"
+    Get-File -Uri $uri -OutFile $installerPath
+    Expand-Archive $installerPath -DestinationPath "$installPath\Winbox4" -Force
+    CreateDesktopShortcut -ShortcutName "Winbox 4" -File "$installPath\Winbox4\Winbox.exe"
+    Remove-Item $installerPath    
+}
+
 
 function InstallRemoteDesktopManager {
     $uri7zip = "https://www.pajcomp.pl/pub/%21Misc/7z.exe"
