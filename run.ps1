@@ -63,6 +63,8 @@ $jsonContent = @"
      { "nazwa": "Nirsoft" },
     { "nazwa": "📦 DHCPLogView",                       "polecenia": [ "InstallDHCPLogView " ] },
     { "nazwa": "📦 LANIPScanner",                      "polecenia": [ "InstallLANIPScanner" ] },
+    { "nazwa": "📦 Lost My Password (AV?) ☠️",                  "polecenia": [ "InstallLostMyPassword" ] },
+    { "nazwa": "📦 ExtPassword (AV?) ☠️",                     "polecenia": [ "InstallExtPassword" ] },
     { "nazwa": "📦 Mail PassView (AV!) ☠️",            "polecenia": [ "InstallMailPassView" ] },
     { "nazwa": "📦 Network Password Recovery (AV!) ☠️","polecenia": [ "InstallNetworkPasswordRecovery" ] },
     { "nazwa": "📦 NirCmd",                             "polecenia": [ "InstallNirCmd" ] },
@@ -622,6 +624,32 @@ function InstallLANIPScanner {
     
     Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
     CreateDesktopShortcut -ShortcutName "LANIPScanner" -File "$installPath\Nirsoft\LANIPScanner.exe"
+    Remove-Item $installerPath
+}
+
+function InstallLostMyPassword {
+    $uri = "https://www.nirsoft.net/utils/lostmypassword-x64.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/lost_my_password.html"}
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "Lost My Password" -File "$installPath\Nirsoft\LostMyPassword.exe"
+    Remove-Item $installerPath
+}
+
+function InstallExtPassword {
+    $uri = "https://www.nirsoft.net/utils/extpassword.zip"
+    $nirsoftHeaders = @{"Referer"="https://www.nirsoft.net/utils/external_drive_password_recovery.html"}
+
+    $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
+    
+    Get-File -Url $uri -OutFile $installerPath -Headers $nirsoftHeaders
+    
+    Expand-Archive $installerPath -DestinationPath "$installPath\Nirsoft\" -Force
+    CreateDesktopShortcut -ShortcutName "ExtPassword" -File "$installPath\Nirsoft\ExtPassword.exe"
     Remove-Item $installerPath
 }
 
