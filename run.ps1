@@ -58,8 +58,7 @@ $jsonContent = @"
     { "nazwa": "📦 Process Monitor",                   "polecenia": [ "InstallSysInternals -fileName 'Procmon'" ] },
     { "nazwa": "📦 Tcpview",                           "polecenia": [ "InstallSysInternals -fileName 'Tcpview'" ] },
     { "nazwa": "📦 ZoomIt",                            "polecenia": [ "InstallSysInternals -fileName 'ZoomIt'" ] },
-    
-    { "nazwa": " " },    
+   
      { "nazwa": "Nirsoft" },
     { "nazwa": "📦 DHCPLogView",                       "polecenia": [ "InstallDHCPLogView " ] },
     { "nazwa": "📦 LANIPScanner",                      "polecenia": [ "InstallLANIPScanner" ] },
@@ -85,7 +84,7 @@ $jsonContent = @"
     { "nazwa": "📦 Elzab Stampa",                      "polecenia": [ "InstallElzabStampa" ] },
     { "nazwa": "📦 Elzab - programy  komunikacyjne",   "polecenia": [ "InstallElzabWinexe" ] },
     { "nazwa": "📦 Sterowniki do urządzeń",            "polecenia": [ "InstallDrivers" ], "opis": "Wszystkie sterowniki z https://pajcomp.pl/pub/?dir=Sterowniki" },
-
+  
     { "nazwa": "Silnik bazy danych SQL" },
     { "nazwa": "💾😎🛠️ MS SQL 2025 Express",               "polecenia": [ "InstallSql2025" ], 
     "opis": "Instalacja SQL Server Express z włączonym TCP, logowaniem SQL\n- Instancja .\\SQL2025\n- Hasło sa to `Wapro3000`\n- Port TCP jest ustawiany na `52025`\n- Otwarcie tego portu w firewall-u windows (!!)." },
@@ -116,7 +115,7 @@ $jsonContent = @"
     { "nazwa": "💾 Winbox 3.x", "polecenia": [ "InstallWinbox" ] },
     { "nazwa": "📦 Winbox 4.x", "polecenia": [ "InstallWinbox4" ] },
     { "nazwa": "📦😎 Key-n-Stroke", "polecenia": [ "InstallKeyNStroke" ] },
-    
+        { "nazwa": " " },    
     { "nazwa": "Pajcomp/Specjalne" },
     { "nazwa": "☠️ Uruchom zdefiniowane polecenia PS", "polecenia": [ "RunPSFromPajcomp" ] }
     ]
@@ -1197,11 +1196,11 @@ $json = ConvertFrom-Json $jsonContent
 [xml]$XAML = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" x:Name="runApp"
-        Title="PAJ-COMP - Instalator aplikacji | $version" Height="740" Width="970"
+        Title="PAJ-COMP - Instalator aplikacji | $version" Height="764" Width="970"
         MinWidth="750" MinHeight="660" Icon="https://paj24.pl/favicon.ico"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="CanResizeWithGrip"
         >
-    <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="10">
-        <Image x:Name="logo" Height="70" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
+    <StackPanel x:Name="stackPanel"  Orientation="Vertical" MinWidth="5">
+        <Image x:Name="logo" Height="50" Source="https://paj24.pl/img/Pajcomp_green_slogan.png" HorizontalAlignment="Left"/>
 
         <TextBox Text="💾 - Pobiera instalator najnowszej wersji i go uruchamia&#x0a;📦 - Pobiera plik zip i jedynie rozpakowuje go w wybranym folderze&#x0a;😎 - Dodatkowe ustawienia aplikacji (info w opisie)&#x0a;🛠️ - Zmienia ustawienia systemu (!!)&#x0a;☠️ - Wymaga wyłączenia antywirusa (!!)&#x0a;" Name="textbox" Margin="10,0,10,0" TextWrapping="Wrap"  VerticalScrollBarVisibility="Auto" Height="30" MinHeight="20" MaxHeight="100" FontFamily="Consolas" FontSize="14" Focusable="False" IsTabStop="False" Padding="5,5,5,5"  AcceptsReturn="True" />
         <Grid Height="50">
