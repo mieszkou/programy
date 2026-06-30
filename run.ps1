@@ -515,7 +515,12 @@ function InstallTeamViewerHost {
 
 
 function Install7Zip {
-    $uri = 'https://7-zip.org/' + (Invoke-WebRequest -UseBasicParsing -Uri 'https://7-zip.org/' | Select-Object -ExpandProperty Links | Where-Object {($_.outerHTML -match 'Download')-and ($_.href -like 'a/*') -and ($_.href -like '*-x64.exe')} | Select-Object -First 1 | Select-Object -ExpandProperty href)
+    $uri = 'https://7-zip.org/' + (Invoke-WebRequest -UseBasicParsing -Uri 'https://7-zip.org/' | 
+        Select-Object -ExpandProperty Links | 
+        Where-Object {($_.outerHTML -match 'Download')-and ($_.href -like 'releases/download') -and ($_.href -like '*-x64.exe')} | 
+        Select-Object -First 1 | 
+        Select-Object -ExpandProperty href)
+
     $installerPath = Join-Path $env:TEMP (Split-Path $uri -Leaf)
     Get-File -Url $uri -OutFile $installerPath
     Start-Process -FilePath $installerPath -Args "/S" -Verb RunAs -Wait
@@ -1031,12 +1036,7 @@ function InstallPutty {
 
 
 function InstallWinbox {
-    $uri = Invoke-WebRequest "https://mikrotik.com/download/winbox" |
-                Select-Object -ExpandProperty Links | 
-                Where-Object {($_.href -like "*/winbox64.exe")} | 
-                Select-Object -First 1 | 
-                Select-Object -ExpandProperty href
-
+    $uri = "https://raw.githubusercontent.com/mieszkou/programy/master/winbox/winbox64.exe"
     $installerPath = "$(Join-Path $installPath (Split-Path $uri -Leaf))"
     Get-File -Uri $uri -OutFile $installerPath
     CreateDesktopShortcut -ShortcutName "Winbox" -File $installerPath
