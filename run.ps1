@@ -515,9 +515,9 @@ function InstallTeamViewerHost {
 
 
 function Install7Zip {
-    $uri = 'https://7-zip.org/' + (Invoke-WebRequest -UseBasicParsing -Uri 'https://7-zip.org/' | 
+    $uri = (Invoke-WebRequest -UseBasicParsing -Uri 'https://7-zip.org/' | 
         Select-Object -ExpandProperty Links | 
-        Where-Object {($_.outerHTML -match 'Download')-and ($_.href -like 'releases/download') -and ($_.href -like '*-x64.exe')} | 
+        Where-Object {($_.outerHTML -match 'Download') -and ($_.href -like '*-x64.exe')} |
         Select-Object -First 1 | 
         Select-Object -ExpandProperty href)
 
