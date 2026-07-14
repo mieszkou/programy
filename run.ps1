@@ -128,8 +128,8 @@ $jsonContent = @"
 function Get-File {
         param (
         [Parameter(Mandatory)]
-        [Alias("Url", "Uri", "Link", "Address")]
-        [string]$URL, 
+        [Alias("Source", "Uri", "Link", "Address")]
+        [string]$Url, 
         
         [Parameter(Mandatory)]
         [Alias("OutFile", "Path", "Destination")]
