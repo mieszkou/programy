@@ -1,4 +1,4 @@
-$version = "1.0.1.20260308"
+$version = "1.0.1.20260714"
 # 0.x.x - zmiany działania aplikacji, dodanie nowych funkcji
 # x.0.x - zmiany w interfejsie, poprawki błędów
 # x.x.0 - dodawanie nowych aplikacji, zmiany kosmetyczne
@@ -8,6 +8,7 @@ $version = "1.0.1.20260308"
 # 1.0.1.20260303 - aktualizacja linków do instalatorów, dodanie SQLiteStudio
 # 1.0.1.20260305 - aktualizacja linków do instalatorów, dodanie Remote Desktop Manager
 # 1.0.1.20260308 - poprawa linku do Winbox, dodanie Winbox4
+# 1.0.1.20260714 - pobieranie z paskiem postepu
 
 $installPath = "C:\Serwis"
 
